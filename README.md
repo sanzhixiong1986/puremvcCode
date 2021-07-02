@@ -9,4 +9,4 @@
 
 
 
-![image-20210703014340119](/Users/joy/Documents/GitHub/puremvcCode/image-20210703014340119.png)
+![image-20210703014340119](https://github.com/sanzhixiong1986/puremvcCode/blob/main/image-20210703014340119.png)
