@@ -10,3 +10,5 @@
 
 [Model基础](https://github.com/sanzhixiong1986/puremvcCode/blob/main/README4.md)
 
+[Mediator基础](https://github.com/sanzhixiong1986/puremvcCode/blob/main/README5.md)
+
