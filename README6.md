@@ -58,3 +58,7 @@ this.lastNotification//获得改变的数据
 - ViewTestMediator2相当于一个封装的view层，而view是puremvc.IView的产物，这个地方就相当于游戏的场景层，或者游戏的界面
 - proxy实际上就是model的操作
 - 最后在网上找了一个as3的连连看代码作为最后的操作实例
+
+代码例子
+
+Cocos 
