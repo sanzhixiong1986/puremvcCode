@@ -61,4 +61,6 @@ this.lastNotification//获得改变的数据
 
 代码例子
 
-Cocos 
+[Cocos](https://github.com/sanzhixiong1986/puremvcCode/tree/main/pruemvc%202/demo1) 
+
+[As3](https://github.com/sanzhixiong1986/puremvcCode/tree/main/linkupGame-master)
