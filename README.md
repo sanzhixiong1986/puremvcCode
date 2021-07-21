@@ -7,3 +7,6 @@
 #### [初始化Command](https://github.com/sanzhixiong1986/puremvcCode/blob/main/README2.md)
 
 [Proxy基础](https://github.com/sanzhixiong1986/puremvcCode/blob/main/README3.md)
+
+[Model基础](https://github.com/sanzhixiong1986/puremvcCode/blob/main/README4.md)
+
