@@ -12,3 +12,4 @@
 
 [Mediator基础](https://github.com/sanzhixiong1986/puremvcCode/blob/main/README5.md)
 
+[Mediator应用](https://github.com/sanzhixiong1986/puremvcCode/blob/main/README6.md)
