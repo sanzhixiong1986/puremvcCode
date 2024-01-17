@@ -1,6 +1,6 @@
-import DataCommand from "./DataCommand";
-import DataMediator from './DataMediator';
-import DataProxy from "./DataProxy";
+import DataCommand from "./ctrl/DataCommand";
+import DataMediator from './view/DataMediator';
+import DataProxy from "./model/DataProxy";
 /**
  * 全局控制类
  */
