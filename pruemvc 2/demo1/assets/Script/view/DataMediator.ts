@@ -1,14 +1,15 @@
 import MyData from "../model/MyData";
-
-import { regUiEvent, updateUI } from "./ui/DataUiEvent";
+import DataEvent from "./ui/DataEvent";
 
 // 显示类
 export default class DataMediator extends puremvc.Mediator {
     public mediatorName = "DataMediator"//key
+    private dataui: DataEvent;
     //构造
     constructor(root: cc.Node) {
         super();
-        regUiEvent(this, root);
+        this.dataui = new DataEvent();
+        this.dataui.regUiEvent(root)
     }
 
     //监听事件
@@ -22,7 +23,7 @@ export default class DataMediator extends puremvc.Mediator {
         switch (notification.getName()) {
             case "Msg_AddLevel":
                 let data: MyData = notification.getBody();
-                updateUI(data.Level);
+                this.dataui.updateUI(data.Level);
                 break;
         }
     }
