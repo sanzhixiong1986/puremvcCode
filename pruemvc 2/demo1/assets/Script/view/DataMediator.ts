@@ -1,25 +1,14 @@
 import MyData from "../model/MyData";
+
+import { regUiEvent, updateUI } from "./ui/DataUiEvent";
+
 // 显示类
-export default class DataMediator extends puremvc.Mediator{
+export default class DataMediator extends puremvc.Mediator {
     public mediatorName = "DataMediator"//key
-
-    //ui
-    private text:cc.Label;
-    private btn:cc.Button;
-    //end
-
     //构造
-    constructor(root:cc.Node){
+    constructor(root: cc.Node) {
         super();
-        this.text = root.getChildByName("lable").getComponent(cc.Label);
-        this.btn = root.getChildByName("addNum").getComponent(cc.Button);
-
-        this.btn.node.on('click',this.clickCallBack,this);
-    }
-
-    clickCallBack(){
-        //发送事件
-        this.sendNotification("Reg_StartDataCommand");
+        regUiEvent(this, root);
     }
 
     //监听事件
@@ -28,13 +17,13 @@ export default class DataMediator extends puremvc.Mediator{
         list.push("Msg_AddLevel");
         return list;
     }
- 
+
     public handleNotification(notification: puremvc.INotification) {
-        switch(notification.getName()) {
-            case "Msg_AddLevel": 
+        switch (notification.getName()) {
+            case "Msg_AddLevel":
                 let data: MyData = notification.getBody();
-                this.text.string = "" + data.Level;
-            break;
+                updateUI(data.Level);
+                break;
         }
     }
 }

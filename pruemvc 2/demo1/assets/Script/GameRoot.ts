@@ -5,12 +5,12 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 import ApplicationFacade from "./ApplicationFacade";
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameRoot extends cc.Component {
-
-    start () {
+    //初始化操作
+    start() {
         console.log("游戏开始")
         new ApplicationFacade(this.node);
     }
