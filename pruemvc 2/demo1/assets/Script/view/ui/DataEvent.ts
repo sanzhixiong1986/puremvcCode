@@ -1,3 +1,5 @@
+import Util from "../../core/util/Util";
+
 export default class DataEvent {
 
     private text: cc.Label = null;
@@ -12,7 +14,7 @@ export default class DataEvent {
     //事件
     private clickCallBack(): void {
         //发送事件
-        puremvc.Facade.getInstance("gameRoot").sendNotification("Reg_StartDataCommand");
+        Util.getPureFacade("gameRoot").sendNotification("Reg_StartDataCommand");
     }
 
     updateUI(num: number) {
