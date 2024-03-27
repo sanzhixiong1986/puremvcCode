@@ -25,7 +25,7 @@ export default class DataMediator extends puremvc.Mediator {
             case "Msg_AddLevel":
                 // let data: MyData = notification.getBody();
                 // this.dataui.updateUI(data.Level);
-                SceneXLoader.startLoad("assets/chat", "chat");
+                SceneXLoader.startLoad("assets/Script/module/chat", "chat");
                 break;
         }
     }
