@@ -71,6 +71,21 @@ export default class MsgSender {
     }
 
     /**
+     * 发送消息
+     * 
+     * @param nMsgCode 消息编号
+     * @param oMsgBody 消息体
+     */
+    sendMsg(str: string): void {
+        if (this._oWebSocket) {
+            this._oWebSocket.send(str);
+        }
+        else {
+            cc.log("this._oWebSocket 没有初始化完成")
+        }
+    }
+
+    /**
      * 当收到消息
      * 
      * @param nMsgCode 消息编号
