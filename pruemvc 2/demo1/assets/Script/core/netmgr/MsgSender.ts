@@ -66,7 +66,7 @@ export default class MsgSender {
             if (!jsonObj) {
                 return;
             }
-            this.onMsgReceived(jsonObj.ctype, jsonObj.body);
+            this.onMsgReceived(jsonObj[1], jsonObj[2]);
         }
     }
 

@@ -1,9 +1,10 @@
+import TestHander from "./cmd/TestHander";
 
 export default class AllHandlerz {
     private readonly _oHandlerMap: { [nkey: number]: any } = {};
 
     constructor() {
-
+        this._oHandlerMap[1] = new TestHander();
     }
 
     /**
