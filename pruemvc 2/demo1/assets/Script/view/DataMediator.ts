@@ -1,4 +1,5 @@
 import SceneXLoader from "../core/ components/SceneXLoader";
+import ConstMgr from "../core/netmgr/ConstMgr";
 import MyData from "../model/MyData";
 import DataEvent from "./ui/DataEvent";
 
@@ -23,9 +24,7 @@ export default class DataMediator extends puremvc.Mediator {
     public handleNotification(notification: puremvc.INotification) {
         switch (notification.getName()) {
             case "Msg_AddLevel":
-                // let data: MyData = notification.getBody();
-                // this.dataui.updateUI(data.Level);
-                SceneXLoader.startLoad("assets/Script/module/chat", "chat");
+                SceneXLoader.startLoad(ConstMgr.moduleName + "chat", "chat");
                 break;
         }
     }
