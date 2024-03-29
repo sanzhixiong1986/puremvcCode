@@ -5,12 +5,19 @@ import proto_man from "../../../core/netmgr/proto_man";
 export default class ChatUI {
 
     private sendButton: cc.Button = null;
+    private msgButton: cc.Button = null;
 
     addUI(root: cc.Node) {
         this.sendButton = root.getChildByName("send").getComponent(cc.Button);
-
+        this.msgButton = root.getChildByName("msg").getComponent(cc.Button);
 
         this.sendButton.node.on("click", this.onClick, this);
+        this.msgButton.node.on("click", this.onSendMsg, this);
+    }
+
+    private onSendMsg(): void {
+        let buf = proto_man.encode_cmd(1, 5, { msg: "helloworld" });
+        MsgSender.getIntance().sendMsg(buf);
     }
 
     //添加监听的事件

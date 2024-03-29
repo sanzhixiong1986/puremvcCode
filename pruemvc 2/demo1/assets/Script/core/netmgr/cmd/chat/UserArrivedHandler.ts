@@ -1,4 +1,4 @@
-import EventManager from "../../event/EventManager";
+import EventManager from "../../../event/EventManager";
 export default class UserArrivedHandler  {
 
     handle(oMsgBody: any) {
