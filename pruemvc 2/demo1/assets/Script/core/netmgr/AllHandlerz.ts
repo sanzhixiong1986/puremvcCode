@@ -3,6 +3,7 @@ import UserArrivedHandler from "./cmd/chat/UserArrivedHandler";
 import UserEixtHandler from "./cmd/chat/UserEixtHandler";
 import UserExitOtherHandler from "./cmd/chat/UserExitOtherHandler";
 import UserSendMsgHandler from "./cmd/chat/UserSendMsgHandler";
+import UserMsgHandler from "./cmd/chat/UserMsgHandler";
 export default class AllHandlerz {
     private readonly _oHandlerMap: { [nkey: number]: any } = {};
 
