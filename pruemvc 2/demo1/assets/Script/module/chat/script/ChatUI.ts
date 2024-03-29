@@ -15,6 +15,7 @@ export default class ChatUI {
     private input: cc.EditBox = null;
     private scroll_content: cc.ScrollView = null;
     private chat: Chat = null;
+    private exitBtn: cc.Button = null;
 
     addUI(self: Chat) {
         this.chat = self;
@@ -25,9 +26,11 @@ export default class ChatUI {
         this.msgButton = self.node.getChildByName("msg").getComponent(cc.Button);
         this.input = self.node.getChildByName("input").getComponent(cc.EditBox);
         this.scroll_content = self.node.getChildByName("ScrollView").getComponent(cc.ScrollView);
+        this.exitBtn = self.node.getChildByName("exit").getComponent(cc.Button);
 
         this.sendButton.node.on("click", this.onClick, this);
         this.msgButton.node.on("click", this.onSendMsg, this);
+        this.exitBtn.node.on("click", this.onClickExit, this);
     }
 
     /**
@@ -35,6 +38,12 @@ export default class ChatUI {
      */
     private onSendMsg(): void {
         let buf = proto_man.encode_cmd(1, 5, { msg: this.input.string });
+        MsgSender.getIntance().sendMsg(buf);
+        this.input.string = "";
+    }
+
+    private onClickExit(): void {
+        let buf = proto_man.encode_cmd(1, 2, null);
         MsgSender.getIntance().sendMsg(buf);
     }
 
@@ -89,6 +98,9 @@ export default class ChatUI {
         EventManager.getInstance().registerHandler("test", this);
         EventManager.getInstance().registerHandler("UserArrive", this);
         EventManager.getInstance().registerHandler("UserEixt", this);
+        EventManager.getInstance().registerHandler("otherExit", this);
+        EventManager.getInstance().registerHandler("SendMsg", this);
+        EventManager.getInstance().registerHandler("UserMsg", this);
     }
 
     //删除对应的事件
@@ -96,6 +108,9 @@ export default class ChatUI {
         EventManager.getInstance().removeHandler("test", this);
         EventManager.getInstance().removeHandler("UserArrive", this);
         EventManager.getInstance().removeHandler("UserEixt", this);
+        EventManager.getInstance().removeHandler("otherExit", this);
+        EventManager.getInstance().removeHandler("SendMsg", this);
+        EventManager.getInstance().removeHandler("UserMsg", this);
     }
 
 
@@ -128,11 +143,11 @@ export default class ChatUI {
                 break;
             case "SendMsg"://发送消息
                 if (event.data[0] == 1) {
-                    this.show_self_talk(event.data[1], event.data[3])
+                    this.show_self_talk(event.data[1], event.data[3].msg)
                 }
                 break;
             case "UserMsg":
-                this.show_other_talk(event.data[0], event.data[2]);
+                this.show_other_talk(event.data[0], event.data[2].msg);
                 break;
         }
     }
