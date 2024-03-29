@@ -16,16 +16,18 @@ export default class ChatUI {
     //添加监听的事件
     addEvent() {
         EventManager.getInstance().registerHandler("test", this);
+        EventManager.getInstance().registerHandler("UserArrive", this);
     }
 
     //删除对应的事件
     removeEvent() {
         EventManager.getInstance().removeHandler("test", this);
+        EventManager.getInstance().removeHandler("UserArrive", this);
     }
 
     private onClick(): void {
         console.log("test");
-        let buf = proto_man.encode_cmd(1, 1, { uname: "back", upwd: "123456" });
+        let buf = proto_man.encode_cmd(1, 1, { uname: "back", usex: 1 });
         MsgSender.getIntance().sendMsg(buf);
     }
 
@@ -35,6 +37,9 @@ export default class ChatUI {
         switch (msg_id) {
             case "test":
                 console.log("收到服务器信息" + event.data);
+                break;
+            case "UserArrive"://获得用户的提示
+                console.log("收到进入聊天室用户" + event.data.uname);
                 break;
         }
     }

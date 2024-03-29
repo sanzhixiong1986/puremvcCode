@@ -1,10 +1,12 @@
 import TestHander from "./cmd/TestHander";
+import UserArrivedHandler from "./cmd/UserArrivedHandler";
 
 export default class AllHandlerz {
     private readonly _oHandlerMap: { [nkey: number]: any } = {};
 
     constructor() {
         this._oHandlerMap[1] = new TestHander();
+        this._oHandlerMap[3] = new UserArrivedHandler();
     }
 
     /**
