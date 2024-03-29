@@ -14,9 +14,17 @@ export default class Chat extends cc.Component {
 
     private UI: ChatUI = null;
 
+    @property(cc.Prefab)
+    desic_prefab: cc.Prefab;
+
+    @property(cc.Prefab)
+    selftalk_prefab: cc.Prefab;
+
+    @property(cc.Prefab)
+    othertalk_prefab: cc.Prefab
     onLoad() {
         this.UI = new ChatUI();
-        this.UI.addUI(this.node);
+        this.UI.addUI(this);
         this.UI.addEvent();
     }
 
