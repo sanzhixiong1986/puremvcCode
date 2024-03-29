@@ -88,12 +88,14 @@ export default class ChatUI {
     addEvent() {
         EventManager.getInstance().registerHandler("test", this);
         EventManager.getInstance().registerHandler("UserArrive", this);
+        EventManager.getInstance().registerHandler("UserEixt", this);
     }
 
     //删除对应的事件
     removeEvent() {
         EventManager.getInstance().removeHandler("test", this);
         EventManager.getInstance().removeHandler("UserArrive", this);
+        EventManager.getInstance().removeHandler("UserEixt", this);
     }
 
 
@@ -109,9 +111,28 @@ export default class ChatUI {
         switch (msg_id) {
             case "test":
                 console.log("收到服务器信息" + event.data);
+                if (event.data == 1) {
+                    this.show_tip_msg("你已经成功进入聊天室");
+                }
                 break;
             case "UserArrive"://获得用户的提示
-                console.log("收到进入聊天室用户" + event.data.uname);
+                this.show_tip_msg(event.data.uname + "进入聊天室");
+                break;
+            case "UserEixt"://离开
+                if (event.data == 1) {
+                    this.show_tip_msg("你已经离开聊天室");
+                }
+                break;
+            case "otherExit"://操作
+                this.show_tip_msg(event.data.uname + "离开聊天室");
+                break;
+            case "SendMsg"://发送消息
+                if (event.data[0] == 1) {
+                    this.show_self_talk(event.data[1], event.data[3])
+                }
+                break;
+            case "UserMsg":
+                this.show_other_talk(event.data[0], event.data[2]);
                 break;
         }
     }
