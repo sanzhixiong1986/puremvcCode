@@ -15,11 +15,5 @@ export default class ApplicationFacade extends puremvc.Facade {
         this.registerMediator(new DataMediator(gameRoot)); //显示类
         this.registerProxy(DataProxy.getInstance());
         console.log("注册消息");
-
-
-        window.setTimeout(() => {
-            let buf = proto_man.encode_cmd(1, 1, { uname: "back", upwd: "123456" });
-            MsgSender.getIntance().sendMsg(buf);
-        }, 2000);
     }
 }

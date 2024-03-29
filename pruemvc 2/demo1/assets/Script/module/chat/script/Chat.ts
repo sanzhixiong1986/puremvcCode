@@ -5,15 +5,22 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
+import ChatUI from "./ChatUI";
+
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Chat extends cc.Component {
 
-    
-    onLoad () {
-        
+    private UI: ChatUI = null;
+
+    onLoad() {
+        this.UI = new ChatUI();
+        this.UI.addUI(this.node);
+        this.UI.addEvent();
     }
 
-    
+    onDestroy(): void {
+        this.UI.removeEvent();
+    }
 }
