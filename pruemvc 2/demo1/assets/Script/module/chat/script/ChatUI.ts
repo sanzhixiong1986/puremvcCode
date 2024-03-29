@@ -7,6 +7,9 @@ export default class ChatUI {
     private sendButton: cc.Button = null;
     private msgButton: cc.Button = null;
 
+    private random_name: string = "";
+    private random_sex: number = 0;
+
     addUI(root: cc.Node) {
         this.sendButton = root.getChildByName("send").getComponent(cc.Button);
         this.msgButton = root.getChildByName("msg").getComponent(cc.Button);
