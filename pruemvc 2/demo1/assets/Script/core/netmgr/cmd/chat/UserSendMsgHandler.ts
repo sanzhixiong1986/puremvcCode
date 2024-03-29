@@ -1,28 +1,9 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
+export default class UserSendMsgHandler {
 
-@ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-
+    handle(oMsgBody: any) {
+        console.log("收到自己发送的消息" + oMsgBody[1]);
+        console.log("收到自己发送的消息" + oMsgBody[2]);
+        console.log("收到自己发送的消息" + oMsgBody[3]);
     }
-
-    // update (dt) {}
 }
