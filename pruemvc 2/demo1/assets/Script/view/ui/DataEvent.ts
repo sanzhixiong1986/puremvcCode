@@ -1,3 +1,5 @@
+import MsgSender from "../../core/netmgr/MsgSender";
+import proto_man from "../../core/netmgr/proto_man";
 import Util from "../../core/util/Util";
 
 export default class DataEvent {
@@ -5,6 +7,7 @@ export default class DataEvent {
     private text: cc.Label = null;
     private btn: cc.Button = null;
     private UI: cc.Node = null;
+    private clickBtn: cc.Button = null;
     /**
      * 
      * @param root 
@@ -18,8 +21,20 @@ export default class DataEvent {
             this.UI.addChild(nodes);
             this.text = nodes.getChildByName("lable").getComponent(cc.Label);
             this.btn = nodes.getChildByName("addNum").getComponent(cc.Button);
+            this.clickBtn = nodes.getChildByName("click").getComponent(cc.Button);
             this.btn.node.on('click', this.clickCallBack, this);
+            this.clickBtn.node.on("click", this.onClick, this);
         })
+    }
+
+    private onClick(): void {
+        var key = null; // 从本地获取
+        if (!key) {
+            
+            key = Util.random_string(32);
+        }
+        let buf = proto_man.encode_cmd(2, 1, key);
+        MsgSender.getIntance().sendMsg(buf);
     }
 
     //事件

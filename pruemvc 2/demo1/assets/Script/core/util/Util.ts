@@ -1,13 +1,9 @@
-/**
- * 相关的操作
- */
 export default class Util {
-
-    /**
+     /**
      * 获得IFacade
      * @param name 
      */
-    public static getPureFacade(name: string): puremvc.IFacade {
+     public static getPureFacade(name: string): puremvc.IFacade {
         return puremvc.Facade.getInstance(name);
     }
 
@@ -51,12 +47,40 @@ export default class Util {
         return str;
     }
 
-    public static random_int(begin: number, end: number) {
+    /**
+     * 随机一个整数
+     * @param begin 
+     * @param end 
+     * @returns 
+     */
+    public static random_int(begin, end) {
         var num = begin + Math.random() * (end - begin + 1);
         num = Math.floor(num);
         if (num > end) {
             num = end;
         }
         return num;
+    }
+
+
+    public static random_string(len) {
+        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+
+        var maxPos = $chars.length;
+        var str = '';
+        for (var i = 0; i < len; i++) {
+            str += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return str;
+    }
+
+    public static random_int_str(len) {
+        var chars = '0123456789';
+        var maxPos = chars.length;
+        var str = '';
+        for (var i = 0; i < len; i++) {
+            str += chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return str;
     }
 }
