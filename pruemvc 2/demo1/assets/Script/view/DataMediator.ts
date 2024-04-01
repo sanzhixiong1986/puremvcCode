@@ -24,7 +24,7 @@ export default class DataMediator extends puremvc.Mediator {
     public handleNotification(notification: puremvc.INotification) {
         switch (notification.getName()) {
             case "Msg_AddLevel":
-                SceneXLoader.startLoad(ConstMgr.moduleName + "chat", "chat");
+                SceneXLoader.startLoad(ConstMgr.moduleName + "home", "home");
                 break;
         }
     }
