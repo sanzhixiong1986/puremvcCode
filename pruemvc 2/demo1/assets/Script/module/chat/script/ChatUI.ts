@@ -16,7 +16,7 @@ export default class ChatUI {
     private scroll_content: cc.ScrollView = null;
     private chat: Chat = null;
     private exitBtn: cc.Button = null;
-    private nodeHeight: number = 0;
+
     addUI(self: Chat) {
         this.chat = self;
         this.random_name = "游客" + Util.random_int_str(4);
@@ -61,14 +61,7 @@ export default class ChatUI {
      * @param msg 
      */
     private show_self_talk(uname: string, msg: string): void {
-        let node = cc.instantiate(this.chat.selftalk_prefab);
-        let label = node.getChildByName("uname").getComponent(cc.Label);
-        label.string = uname;
-        label = node.getChildByName("msg").getComponent(cc.Label);
-        label.string = msg;
-        this.scroll_content.content.addChild(node);
-        this.scroll_content.content.height += node.height;
-        this.scroll_content.scrollToBottom(0.1);
+        this.showTalk(this.chat.selftalk_prefab, "uname", "msg", uname, msg);
     }
 
     /**
@@ -94,7 +87,6 @@ export default class ChatUI {
             label = nodes.getChildByName(LabelMsg).getComponent(cc.Label);
             label.string = msg;
         }
-
         this.scroll_content.content.addChild(nodes);
         this.scroll_content.content.height += nodes.height;
         this.scroll_content.scrollToBottom(0.1);
