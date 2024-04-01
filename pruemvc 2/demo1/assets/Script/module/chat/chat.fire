@@ -1157,7 +1157,7 @@
     "_enabled": true,
     "_string": "",
     "returnType": 0,
-    "maxLength": 8,
+    "maxLength": 20,
     "_tabIndex": 0,
     "editingDidBegan": [],
     "textChanged": [],
@@ -1470,7 +1470,7 @@
   {
     "__type__": "cc.Node",
     "_name": "ScrollView",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 2
     },
@@ -1539,7 +1539,7 @@
   {
     "__type__": "cc.Node",
     "_name": "view",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 31
     },
@@ -1566,7 +1566,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 640,
-      "height": 800
+      "height": 780
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1605,7 +1605,7 @@
   {
     "__type__": "cc.Node",
     "_name": "content",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 32
     },
@@ -1627,8 +1627,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 220,
-      "height": 400
+      "width": 640,
+      "height": 0
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1674,8 +1674,8 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 200
+      "width": 640,
+      "height": 0
     },
     "_resize": 0,
     "_N$layoutType": 2,
@@ -1694,7 +1694,7 @@
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,
     "_N$affectedByScale": false,
-    "_id": "d5gRJIMsJCbJQoxIz/Uca5"
+    "_id": "4dF+1+uBxBt4IxAx58Bja7"
   },
   {
     "__type__": "cc.Mask",
@@ -1723,7 +1723,7 @@
     "node": {
       "__id__": 31
     },
-    "_enabled": true,
+    "_enabled": false,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"

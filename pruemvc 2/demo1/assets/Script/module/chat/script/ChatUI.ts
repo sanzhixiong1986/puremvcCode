@@ -16,7 +16,7 @@ export default class ChatUI {
     private scroll_content: cc.ScrollView = null;
     private chat: Chat = null;
     private exitBtn: cc.Button = null;
-
+    private nodeHeight: number = 0;
     addUI(self: Chat) {
         this.chat = self;
         this.random_name = "游客" + Util.random_int_str(4);
@@ -52,11 +52,7 @@ export default class ChatUI {
      * @param str 
      */
     private show_tip_msg(str: string): void {
-        let node = cc.instantiate(this.chat.desic_prefab);
-        let label = node.getChildByName("desic").getComponent(cc.Label);
-        label.string = str;
-        this.scroll_content.content.addChild(node);
-        this.scroll_content.scrollToBottom(0.1);
+        this.showTalk(this.chat.desic_prefab, "desic", "", str);
     }
 
     /**
@@ -68,11 +64,10 @@ export default class ChatUI {
         let node = cc.instantiate(this.chat.selftalk_prefab);
         let label = node.getChildByName("uname").getComponent(cc.Label);
         label.string = uname;
-
         label = node.getChildByName("msg").getComponent(cc.Label);
         label.string = msg;
-
         this.scroll_content.content.addChild(node);
+        this.scroll_content.content.height += node.height;
         this.scroll_content.scrollToBottom(0.1);
     }
 
@@ -82,14 +77,26 @@ export default class ChatUI {
      * @param msg 
      */
     private show_other_talk(uname: string, msg: string): void {
-        let node = cc.instantiate(this.chat.othertalk_prefab);
-        let label = node.getChildByName("uname").getComponent(cc.Label);
+        this.showTalk(this.chat.othertalk_prefab, "uname", "msg", uname, msg);
+    }
+
+    /**
+     * 集合函数
+     * @param node 
+     * @param LabelName 
+     * @param msg 
+     */
+    private showTalk(node: cc.Prefab, LabelName: string, LabelMsg?: string, uname?: string, msg?: string) {
+        let nodes = cc.instantiate(node);
+        let label = nodes.getChildByName(LabelName).getComponent(cc.Label);
         label.string = uname;
+        if (LabelMsg != "") {
+            label = nodes.getChildByName(LabelMsg).getComponent(cc.Label);
+            label.string = msg;
+        }
 
-        label = node.getChildByName("msg").getComponent(cc.Label);
-        label.string = msg;
-
-        this.scroll_content.content.addChild(node);
+        this.scroll_content.content.addChild(nodes);
+        this.scroll_content.content.height += nodes.height;
         this.scroll_content.scrollToBottom(0.1);
     }
 
@@ -115,7 +122,7 @@ export default class ChatUI {
 
 
     private onClick(): void {
-        console.log("test");
+        console.log("发送数据到服务器端");
         let buf = proto_man.encode_cmd(1, 1, { uname: this.random_name, usex: this.random_sex });
         MsgSender.getIntance().sendMsg(buf);
     }
