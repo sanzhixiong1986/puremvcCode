@@ -1,3 +1,4 @@
+import Model from "../../../core/ components/Model";
 import Home from "./Home";
 
 export default class HomeUi {
@@ -16,7 +17,16 @@ export default class HomeUi {
 
         window.setTimeout(() => {
             this.setTabIndex(0);
+            this.updataUserBase();
         }, 200)
+    }
+
+    private updataUserBase() {
+        let modelData = Model.getIntance().getUserBase();
+        let nickName = this.homeUI.node.getChildByName("content_root").getChildByName("uinfo").getChildByName("avator").getChildByName("unick").getComponent(cc.Label);
+        if (modelData) {
+            nickName.string = modelData.unick;
+        }
     }
 
     private on_tab_button_click(event): void {

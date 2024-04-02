@@ -4,6 +4,7 @@ import UserEixtHandler from "./cmd/chat/UserEixtHandler";
 import UserExitOtherHandler from "./cmd/chat/UserExitOtherHandler";
 import UserSendMsgHandler from "./cmd/chat/UserSendMsgHandler";
 import UserMsgHandler from "./cmd/chat/UserMsgHandler";
+import GuestLoginHandler from "./cmd/login/GuestLoginHandler";
 export default class AllHandlerz {
     private readonly _oHandlerMap: { [nkey: number]: any } = {};
 
@@ -15,6 +16,9 @@ export default class AllHandlerz {
         this._oHandlerMap[4] = new UserExitOtherHandler();  //别人离开
         this._oHandlerMap[5] = new UserSendMsgHandler();    //自己发送消息
         this._oHandlerMap[6] = new UserMsgHandler();        //收到别人的消息
+        //end
+        //登录相关
+        this._oHandlerMap[7] = new GuestLoginHandler();     //用户登录信息操作
         //end
     }
 
