@@ -30,8 +30,7 @@ export default class DataEvent {
     private onClick(): void {
         var key = null; // 从本地获取
         if (!key) {
-            
-            key = Util.random_string(32);
+            key = "33nB8mDa6FEtaXKiZA8X4wAGj8ahYQWN";//Util.random_string(32);
         }
         let buf = proto_man.encode_cmd(2, 1, key);
         MsgSender.getIntance().sendMsg(buf);
