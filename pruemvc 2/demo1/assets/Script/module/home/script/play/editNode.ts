@@ -23,11 +23,12 @@ export default class editNode extends cc.Component {
         this._userBase = Model.getIntance().getUserBase();
         if (this._userBase) {
             this.label.string = this._userBase.unick;
+            console.log("uid="+this._userBase.uid);
         }
     }
 
     onSendMsg() {
-        let buf = proto_man.encode_cmd(2, 3, { uid: this._userBase.uid, unick: this._userBase.unick });
+        let buf = proto_man.encode_cmd(2, 3, { uid: this._userBase.uid, unick: this.label.string });
         MsgSender.getIntance().sendMsg(buf);
     }
 
