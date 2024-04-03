@@ -23,7 +23,6 @@ export default class editNode extends cc.Component {
         this._userBase = Model.getIntance().getUserBase();
         if (this._userBase) {
             this.label.string = this._userBase.unick;
-            console.log("uid="+this._userBase.uid);
         }
     }
 
