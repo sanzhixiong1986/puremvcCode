@@ -34,8 +34,6 @@ export default class DataEvent {
         let model = localStorage.getItem(uid);
         let now = Date.now();
         if (model) {
-            console.log("============" + uid);
-            console.log("============" + model);
             if (model && parseInt(uid) > 0) {
                 Model.getIntance().setUserBase(JSON.parse(model));
                 if (now - JSON.parse(model).now > 3600000) {
