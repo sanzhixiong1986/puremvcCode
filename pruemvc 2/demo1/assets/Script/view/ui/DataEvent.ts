@@ -1,3 +1,6 @@
+import Model from "../../core/ components/Model";
+import SceneXLoader from "../../core/ components/SceneXLoader";
+import ConstMgr from "../../core/netmgr/ConstMgr";
 import MsgSender from "../../core/netmgr/MsgSender";
 import proto_man from "../../core/netmgr/proto_man";
 import Util from "../../core/util/Util";
@@ -24,7 +27,35 @@ export default class DataEvent {
             this.clickBtn = nodes.getChildByName("click").getComponent(cc.Button);
             this.btn.node.on('click', this.clickCallBack, this);
             this.clickBtn.node.on("click", this.onClick, this);
-        })
+        });
+
+        //时间差
+        let uid = localStorage.getItem("uid");
+        let model = localStorage.getItem(uid);
+        let now = Date.now();
+        if (model) {
+            console.log("============" + uid);
+            console.log("============" + model);
+            if (model && parseInt(uid) > 0) {
+                Model.getIntance().setUserBase(JSON.parse(model));
+                if (now - JSON.parse(model).now > 3600000) {
+                    localStorage.removeItem(uid);
+                    localStorage.removeItem("uid");
+                }
+                else {
+                    window.setTimeout(() => {
+                        //自动登录
+                        var key = null; // 从本地获取
+                        if (!key) {
+                            key = JSON.parse(model).guest_key;//Util.random_string(32);
+                        }
+                        let buf = proto_man.encode_cmd(2, 1, key);
+                        MsgSender.getIntance().sendMsg(buf);
+                    }, 1500);
+
+                }
+            }
+        }
     }
 
     private onClick(): void {
