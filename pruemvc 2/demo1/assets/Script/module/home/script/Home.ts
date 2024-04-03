@@ -23,6 +23,11 @@ export default class Home extends cc.Component {
     onLoad() {
         this._UI = new HomeUi();
         this._UI.addUI(this);
+        this._UI.addEvent();
+    }
+
+    protected onDestroy(): void {
+        this._UI.removeEvent();
     }
 
     // update (dt) {}

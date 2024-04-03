@@ -1,4 +1,5 @@
 import Model from "../../../core/ components/Model";
+import EventManager from "../../../core/event/EventManager";
 import Home from "./Home";
 
 export default class HomeUi {
@@ -58,10 +59,20 @@ export default class HomeUi {
     }
 
     public addEvent() {
-
+        EventManager.getInstance().registerHandler("updateUnick", this);
     }
 
     public removeEvent() {
+        EventManager.getInstance().removeHandler("updateUnick", this);
+    }
 
+    processEvent(event) {
+        let msg_id: string = event.msg_id;
+        console.log("收到消息" + msg_id);
+        switch (msg_id) {
+            case "updateUnick":
+                this.updataUserBase();
+                break;
+        }
     }
 }

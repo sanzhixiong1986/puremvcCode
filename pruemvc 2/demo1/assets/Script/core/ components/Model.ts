@@ -22,4 +22,10 @@ export default class Model {
     public getUserBase() {
         return this._userBase;
     }
+
+    public setUnick(unick) {
+        if (this._userBase) {
+            this._userBase.unick = unick;
+        }
+    }
 }

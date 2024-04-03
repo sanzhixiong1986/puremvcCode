@@ -5,6 +5,7 @@ import UserExitOtherHandler from "./cmd/chat/UserExitOtherHandler";
 import UserSendMsgHandler from "./cmd/chat/UserSendMsgHandler";
 import UserMsgHandler from "./cmd/chat/UserMsgHandler";
 import GuestLoginHandler from "./cmd/login/GuestLoginHandler";
+import EditPlayHandler from "./cmd/login/EditPlayHandler";
 export default class AllHandlerz {
     private readonly _oHandlerMap: { [nkey: number]: any } = {};
 
@@ -19,6 +20,7 @@ export default class AllHandlerz {
         //end
         //登录相关
         this._oHandlerMap[7] = new GuestLoginHandler();     //用户登录信息操作
+        this._oHandlerMap[8] = new EditPlayHandler();       //用户修改的事件
         //end
     }
 
