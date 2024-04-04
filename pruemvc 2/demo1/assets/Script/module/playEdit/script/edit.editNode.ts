@@ -16,12 +16,19 @@ export default class editNode extends cc.Component {
 
     private _userBase = null;
     private label: cc.EditBox = null;
+    private sendMsg: cc.Button = null;
+    private back: cc.Button = null;
     onLoad() {
         this._userBase = Model.getIntance().getUserBase();
         this.label = this.node.getChildByName("EditBox").getComponent(cc.EditBox);
+        this.sendMsg = this.node.getChildByName("sendmsg").getComponent(cc.Button);
+        this.back = this.node.getChildByName("back").getComponent(cc.Button);
         if (this._userBase) {
             this.label.string = this._userBase.unick;
         }
+
+        this.sendMsg.node.on("click", this.onSendMsg, this);
+        this.back.node.on("click", this.onClose, this);
     }
 
     onSendMsg() {

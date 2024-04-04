@@ -12,9 +12,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class mine extends cc.Component {
 
-    @property(cc.Prefab)
-    exitPlay: cc.Prefab = null;
-
     private minUI: mineUI = null;
 
     onLoad() {
