@@ -17,6 +17,11 @@ export default class mine extends cc.Component {
     onLoad() {
         this.minUI = new mineUI();
         this.minUI.addUI(this);
+        this.minUI.addEvent();
+    }
+
+    protected onDestroy(): void {
+        this.minUI.removeEvent();
     }
 
 

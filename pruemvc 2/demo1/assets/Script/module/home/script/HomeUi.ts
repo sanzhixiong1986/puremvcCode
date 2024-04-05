@@ -73,6 +73,8 @@ export default class HomeUi {
             case "updateUnick":
                 this.updataUserBase();
                 break;
+            case "closePanel":
+                break;
         }
     }
 }

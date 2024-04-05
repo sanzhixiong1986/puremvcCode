@@ -23,9 +23,17 @@ export default class Model {
         return this._userBase;
     }
 
+    //单独设置用户的姓名
     public setUnick(unick) {
         if (this._userBase) {
             this._userBase.unick = unick;
+        }
+    }
+
+    //单独设置用户的状态
+    public setGuest(status) {
+        if (this._userBase) {
+            this._userBase.is_guest = status;
         }
     }
 }

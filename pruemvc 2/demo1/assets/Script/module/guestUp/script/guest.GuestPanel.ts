@@ -5,7 +5,13 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import EventManager from "../../../core/event/EventManager";
+import MsgSender from "../../../core/netmgr/MsgSender";
+import proto_man from "../../../core/netmgr/proto_man";
+import * as CryptoJS from 'crypto-js';
+
 const { ccclass, property } = cc._decorator;
+
 
 @ccclass
 export default class GuestPanel extends cc.Component {
@@ -25,6 +31,8 @@ export default class GuestPanel extends cc.Component {
         this._send = this.node.getChildByName("send").getComponent(cc.Button);
         this._exit.node.on("click", this.onExit, this);
         this._send.node.on("click", this.sendMsg, this);
+
+        EventManager.getInstance().registerHandler("closePanel", this);
     }
 
     protected onDestroy(): void {
@@ -37,6 +45,7 @@ export default class GuestPanel extends cc.Component {
     private onExit(): void {
         if (this.node.parent) {
             this.node.removeFromParent();
+            EventManager.getInstance().removeHandler("closePanel", this);
         }
     }
 
@@ -74,7 +83,9 @@ export default class GuestPanel extends cc.Component {
             console.log("密码的相关操作有问题");
             return;
         }
-        console.log("测试数据");
+        console.log("pwd=" + (CryptoJS.MD5(this._pwd2) as any).toString());
+        let buf = proto_man.encode_cmd(2, 4, { uname: this._input1.string, upwd: (CryptoJS.MD5(this._pwd2) as any).toString() });
+        MsgSender.getIntance().sendMsg(buf);
     }
 
     /**
@@ -107,5 +118,15 @@ export default class GuestPanel extends cc.Component {
 
     private getUnameInput() {
         return this._input1.string;
+    }
+
+    processEvent(event) {
+        let msg_id: string = event.msg_id;
+        console.log("收到消息" + msg_id);
+        switch (msg_id) {
+            case "closePanel":
+                this.onExit();
+                break;
+        }
     }
 }
