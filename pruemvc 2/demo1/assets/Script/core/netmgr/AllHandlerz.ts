@@ -7,6 +7,7 @@ import UserMsgHandler from "./cmd/chat/UserMsgHandler";
 import GuestLoginHandler from "./cmd/login/GuestLoginHandler";
 import EditPlayHandler from "./cmd/login/EditPlayHandler";
 import GuestUpgreadeHandler from "./cmd/login/GuestUpgreadeHandler";
+import SystemGameInfoHandler from "./cmd/gamesystem/SystemGameInfoHandler";
 export default class AllHandlerz {
     private readonly _oHandlerMap: { [nkey: number]: any } = {};
 
@@ -23,6 +24,9 @@ export default class AllHandlerz {
         this._oHandlerMap[7] = new GuestLoginHandler();     //用户登录信息操作
         this._oHandlerMap[8] = new EditPlayHandler();       //用户修改的事件
         this._oHandlerMap[9] = new GuestUpgreadeHandler();  //用户升级成正式账户
+        //end
+        //游戏服务器的相关操作
+        this._oHandlerMap[10] = new SystemGameInfoHandler();//游戏的信息
         //end
     }
 
