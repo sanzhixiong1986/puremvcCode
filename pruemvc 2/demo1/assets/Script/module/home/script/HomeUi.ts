@@ -19,7 +19,7 @@ export default class HomeUi {
         window.setTimeout(() => {
             this.setTabIndex(0);
             this.updataUserBase();
-        }, 200)
+        }, 150)
     }
 
     private updataUserBase() {
@@ -89,7 +89,7 @@ export default class HomeUi {
         let days = body[4];
 
         let login_bonuse = this.homeUI.node.getChildByName("login_bonues").getComponent("LoginBonues");
-        login_bonuse.show_login_bonuses(bonues_id, bonues, days);
+        login_bonuse.show_login_bonuses(bonues_id, bonues, days);//更新
     }
 
     processEvent(event) {

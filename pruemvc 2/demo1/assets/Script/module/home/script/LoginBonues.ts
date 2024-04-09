@@ -30,10 +30,9 @@ export default class LoginBonues extends cc.Component {
         }
 
         this.node.active = true;
-        this.scheduleOnce(() => {
-            let buf = proto_man.encode_cmd(3, 11, null);
-            MsgSender.getIntance().sendMsg(buf);
-        }, 3)
+
+        let buf = proto_man.encode_cmd(3, 11, null);
+        MsgSender.getIntance().sendMsg(buf);
     }
 
     /**

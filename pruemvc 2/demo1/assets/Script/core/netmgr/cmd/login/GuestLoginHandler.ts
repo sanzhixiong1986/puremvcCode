@@ -1,6 +1,4 @@
 import Model from "../../../ components/Model";
-import SceneXLoader from "../../../ components/SceneXLoader";
-import ConstMgr from "../../ConstMgr";
 import MsgSender from "../../MsgSender";
 import proto_man from "../../proto_man";
 
