@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import ConstMgr from "../../../core/netmgr/ConstMgr";
 import MsgSender from "../../../core/netmgr/MsgSender";
 import proto_man from "../../../core/netmgr/proto_man";
 
@@ -22,7 +23,7 @@ export default class LoginBonues extends cc.Component {
     private bonuse_info = [];
     onLoad() {
         //做一个假的数据
-        this.bonuse_info = ["100", "200", "300", "400", "500"];
+        this.bonuse_info = ConstMgr.BonuesArray;
         for (let i = 0; i < this.chip_label.length; i++) {
             this.chip_label[i].string = this.bonuse_info[i];
             this.chip_label[i].node.color = cc.color(0, 0, 0, 255);
@@ -31,7 +32,7 @@ export default class LoginBonues extends cc.Component {
 
         this.node.active = true;
 
-        let buf = proto_man.encode_cmd(3, 11, null);
+        let buf = proto_man.encode_cmd(ConstMgr.Stype.GameSystem, ConstMgr.Cmd.LOGIN_BONUES_INFO, null);
         MsgSender.getIntance().sendMsg(buf);
     }
 
@@ -52,17 +53,16 @@ export default class LoginBonues extends cc.Component {
 
         //显示已经领取的部分
         for (let i = 0; i < days; i++) {
-            this.chip_label[i].node.color = new cc.Color(255, 0, 0, 255);//全部变为红色
+            this.chip_label[i].node.color = cc.color(255, 0, 0, 255);//全部变为红色
             this.zw_icon[i].active = false;
         }
 
         for (; i < this.bonuse_info.length; i++) {
-            this.chip_label[i].node.color = new cc.Color(0, 0, 0, 255);
+            this.chip_label[i].node.color = cc.color(0, 0, 0, 255);
             this.zw_icon[i].active = false;
         }
 
         this.zw_icon[days - 1].active = true;
-
     }
 
     onExit() {
@@ -72,7 +72,7 @@ export default class LoginBonues extends cc.Component {
     }
 
     onSend() {
-        let buf = proto_man.encode_cmd(3, 12, this.bonues_id);
+        let buf = proto_man.encode_cmd(ConstMgr.Stype.GameSystem, ConstMgr.Cmd.RECV_LOGIN_BUNUES, this.bonues_id);
         MsgSender.getIntance().sendMsg(buf);
         this.onExit();
     }
