@@ -30,8 +30,10 @@ export default class LoginBonues extends cc.Component {
         }
 
         this.node.active = true;
-        let buf = proto_man.encode_cmd(2, 11, null);
-        MsgSender.getIntance().sendMsg(buf);
+        this.scheduleOnce(() => {
+            let buf = proto_man.encode_cmd(3, 11, null);
+            MsgSender.getIntance().sendMsg(buf);
+        }, 3)
     }
 
     /**
@@ -71,7 +73,7 @@ export default class LoginBonues extends cc.Component {
     }
 
     onSend() {
-        let buf = proto_man.encode_cmd(2, 12, this.bonues_id);
+        let buf = proto_man.encode_cmd(3, 12, this.bonues_id);
         MsgSender.getIntance().sendMsg(buf);
         this.onExit();
     }

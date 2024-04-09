@@ -8,6 +8,7 @@ import GuestLoginHandler from "./cmd/login/GuestLoginHandler";
 import EditPlayHandler from "./cmd/login/EditPlayHandler";
 import GuestUpgreadeHandler from "./cmd/login/GuestUpgreadeHandler";
 import SystemGameInfoHandler from "./cmd/gamesystem/SystemGameInfoHandler";
+import SystemGameInfoBoundHandler from "./cmd/login/SystemGameInfoBoundHandler";
 export default class AllHandlerz {
     private readonly _oHandlerMap: { [nkey: number]: any } = {};
 
@@ -27,6 +28,7 @@ export default class AllHandlerz {
         //end
         //游戏服务器的相关操作
         this._oHandlerMap[10] = new SystemGameInfoHandler();//游戏的信息
+        this._oHandlerMap[11] = new SystemGameInfoBoundHandler();//游戏的登录节点的相关操作
         //end
     }
 
