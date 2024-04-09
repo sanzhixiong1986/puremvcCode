@@ -89,7 +89,6 @@ export default class HomeUi {
         let days = body[4];
 
         let login_bonuse = this.homeUI.node.getChildByName("login_bonues").getComponent("LoginBonues");
-        login_bonuse.node.active = true;
         login_bonuse.show_login_bonuses(bonues_id, bonues, days);
     }
 
