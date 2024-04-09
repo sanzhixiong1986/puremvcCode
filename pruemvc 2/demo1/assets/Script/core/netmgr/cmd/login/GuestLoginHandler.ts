@@ -19,8 +19,6 @@ export default class GuestLoginHandler {
             //记录当前的数据
             localStorage.setItem(oMsgBody.uid + "", JSON.stringify(oMsgBody));
             localStorage.setItem("uid", oMsgBody.uid);
-            //跳转场景
-            SceneXLoader.startLoad(ConstMgr.moduleName + "home", "home");
             //发送消息获得游戏相关的信息
             let buf = proto_man.encode_cmd(3, 10, null);
             MsgSender.getIntance().sendMsg(buf);
