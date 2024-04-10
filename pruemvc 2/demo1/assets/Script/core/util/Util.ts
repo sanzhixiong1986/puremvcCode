@@ -73,14 +73,4 @@ export default class Util {
         }
         return str;
     }
-
-    public static random_int_str(len) {
-        var chars = '0123456789';
-        var maxPos = chars.length;
-        var str = '';
-        for (var i = 0; i < len; i++) {
-            str += chars.charAt(Math.floor(Math.random() * maxPos));
-        }
-        return str;
-    }
 }
