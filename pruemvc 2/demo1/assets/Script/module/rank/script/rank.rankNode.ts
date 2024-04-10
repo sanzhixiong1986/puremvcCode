@@ -5,24 +5,29 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import Util from "../../../core/util/Util";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class rankNode extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
 
-    @property
-    text: string = 'hello';
+    onLoad() {
+        Util.BundleLoad("Script/module/rank", "res/rankItem", (oDialogNode: cc.Node) => {
+            if (oDialogNode) {
+                console.log("加载资源成功");
+            }
+        });
 
-    // LIFE-CYCLE CALLBACKS:
+        let closebtn = this.node.getChildByName("close").getComponent(cc.Button);
 
-    // onLoad () {}
-
-    start() {
-
+        closebtn.node.on("click", this.onClose, this);
     }
 
-    // update (dt) {}
+    private onClose() {
+        if (this.node.parent) {
+            this.node.removeFromParent();
+        }
+    }
 }

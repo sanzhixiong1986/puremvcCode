@@ -1,9 +1,9 @@
 export default class Util {
-     /**
-     * 获得IFacade
-     * @param name 
-     */
-     public static getPureFacade(name: string): puremvc.IFacade {
+    /**
+    * 获得IFacade
+    * @param name 
+    */
+    public static getPureFacade(name: string): puremvc.IFacade {
         return puremvc.Facade.getInstance(name);
     }
 
@@ -72,5 +72,59 @@ export default class Util {
             str += $chars.charAt(Math.floor(Math.random() * maxPos));
         }
         return str;
+    }
+
+    public static BundleLoad(strBundleName: string, strPrefabPath: string, funCallback: (oNewDialog: cc.Node) => void) {
+        let oThatBundle = cc.assetManager.getBundle(strBundleName);
+        // 确保回调函数不为空
+        const funCbFinally = funCallback || function () {
+        };
+        cc.assetManager.loadBundle(strBundleName, (oError: Error, oLoadedBundle: cc.AssetManager.Bundle) => {
+            if (null != oError) {
+                cc.error(oError);
+                return;
+            }
+
+            if (null == oLoadedBundle) {
+                cc.error(`Bundle is null, bundleName = ${strBundleName}`);
+                funCbFinally(null);
+                return;
+            }
+
+            oThatBundle = oLoadedBundle;
+            //获取缓存预制体
+            let oCachedPrefab = oThatBundle.get(strPrefabPath, cc.Prefab) as cc.Prefab;
+            if (null != oCachedPrefab) {
+                // 创建新节点
+                let oNewNode = cc.instantiate(oCachedPrefab);
+                funCbFinally(oNewNode);
+                return;
+            }
+
+            oThatBundle.load(strPrefabPath, cc.Prefab, (oError: Error, oLoadedPrefab: cc.Prefab) => {
+                if (null != oError) {
+                    cc.log(oError);
+                    funCbFinally(null);
+                    return;
+                }
+
+                if (null == oLoadedPrefab) {
+                    cc.log(`加载预制体为空, prefabPath = ${strPrefabPath}`);
+                    funCbFinally(null);
+                    return;
+                }
+
+                // 创建新节点
+                let oNewNode = cc.instantiate(oLoadedPrefab);
+
+                if (null == oNewNode) {
+                    cc.error(`创建新节点失败, prefabPath = ${strPrefabPath}`);
+                    funCbFinally(null);
+                    return;
+                }
+
+                funCbFinally(oNewNode);
+            });
+        });
     }
 }
