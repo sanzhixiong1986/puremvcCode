@@ -11,6 +11,7 @@ import GuestUpgreadeHandler from "./login/GuestUpgreadeHandler";
 import SystemGameInfoHandler from "./gamesystem/SystemGameInfoHandler";
 import SystemGameInfoBoundHandler from "./login/SystemGameInfoBoundHandler";
 import SystemGameInfoBoundsHandler from "./gamesystem/SystemGameInfoBoundsHandler";
+import WorldRankInfoHandler from "./gamesystem/WorldRankInfoHandler";
 /**
  * 命令的工厂类
  */
@@ -45,6 +46,8 @@ export default class CmdFactory {
                 return new SystemGameInfoBoundHandler
             case ConstMgr.Cmd.RECV_LOGIN_BUNUES:
                 return new SystemGameInfoBoundsHandler();
+            case ConstMgr.Cmd.GET_WORLD_RANK_INFO:
+                return new WorldRankInfoHandler();
         }
     }
 }
