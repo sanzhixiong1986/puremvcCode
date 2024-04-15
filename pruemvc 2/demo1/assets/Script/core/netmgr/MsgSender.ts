@@ -4,7 +4,7 @@ import proto_man from "./proto_man";
 /**
  * websocket操作相关
  */
-const SERVER_HOST = "192.168.10.132";
+const SERVER_HOST = "192.168.10.135";
 const SERVER_PORT = 6081;
 
 export default class MsgSender {

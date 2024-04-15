@@ -26,6 +26,6 @@ export default class GameUI {
      * 删除事件
      */
     public remoevEvent() {
-        this._exit.node.off("click", this.onClick, this);
+    
     }
 }
