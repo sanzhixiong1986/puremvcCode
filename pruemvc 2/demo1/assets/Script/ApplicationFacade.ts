@@ -1,9 +1,6 @@
 import DataCommand from "./ctrl/DataCommand";
 import DataMediator from './view/DataMediator';
 import DataProxy from "./model/DataProxy";
-import MsgSender from "./core/netmgr/MsgSender";
-import AllHandlerz from "./core/netmgr/AllHandlerz";
-import proto_man from "./core/netmgr/proto_man";
 /**
  * 全局控制类
  */
