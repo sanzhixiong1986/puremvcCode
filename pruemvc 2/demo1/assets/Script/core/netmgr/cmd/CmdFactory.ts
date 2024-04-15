@@ -12,6 +12,7 @@ import SystemGameInfoHandler from "./gamesystem/SystemGameInfoHandler";
 import SystemGameInfoBoundHandler from "./login/SystemGameInfoBoundHandler";
 import SystemGameInfoBoundsHandler from "./gamesystem/SystemGameInfoBoundsHandler";
 import WorldRankInfoHandler from "./gamesystem/WorldRankInfoHandler";
+import EnterZoneHandler from "./game/EnterZoneHandler";
 /**
  * 命令的工厂类
  */
@@ -48,6 +49,8 @@ export default class CmdFactory {
                 return new SystemGameInfoBoundsHandler();
             case ConstMgr.Cmd.GET_WORLD_RANK_INFO:
                 return new WorldRankInfoHandler();
+            case ConstMgr.Cmd.ENTER_ZONE:
+                return new EnterZoneHandler();
         }
     }
 }

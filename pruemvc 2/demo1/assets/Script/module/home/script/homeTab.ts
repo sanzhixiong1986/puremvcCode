@@ -7,6 +7,8 @@
 
 import SceneXLoader from "../../../core/ components/SceneXLoader";
 import ConstMgr from "../../../core/netmgr/ConstMgr";
+import MsgSender from "../../../core/netmgr/MsgSender";
+import proto_man from "../../../core/netmgr/proto_man";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +26,9 @@ export default class homeTab extends cc.Component {
         event.stopPropagation();//防止冒泡影响下拉
         let idx = parseInt(data);
         if (idx > 0) {
-            SceneXLoader.startLoad(ConstMgr.moduleName + "game", "game");
+            
+            let buf = proto_man.encode_cmd(4, 14, idx);
+            MsgSender.getIntance().sendMsg(buf);
         }
     }
 }
