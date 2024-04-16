@@ -63,6 +63,11 @@ export default class Util {
     }
 
 
+    /**
+     * 随机几位字符串
+     * @param len 随机个数
+     * @returns 
+     */
     public static random_string(len) {
         var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
 
@@ -74,6 +79,12 @@ export default class Util {
         return str;
     }
 
+    /**
+     * 通过加载使用相关的资源
+     * @param strBundleName bundle 名字
+     * @param strPrefabPath Prefab的名字
+     * @param funCallback   返回函数
+     */
     public static BundleLoad(strBundleName: string, strPrefabPath: string, funCallback: (oNewDialog: cc.Node) => void) {
         let oThatBundle = cc.assetManager.getBundle(strBundleName);
         // 确保回调函数不为空
@@ -126,5 +137,15 @@ export default class Util {
                 funCbFinally(oNewNode);
             });
         });
+    }
+
+    /**
+     * 获得url属性值
+     * @param ProperName 属性的名字
+     */
+    public static getUrlProperties(ProperName) {
+        const queryParams = new URLSearchParams(window.location.search);
+        const Propertie = queryParams.get(ProperName);
+        return Propertie;
     }
 }

@@ -29,6 +29,13 @@ export default class DataEvent {
             this.clickBtn.node.on("click", this.onClick, this);
         });
 
+        // this.isCheckLoginTime();
+        // 使用 URLSearchParams 来解析查询字符串
+        // const username = Util.getUrlProperties('username');
+        // console.log("username:" + username);
+    }
+
+    private isCheckLoginTime() {
         //时间差
         let uid = localStorage.getItem("uid");
         let model = localStorage.getItem(uid);
@@ -57,10 +64,9 @@ export default class DataEvent {
     }
 
     private onClick(): void {
-        var key = null; // 从本地获取
-        if (!key) {
-            key = "33nB8mDa6FEtaXKiZA8X4wAGj8ahYQWN";//Util.random_string(32);
-        }
+        var key = Util.getUrlProperties('key')//"33nB8mDa6FEtaXKiZA8X4wAGj8ahYQWN";//Util.random_string(32);
+        console.log("key=====", key);
+
         let buf = proto_man.encode_cmd(2, 1, key);
         MsgSender.getIntance().sendMsg(buf);
     }
