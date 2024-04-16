@@ -33,4 +33,8 @@ export default class ConstMgr {
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境
+
+    public static gameScene: string = "game";
+
+    public static homeScene: string = "home";
 }

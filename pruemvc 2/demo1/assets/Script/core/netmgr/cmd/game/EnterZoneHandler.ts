@@ -6,9 +6,9 @@ import ConstMgr from "../../ConstMgr";
  */
 export default class EnterZoneHandler {
     handle(oMsgBody: any) {
-        console.log("排行榜获得数据" + oMsgBody);
+        console.log("进入游戏区域" + oMsgBody);
         if (oMsgBody == 1) {
-            SceneXLoader.startLoad(ConstMgr.moduleName + "game", "game");//进入游戏
+            SceneXLoader.startLoad(ConstMgr.moduleName + ConstMgr.gameScene, ConstMgr.gameScene);//进入游戏
         }
     }
 }

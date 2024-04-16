@@ -21,8 +21,6 @@ export default class GameUI {
     }
 
     private onClick(): void {
-        console.log("点击了退出按钮");
-        // cc.director.loadScene("home");
         //发送数据
         let buf = proto_man.encode_cmd(ConstMgr.Stype.GameFiveChess, ConstMgr.Cmd.USER_QUIT, null);
         MsgSender.getIntance().sendMsg(buf);
