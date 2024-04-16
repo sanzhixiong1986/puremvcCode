@@ -4,6 +4,8 @@
 export default class UserQuitHandler {
     handle(oMsgBody: any) {
         console.log("收到用户退出消息");
-        cc.director.loadScene("home");
+        if (oMsgBody == 1) {
+            cc.director.loadScene("home");
+        }
     }
 }
