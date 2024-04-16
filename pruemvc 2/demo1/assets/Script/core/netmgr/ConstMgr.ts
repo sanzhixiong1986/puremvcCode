@@ -28,7 +28,8 @@ export default class ConstMgr {
         LOGIN_BONUES_INFO: 11,//获取登录奖励信息
         RECV_LOGIN_BUNUES: 12,//领取奖励
         GET_WORLD_RANK_INFO: 13,//获得排行榜的数据
-        ENTER_ZONE: 14,
+        ENTER_ZONE: 14,//进入游戏场景
+        USER_QUIT: 15,//退出游戏
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境

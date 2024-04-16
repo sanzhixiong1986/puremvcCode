@@ -13,7 +13,8 @@ export default class AllHandlerz {
 
     constructor() {
         this._oHandlerMap = {};
-        for (let i = 1; i < Object.keys(ConstMgr.Cmd).length + 1; i++) {
+        let len = Object.keys(ConstMgr.Cmd).length + 1;//个数
+        for (let i = 1; i < len; i++) {
             this._oHandlerMap[i] = CmdFactory.createHandler(i);
         }
     }

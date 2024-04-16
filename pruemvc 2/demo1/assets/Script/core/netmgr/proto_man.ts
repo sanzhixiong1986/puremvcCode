@@ -44,6 +44,7 @@ export default class proto_man {
         cmd[1] = ctype;
         cmd[2] = body;
         let str = JSON.stringify(cmd);
+        console.log("send Msg =" + str);
         return str;
     }
 
