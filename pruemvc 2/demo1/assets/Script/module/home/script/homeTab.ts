@@ -22,7 +22,6 @@ export default class homeTab extends cc.Component {
     }
 
     onClickIdx(event, data) {
-        event.stopPropagation();//防止冒泡影响下拉
         let idx = parseInt(data);
         if (idx > 0) {
             let buf = proto_man.encode_cmd(ConstMgr.Stype.GameFiveChess, ConstMgr.Cmd.ENTER_ZONE, idx);
