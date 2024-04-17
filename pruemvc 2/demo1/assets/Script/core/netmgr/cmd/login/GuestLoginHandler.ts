@@ -1,4 +1,5 @@
 import Model from "../../../ components/Model";
+import ConstMgr from "../../ConstMgr";
 import MsgSender from "../../MsgSender";
 import proto_man from "../../proto_man";
 
@@ -18,7 +19,7 @@ export default class GuestLoginHandler {
             localStorage.setItem(oMsgBody.uid + "", JSON.stringify(oMsgBody));
             localStorage.setItem("uid", oMsgBody.uid);
             //发送消息获得游戏相关的信息
-            let buf = proto_man.encode_cmd(3, 10, null);
+            let buf = proto_man.encode_cmd(ConstMgr.Stype.GameSystem, ConstMgr.Cmd.GET_GAME_INFO, null);
             MsgSender.getIntance().sendMsg(buf);
             //结束发送消息
         }
