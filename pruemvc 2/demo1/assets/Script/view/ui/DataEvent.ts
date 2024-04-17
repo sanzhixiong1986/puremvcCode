@@ -30,9 +30,6 @@ export default class DataEvent {
         });
 
         // this.isCheckLoginTime();
-        // 使用 URLSearchParams 来解析查询字符串
-        // const username = Util.getUrlProperties('username');
-        // console.log("username:" + username);
     }
 
     private isCheckLoginTime() {
@@ -64,9 +61,8 @@ export default class DataEvent {
     }
 
     private onClick(): void {
-        var key = Util.getUrlProperties('key')//"33nB8mDa6FEtaXKiZA8X4wAGj8ahYQWN";//Util.random_string(32);
+        var key = Util.getUrlProperties('key')
         console.log("key=====", key);
-
         let buf = proto_man.encode_cmd(2, 1, key);
         MsgSender.getIntance().sendMsg(buf);
     }
