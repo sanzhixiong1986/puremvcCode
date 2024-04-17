@@ -14,6 +14,7 @@ import SystemGameInfoBoundsHandler from "./gamesystem/SystemGameInfoBoundsHandle
 import WorldRankInfoHandler from "./gamesystem/WorldRankInfoHandler";
 import EnterZoneHandler from "./game/EnterZoneHandler";
 import UserQuitHandler from "./game/UserQuitHandler";
+import EnterRoomHandler from "./game/EnterRoomHandler";
 /**
  * 命令的工厂类
  */
@@ -54,6 +55,8 @@ export default class CmdFactory {
                 return new EnterZoneHandler();
             case ConstMgr.Cmd.USER_QUIT:
                 return new UserQuitHandler();
+            case ConstMgr.Cmd.ENTER_ROOM:
+                return new EnterRoomHandler();
         }
     }
 }

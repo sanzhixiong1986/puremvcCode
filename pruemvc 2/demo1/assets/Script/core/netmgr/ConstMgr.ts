@@ -30,6 +30,7 @@ export default class ConstMgr {
         GET_WORLD_RANK_INFO: 13,//获得排行榜的数据
         ENTER_ZONE: 14,//进入游戏场景
         USER_QUIT: 15,//退出游戏
+        ENTER_ROOM: 16,//进入房间
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境
