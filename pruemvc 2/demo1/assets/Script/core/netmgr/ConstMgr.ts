@@ -31,6 +31,9 @@ export default class ConstMgr {
         ENTER_ZONE: 14,//进入游戏场景
         USER_QUIT: 15,//退出游戏
         ENTER_ROOM: 16,//进入房间
+        EXIT_ROOM: 17,//退出房间
+        SITDOWN: 18,//玩家坐下
+        STANDUP: 19,//玩家站起
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境
