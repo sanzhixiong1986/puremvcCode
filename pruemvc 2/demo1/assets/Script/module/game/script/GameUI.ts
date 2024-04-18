@@ -3,6 +3,7 @@ import EventManager from "../../../core/event/EventManager";
 import ConstMgr from "../../../core/netmgr/ConstMgr";
 import MsgSender from "../../../core/netmgr/MsgSender";
 import proto_man from "../../../core/netmgr/proto_man";
+import Util from "../../../core/util/Util";
 import GameCtrl from "./GameCtrl";
 
 export default class GameUI {
@@ -12,6 +13,10 @@ export default class GameUI {
     private _node: cc.Node = null;
 
     private gameCtrl = null;
+
+    private _itemNode: cc.Node = null; //加载成功
+
+    private _clazz = null;
     /**
      * 开始增加ui的位置
      */
@@ -19,6 +24,13 @@ export default class GameUI {
         this.gameCtrl = root;
         this._node = root.node;
         this._exit = root.node.getChildByName("exit").getComponent(cc.Button);
+        this._node.getChildByName("ui").removeAllChildren();
+        Util.BundleLoad("Script/module/game", "res/showPlayInfo", (oDialogNode: cc.Node) => {
+            if (oDialogNode) {
+                this._itemNode = oDialogNode;
+                this._clazz = this._itemNode.getComponent("ShowPlayInfo");
+            }
+        });
     }
 
     /**
@@ -68,6 +80,23 @@ export default class GameUI {
         if (seat == this.gameCtrl.seatB.get_sv_seatid()) {
             this.gameCtrl.seatB.on_standup();
         }
+    }
+
+    /**
+     * 弹窗操作
+     * @param data 
+     */
+    alertPlayInfo(data) {
+        this._node.getChildByName("ui").removeAllChildren();
+        this._node.getChildByName("ui").addChild(this._itemNode);
+
+        let unick = "";
+        if (data == 1) {
+            unick = this.gameCtrl.seatA.getPlayInfo().unick;
+        } else {
+            unick = this.gameCtrl.seatB.getPlayInfo().unick;
+        }
+        this._clazz.showUnick(unick);
     }
 
     processEvent(event) {

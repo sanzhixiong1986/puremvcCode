@@ -33,4 +33,9 @@ export default class GameCtrl extends cc.Component {
     protected onDestroy(): void {
         this._ui.remoevEvent();
     }
+
+    onClickA(event, data) {
+        let num = parseInt(data);
+        this._ui.alertPlayInfo(data);
+    }
 }

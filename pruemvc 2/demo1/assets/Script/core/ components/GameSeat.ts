@@ -50,4 +50,8 @@ export default class GameSeat extends cc.Component {
     get_sv_seatid() {
         return this.play_info.sv_seatid;
     }
+
+    getPlayInfo() {
+        return this.play_info;
+    }
 }

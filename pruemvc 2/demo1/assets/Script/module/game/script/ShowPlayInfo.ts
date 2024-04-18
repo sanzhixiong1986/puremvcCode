@@ -51,4 +51,10 @@ export default class ShowPlayInfo extends cc.Component {
     showUnick(str: string) {
         this.unick.string = str;
     }
+
+    onExit() {
+        if (this.node.parent) {
+            this.node.removeFromParent();
+        }
+    }
 }
