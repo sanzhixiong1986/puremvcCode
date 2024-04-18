@@ -10,10 +10,13 @@ export default class GameUI {
     private _exit: cc.Button; //推出按钮
 
     private _node: cc.Node = null;
+
+    private gameCtrl = null;
     /**
      * 开始增加ui的位置
      */
     public addUI(root: GameCtrl) {
+        this.gameCtrl = root;
         this._node = root.node;
         this._exit = root.node.getChildByName("exit").getComponent(cc.Button);
     }
@@ -25,6 +28,8 @@ export default class GameUI {
         this._exit.node.on("click", this.onClick, this);
 
         EventManager.getInstance().registerHandler("updateGamePlayInfoA", this);
+        EventManager.getInstance().registerHandler("updateSeatPlayInfo", this);
+        EventManager.getInstance().registerHandler("PlayStandUp", this);
     }
 
     private onClick(): void {
@@ -38,22 +43,46 @@ export default class GameUI {
      */
     public remoevEvent() {
         EventManager.getInstance().removeHandler("updateGamePlayInfoA", this);
+        EventManager.getInstance().removeHandler("updateSeatPlayInfo", this);
+        EventManager.getInstance().removeHandler("PlayStandUp", this);
     }
 
     /**
      * 更新用户数据
      */
-    private updateGamePlayInfoA() {
-        let lable = this._node.getChildByName("seatA").getChildByName("name").getComponent(cc.Label);
-        lable.string = Model.getIntance().getUserBase().unick;
+    private updateGamePlayInfoA(play_info) {
+        this.gameCtrl.seatA.on_sitdown(play_info);
+    }
+
+    //更新用户b数据
+    private updateGamePlayInfoB(play_info) {
+        this.gameCtrl.seatB.on_sitdown(play_info);
+    }
+
+    //用户站起来
+    private PlayStandUpFun(seat) {
+        if (seat == this.gameCtrl.seatA.get_sv_seatid()) {
+            this.gameCtrl.seatA.on_standup();
+        }
+
+        if (seat == this.gameCtrl.seatB.get_sv_seatid()) {
+            this.gameCtrl.seatB.on_standup();
+        }
     }
 
     processEvent(event) {
+
         let msg_id: string = event.msg_id;
         console.log("收到消息" + msg_id);
         switch (msg_id) {
             case "updateGamePlayInfoA":
-                this.updateGamePlayInfoA();
+                this.updateGamePlayInfoA(event.data);
+                break;
+            case "updateSeatPlayInfo":
+                this.updateGamePlayInfoB(event.data);
+                break;
+            case "PlayStandUp"://更新用户站起来的信息
+                this.PlayStandUpFun(event.data);
                 break;
         }
     }

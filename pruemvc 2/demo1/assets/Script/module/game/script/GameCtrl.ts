@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import GameSeat from "../../../core/ components/GameSeat";
 import GameUI from "./GameUI";
 
 const { ccclass, property } = cc._decorator;
@@ -14,6 +15,13 @@ const { ccclass, property } = cc._decorator;
  */
 @ccclass
 export default class GameCtrl extends cc.Component {
+
+
+    @property(GameSeat)
+    seatA: GameSeat = null;
+
+    @property(GameSeat)
+    seatB: GameSeat = null;
 
     private _ui: GameUI = null;
     onLoad() {

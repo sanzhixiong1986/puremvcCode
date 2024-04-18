@@ -1,3 +1,5 @@
+import EventManager from "../../../event/EventManager";
+
 /**
  * 用户站起来的相关操作
  */
@@ -9,5 +11,7 @@ export default class PlayStandUpHandler {
 
         let seatid = oMsgBody[1];
         console.log("seatid" + seatid);
+
+        EventManager.getInstance().dispenseEvent({ msg_id: "PlayStandUp", data: seatid })
     }
 }

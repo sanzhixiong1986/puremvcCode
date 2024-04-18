@@ -1,3 +1,5 @@
+import EventManager from "../../../event/EventManager";
+
 export default class PlayArrivedHandler {
     handle(oMsgBody: any) {
         console.log("玩家进入了");
@@ -11,5 +13,6 @@ export default class PlayArrivedHandler {
             uvip: oMsgBody[6],
         };
         console.log("玩家进入了", player_info);
+        EventManager.getInstance().dispenseEvent({ msg_id: "updateSeatPlayInfo", data: player_info });
     }
 }
