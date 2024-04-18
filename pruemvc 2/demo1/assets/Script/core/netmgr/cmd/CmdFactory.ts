@@ -18,6 +18,8 @@ import EnterRoomHandler from "./game/EnterRoomHandler";
 import ExitRoomHandler from "./game/ExitRoomHandler";
 import PlaySitDownHandler from "./game/PlaySitDownHandler";
 import BroadCastHandler from "./game/BroadCastHandler";
+import PlayArrivedHandler from "./game/PlayArrivedHandler";
+import PlayStandUpHandler from "./game/PlayStandUpHandler";
 /**
  * 命令的工厂类
  */
@@ -66,6 +68,10 @@ export default class CmdFactory {
                 return new PlaySitDownHandler();
             case ConstMgr.Cmd.BROADCAST:
                 return new BroadCastHandler();
+            case ConstMgr.Cmd.USER_ARRIVED:
+                return new PlayArrivedHandler();
+            case ConstMgr.Cmd.STANDUP:
+                return new PlayStandUpHandler();
         }
     }
 }
