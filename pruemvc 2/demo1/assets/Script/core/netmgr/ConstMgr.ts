@@ -34,6 +34,8 @@ export default class ConstMgr {
         EXIT_ROOM: 17,//退出房间
         SITDOWN: 18,//玩家坐下
         STANDUP: 19,//玩家站起
+        USER_ARRIVED: 20,//玩家更近
+        BROADCAST: 21, //播放收到的消息
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境
