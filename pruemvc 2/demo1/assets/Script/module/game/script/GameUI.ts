@@ -35,6 +35,7 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("updateGamePlayInfoA", this);
         EventManager.getInstance().registerHandler("updateSeatPlayInfo", this);
         EventManager.getInstance().registerHandler("PlayStandUp", this);
+        EventManager.getInstance().registerHandler("sendProp", this);
     }
 
     private onClick(): void {
@@ -50,6 +51,7 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("updateGamePlayInfoA", this);
         EventManager.getInstance().removeHandler("updateSeatPlayInfo", this);
         EventManager.getInstance().removeHandler("PlayStandUp", this);
+        EventManager.getInstance().removeHandler("sendProp", this);
     }
 
     /**
@@ -97,15 +99,32 @@ export default class GameUI {
 
                 this._clazz.showUnick(unick);
                 this.getShowProp(num);
-
             }
         });
-        //客户端自己测试
-        // Util.BundleLoad("Script/module/game", "res/prop", (oDialogNode: cc.Node) => {
-        //     this._itemNode = oDialogNode;
-        //     this._node.addChild(this._itemNode);
-        //     this._itemNode.getComponent("GameProp").play_prop_anim(this.gameCtrl.seatA.node.getPosition(), this.gameCtrl.seatB.node.getPosition(), 2);
-        // })
+    }
+
+    /**
+     * 返回发送物品的信号
+     * @param data 
+     */
+    private getProp(data) {
+        //1.创建对象
+        Util.BundleLoad("Script/module/game", "res/prop", (oDialogNode: cc.Node) => {
+            this._itemNode = oDialogNode;
+            this._node.addChild(this._itemNode);
+            //2.判断是否是自己发送给别人还是别人发送给自己
+            let src_pos: cc.Vec2;
+            let dst_pos: cc.Vec2;
+            //3.自己发给别人
+            if (data[1] == this.gameCtrl.seatA.get_sv_seatid()) {
+                src_pos = this.gameCtrl.seatA.node.getPosition();
+                dst_pos = this.gameCtrl.seatB.node.getPosition();
+            } else {
+                src_pos = this.gameCtrl.seatB.node.getPosition();
+                dst_pos = this.gameCtrl.seatA.node.getPosition();
+            }
+            this._itemNode.getComponent("GameProp").play_prop_anim(src_pos, dst_pos, data[3]);
+        })
     }
 
     /**
@@ -131,6 +150,9 @@ export default class GameUI {
                 break;
             case "PlayStandUp"://更新用户站起来的信息
                 this.PlayStandUpFun(event.data);
+                break;
+            case "sendProp"://发送礼物返回
+                this.getProp(event.data);
                 break;
         }
     }
