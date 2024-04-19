@@ -27,6 +27,7 @@ var Cmd = {
         SITDOWN: 18,//玩家坐下
         STANDUP: 19,//玩家站起
         USER_ARRIVED: 20,//玩家抵达
+        SEND_PROP: 22,//游戏道具
     }
 }
 

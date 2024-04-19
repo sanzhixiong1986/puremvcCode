@@ -32,6 +32,14 @@ function user_quit(session, utag, body) {
     })
 }
 
+//发送礼物的消息
+function send_prop(session, utag, body) {
+    if (!body) {
+        session.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.SEND_PROP, Respones.INVALID_PARAMS, utag);
+        return;
+    }
+}
+
 var service = {
     name: "five_chess_service", // 服务名称
     is_transfer: false, // 是否为转发模块,
@@ -53,6 +61,9 @@ var service = {
                 break;
             case Cmd.USER_DISCONNECT://主动退出
                 five_chess_model.user_lost_connect(utag);
+                break;
+            case Cmd.Game5Chess.SEND_PROP:
+                send_prop(session, utag, body);
                 break;
         }
     },
