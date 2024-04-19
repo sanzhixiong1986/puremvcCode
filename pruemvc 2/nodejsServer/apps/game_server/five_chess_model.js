@@ -1,0 +1,311 @@
+const Respones = require("../Respones.js");
+const redis_center = require("../../database/redis_center.js");
+const redis_game = require("../../database/redis_game.js");
+const mysql_game = require("../../database/mysql_game.js");
+const utils = require("../../utils/utils.js");
+const log = require("../../utils/log.js");
+const game_config = require("../game_config.js");
+const five_chess_player = require("./five_chess_player.js");
+const five_chess_room = require("./five_chess_room.js");
+
+const zones = {};
+var player_set = {}; // uid --> player对应表
+
+/**
+ * 房间的相关配置信息
+ * @param {*} config 
+ */
+function zone(config) {
+    this.config = config;
+    this.wait_list = {};
+    this.room_list = {};//房间id和房间绑定
+    this.autoinc_roomid = 1;//自增房间号
+}
+
+/**
+ * 获得用户对象
+ * @param {*} uid 
+ */
+function get_player(uid) {
+    if (player_set[uid]) {
+        return player_set[uid];
+    }
+    return null;
+}
+
+/**
+ * 创建对象
+ * @param {*} uid 用户的id
+ * @param {*} session 客户端的引用 
+ */
+function alloc_player(uid, session) {
+    if (player_set[uid]) {
+        log.error("alloc_player: user is exit!!!!!!");
+        return player_set[uid];
+    }
+
+    let p = new five_chess_player(uid); //创建人物对象
+    p.init_session(session);//初始化session
+    return p;
+}
+
+/**
+ * 删除player对象
+ * @param {*} uid 
+ */
+function delete_player(uid) {
+    if (player_set[uid]) {
+        log.warn("清空了对应的退出数据");
+        player_set[uid].init_session(null, -1);
+        player_set[uid] = null;
+        delete player_set[uid];
+    } else {
+        log.warn("delete_player:", uid, "is not in game server!!!!")
+    }
+}
+
+
+/**
+ * 初始化空间
+ */
+function init_zones() {
+    let zones_config = game_config.game_data.five_chess_zones;
+    for (var i in zones_config) {
+        let zid = zones_config[i].zid;
+        let z = new zone(zones_config[i]);
+        zones[zid] = z;
+    }
+}
+
+init_zones();//初始化
+
+
+function write_err(status, ret_func) {
+    let ret = {};
+    ret[0] = status;
+    ret_func(ret);
+}
+
+/**
+ * 获得redis的人物数据
+ * @param {*} uid 
+ * @param {*} player 
+ * @param {*} zid 
+ * @param {*} ret_func 
+ */
+function get_uinfo_inredis(uid, player, zid, ret_func) {
+    redis_center.get_uinfo_inredis(uid, function (status, data) {
+        if (status != Respones.OK) {
+            ret_func(status);
+            return;
+        }
+
+        player.init_uinfo(data);
+        player_set[uid] = player;//对应每一个人的数据
+        //end
+
+        player_enter_zone(player, zid, ret_func);
+    })
+}
+
+/**
+ * 用户进入场景
+ * @param {*} player 
+ * @param {*} zid 
+ * @param {*} ret_func 
+ */
+function player_enter_zone(player, zid, ret_func) {
+    let zone = zones[zid];
+    //判断合法性
+    if (!zones[zid]) {
+        ret_func(Respones.INVALID_ZONE);
+        return;
+    }
+
+    // //玩家的金币是否足够
+    // if (player.uchip < zone.config.min_chip) {
+    //     ret_func(Respones.CHIP_IS_NOT_ENOUGH);
+    //     return;
+    // }
+
+    // //玩家的vip等级是否足够
+    // if (player.uvip < zone.config.vip_level) {
+    //     ret_func(Respones.VIP_IS_NOT_ENOUGH);
+    //     return;
+    // }
+
+    log.info("进入到等待列表中了", player.uid, zid, zone);
+    zone.wait_list[player.uid] = player;//放入到等待列表中
+    ret_func(Respones.OK);
+}
+
+/**
+ * 进入房间相关操作
+ * @param {*} uid 我自己的id
+ * @param {*} zid 进入区域的id
+ * @param {*} ret_func 返回函数
+ * @param {*} session 添加了一个session客户端的引用
+ */
+function enter_zone(uid, zid, session, ret_func) {
+    let player = get_player(uid);//获得用户信息
+    if (!player) {
+        player = alloc_player(uid, session);//创建一个对象
+        //获取我们的信息给对象
+        mysql_game.get_ugame_info_by_uid(uid, function (status, data) {
+            //状态进行判断
+            if (status != Respones.OK) {
+                ret_func(status);
+                return;
+            }
+            //返回数据不对的情况
+            if (data.length < 0) {
+                ret_func(Respones.ILLEGAL_ACCOUNT);
+                return;
+            }
+
+            let ugame_info = data[0];
+            if (ugame_info.status != 0) {
+                ret_func(Respones.ILLEGAL_ACCOUNT);
+                return;
+            }
+            //人物初始化游戏的数据
+            player.init_ugame_info(ugame_info);
+            //获得redis的相关数据
+            get_uinfo_inredis(uid, player, zid, ret_func);
+        })
+        //end
+    } else {
+        player_enter_zone(player, zid, ret_func);
+    }
+}
+
+var QuitReason = {
+    UserQuit: 0, // 主动离开
+    UserLostConn: 1, // 用户掉线
+    VipKick: 2, // VIP踢人
+    SystemKick: 3, // 系统踢人
+};
+
+/**
+ * 用户主动掉线
+ * @param {*} uid 
+ * @param {*} ret_func 
+ */
+function user_quit(uid, ret_func) {
+    do_user_quit(uid, QuitReason.UserQuit);
+    ret_func(Respones.OK);
+}
+
+/**
+ * 用户掉线
+ * @param {*} uid 
+ */
+function user_lost_connect(uid) {
+    do_user_quit(uid, QuitReason.UserLostConn);
+}
+
+//玩家离开动作
+function do_user_quit(uid, quit_reason) {
+    let player = get_player(uid);
+    if (!player) {
+        return;
+    }
+
+    //2024.4.17 添加了退出的时候进行清理对象的session 
+    if (quit_reason == QuitReason.UserLostConn) {
+        player.init_session(null, -1);
+    }
+
+    log.warn("player uid=", uid, "quit game_server reason:", quit_reason);
+    if (player.zid != -1 && zones[player.zid]) { //4.18修改，我把zid变成roomid
+        log.warn("进行退出的流程1")
+        let zone = zones[player.zid];
+        if (player.room_id != -1) {
+            //2024.4.17 清空对应房间列表的操作
+            log.warn("进行退出的流程2")
+            let room = zone.room_list[player.room_id];
+            if (room) {
+                room.do_exit_room(player);
+            } else {
+                player.room_id = -1;
+            }
+            player.zid = -1;
+            //end
+            log.info("房间退出后player uid:", uid, "exit zone:", player.zid, "at room:", player.room_id);
+        }
+        else {
+            if (zone.wait_list[uid]) {
+                log.info("player uid", uid, "remove from waitlist at zone:", player.zid);
+                player.zid = -1;
+                player.room_id = -1;
+                zone.wait_list[uid] = null;
+                delete zone.wait_list[uid];
+            }
+        }
+    }
+
+    delete_player(uid);//2024.4.18删除操作
+}
+
+/**
+ * 创建房间信息
+ * @param {*} zone 
+ */
+function alloc_room(zone) {
+    let room = new five_chess_room(zone.autoinc_roomid++, zone.config);
+    zone.room_list[room.room_id] = room;//绑定房间列表
+    return room;
+}
+
+/**
+ * 搜索房间信息
+ * @param {*} zone 
+ */
+function do_search_room(zone) {
+    let min_empty = 1000000;
+    let min_room = null;
+    //循环当前的房间列表
+    for (let key in zone.room_list) {
+        room = zone.room_list[key];
+        let empty_num = room.empty_seat(); //是否有2个人如果有就加入，没有就创建
+        if (room && empty_num >= 1) {
+            if (empty_num < min_empty) {
+                min_room = room;
+                min_empty = empty_num;
+            }
+        }
+    }
+
+    if (min_room) {
+        return min_room;
+    }
+
+    min_room = alloc_room(zone);//创建房间
+    return min_room;
+}
+
+//寻找空位置
+function do_assign_room() {
+    //zones 是配置数据
+    for (let i in zones) {
+        let zone = zones[i];
+        //寻找等待列表是否有人已经在等待
+        for (let key in zone.wait_list) {
+            let p = zone.wait_list[key];//找到对应的讯在用户的信息
+            let room = do_search_room(zone);//去查找有人的等待列表
+            if (room) {
+                room.do_enter_room(p);//找到匹配的桌子
+                zone.wait_list[key] = null;
+                delete zone.wait_list[key];
+            }
+        }
+    }
+}
+
+setInterval(do_assign_room, 500);//每隔一段时间看看是否有空位置
+
+module.exports = {
+    enter_zone: enter_zone,//进入房间相关操作
+    user_quit: user_quit,//主动离开
+    user_lost_connect: user_lost_connect,//服务器断开出现
+}
