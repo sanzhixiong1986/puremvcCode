@@ -100,14 +100,12 @@ export default class GameUI {
 
             }
         });
-
-
-
-        Util.BundleLoad("Script/module/game", "res/prop", (oDialogNode: cc.Node) => {
-            this._itemNode = oDialogNode;
-            this._node.addChild(this._itemNode);
-            this._itemNode.getComponent("GameProp").play_prop_anim(this.gameCtrl.seatA.node.getPosition(), this.gameCtrl.seatB.node.getPosition(), 2);
-        })
+        //客户端自己测试
+        // Util.BundleLoad("Script/module/game", "res/prop", (oDialogNode: cc.Node) => {
+        //     this._itemNode = oDialogNode;
+        //     this._node.addChild(this._itemNode);
+        //     this._itemNode.getComponent("GameProp").play_prop_anim(this.gameCtrl.seatA.node.getPosition(), this.gameCtrl.seatB.node.getPosition(), 2);
+        // })
     }
 
     /**
