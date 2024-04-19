@@ -89,14 +89,25 @@ export default class GameUI {
     alertPlayInfo(data) {
         this._node.getChildByName("ui").removeAllChildren();
         this._node.getChildByName("ui").addChild(this._itemNode);
-
+        let num = parseInt(data);
         let unick = "";
-        if (data == 1) {
+        if (num == 1) {
             unick = this.gameCtrl.seatA.getPlayInfo().unick;
         } else {
             unick = this.gameCtrl.seatB.getPlayInfo().unick;
         }
         this._clazz.showUnick(unick);
+        this.getShowProp(num);
+    }
+
+    /**
+     * 获得
+     * @param data 
+     */
+    private getShowProp(data: number) {
+        let bool: boolean = false;
+        data == 1 ? bool = false : bool = true;
+        this._clazz.showProp(bool)
     }
 
     processEvent(event) {
