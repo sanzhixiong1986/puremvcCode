@@ -62,11 +62,7 @@ export default class ShowPlayInfo extends cc.Component {
     showUnick(str: string) {
         this.unick.string = str;
 
-        Util.BundleLoad("Script/module/game", "res/prop", (oDialogNode: cc.Node) => {
-            this._itemNode = oDialogNode;
-            this.node.addChild(this._itemNode);
-            this._itemNode.getComponent("GameProp").play_prop_anim(1, 2, 1);
-        })
+        //
     }
 
     /**

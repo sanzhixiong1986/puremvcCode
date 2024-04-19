@@ -45,31 +45,24 @@ export default class GameProp extends cc.Component {
         this.skin_set[propid - 1].node.active = true;
         this._anim_sprite.spriteFrame = this.skin_set[propid - 1].icon;
 
-        this.node.setPosition(cc.v2(0, 0));
-        var m = cc.moveTo(0.5, cc.v2(0, 400)).easing(cc.easeCubicActionOut());
-
-        // let func = cc.callFunc(function () {
-        //     this._frame_anim.sprite_frames = this.skin_set[propid - 1].anim;
-        //     this._frame_anim.play_once(function () {
-        //         this.node.removeFromParent();
-        //     }.bind(this));
-        // }.bind(this));
-
-        // let seq = cc.sequence([m, func]);
-        // this.node.runAction(seq);
+        this.node.setPosition(form);
+        var m = cc.moveTo(0.5, to_dst).easing(cc.easeCubicActionOut());
 
         let func = () => {
             this._frame_anim.sprite_frames = this.skin_set[propid - 1].anim;  // 确保属性名称正确
             this._frame_anim.play_once(() => {
                 this.node.removeFromParent();
+                if (this.node.parent) {
+                    this.node.parent.removeChild(this.node)
+                }
             });
         };
 
+        //修改最新版本的方式使用2024.4.19
         cc.tween(this.node)
             .then(m)  // 假设 m 是一个 cc.Tween 实例
             .call(func)  // 在动作完成后调用 func 函数
             .start();  // 开始执行 Tween
-
     }
 
     // update (dt) {}

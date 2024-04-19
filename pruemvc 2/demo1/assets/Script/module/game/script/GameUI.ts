@@ -24,13 +24,6 @@ export default class GameUI {
         this.gameCtrl = root;
         this._node = root.node;
         this._exit = root.node.getChildByName("exit").getComponent(cc.Button);
-        this._node.getChildByName("ui").removeAllChildren();
-        Util.BundleLoad("Script/module/game", "res/showPlayInfo", (oDialogNode: cc.Node) => {
-            if (oDialogNode) {
-                this._itemNode = oDialogNode;
-                this._clazz = this._itemNode.getComponent("ShowPlayInfo");
-            }
-        });
     }
 
     /**
@@ -88,16 +81,33 @@ export default class GameUI {
      */
     alertPlayInfo(data) {
         this._node.getChildByName("ui").removeAllChildren();
-        this._node.getChildByName("ui").addChild(this._itemNode);
-        let num = parseInt(data);
-        let unick = "";
-        if (num == 1) {
-            unick = this.gameCtrl.seatA.getPlayInfo().unick;
-        } else {
-            unick = this.gameCtrl.seatB.getPlayInfo().unick;
-        }
-        this._clazz.showUnick(unick);
-        this.getShowProp(num);
+        Util.BundleLoad("Script/module/game", "res/showPlayInfo", (oDialogNode: cc.Node) => {
+            if (oDialogNode) {
+                this._itemNode = oDialogNode;
+                this._node.addChild(oDialogNode);
+                this._clazz = this._itemNode.getComponent("ShowPlayInfo");
+
+                let num = parseInt(data);
+                let unick = "";
+                if (num == 1) {
+                    unick = this.gameCtrl.seatA.getPlayInfo().unick;
+                } else {
+                    unick = this.gameCtrl.seatB.getPlayInfo().unick;
+                }
+
+                this._clazz.showUnick(unick);
+                this.getShowProp(num);
+
+            }
+        });
+
+
+
+        Util.BundleLoad("Script/module/game", "res/prop", (oDialogNode: cc.Node) => {
+            this._itemNode = oDialogNode;
+            this._node.addChild(this._itemNode);
+            this._itemNode.getComponent("GameProp").play_prop_anim(this.gameCtrl.seatA.node.getPosition(), this.gameCtrl.seatB.node.getPosition(), 2);
+        })
     }
 
     /**
