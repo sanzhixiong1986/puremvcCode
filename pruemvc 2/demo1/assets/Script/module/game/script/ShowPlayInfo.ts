@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import Util from "../../../core/util/Util";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -14,6 +16,8 @@ export default class ShowPlayInfo extends cc.Component {
     unick: cc.Label = null;//姓名
 
     private _pNode = null;
+
+    private _itemNode: cc.Node = null; //加载成功
     onLoad() {
         let pNode = this._pNode = this.node.getChildByName("bg").getChildByName("Layout");
         pNode.getChildByName("egg").on("click", this.onClick, this);
@@ -21,6 +25,8 @@ export default class ShowPlayInfo extends cc.Component {
         pNode.getChildByName("pijiu").on("click", this.onClick, this);
         pNode.getChildByName("zhadan").on("click", this.onClick, this);
         pNode.getChildByName("zui").on("click", this.onClick, this);
+
+
     }
 
     onDestroy(): void {
@@ -55,6 +61,12 @@ export default class ShowPlayInfo extends cc.Component {
      */
     showUnick(str: string) {
         this.unick.string = str;
+
+        Util.BundleLoad("Script/module/game", "res/prop", (oDialogNode: cc.Node) => {
+            this._itemNode = oDialogNode;
+            this.node.addChild(this._itemNode);
+            this._itemNode.getComponent("GameProp").play_prop_anim(1, 2, 1);
+        })
     }
 
     /**
