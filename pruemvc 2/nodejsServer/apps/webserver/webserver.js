@@ -9,7 +9,7 @@ if (process.argv.length < 3) {
 var app = express();
 var port = parseInt(process.argv[2]);
 
-process.chdir("/root/nodejs/nodejsServerno/apps/webserver");
+process.chdir("/root/nodejs/nodejsServer/apps/webserver");
 console.log(process.cwd());
 
 app.use(express.static(path.join(process.cwd(), "public")));
