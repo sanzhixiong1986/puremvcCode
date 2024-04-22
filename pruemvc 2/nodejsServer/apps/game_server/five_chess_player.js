@@ -98,6 +98,13 @@ five_chess_player.prototype.standup = function (room) {
 five_chess_player.prototype.do_ready = function () {
 	this.state = State.Ready;
 }
+
+/**
+ * 设置成开始状态
+ */
+five_chess_player.prototype.on_round_start = function () {
+	this.state = State.Playing;
+}
 //end
 
 module.exports = five_chess_player;

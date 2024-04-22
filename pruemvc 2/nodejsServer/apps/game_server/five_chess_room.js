@@ -26,6 +26,11 @@ function five_chess_room(room_id, zone_conf) {
 	this.bet_chip = zone_conf.one_round_chip;
 	this.state = State.Ready;
 
+	//2024.4.22 添加游戏准备开始游戏代码
+	this.black_rand = true;//随机生成
+	this.black_seatid = -1;//黑色的作为
+	//end
+
 	// 0, INVIEW_SEAT
 	this.inview_players = [];
 	for (var i = 0; i < INVIEW_SEAT; i++) {
@@ -291,6 +296,81 @@ five_chess_room.prototype.do_player_ready = function (p, ret_func) {
 		1: p.seatid
 	}
 	this.room_broadcast(Stype.Game5Chess, 23, body, null);
+
+	//准备开始游戏
+	this.check_game_start();
+}
+
+/**
+ * 检查是否可以开始游戏
+ */
+five_chess_room.prototype.check_game_start = function () {
+	let ready_num = 0;//判断是否是两个都准备好了
+	for (let i = 0; i < GAME_SEAT; i++) {
+		if (!this.seats[i] || this.seats[i].state != State.Ready) {
+			continue;
+		}
+		ready_num++;
+	}
+
+	if (ready_num >= 2) {
+		this.check_game_start();//游戏准备开始
+	}
+}
+
+/**
+ * 游戏准备开始
+ */
+five_chess_room.prototype.check_game_start = function () {
+	//改变状态
+	this.state = State.Playing;
+	//通知所有玩家游戏开始
+	for (let i = 0; i < GAME_SEAT; i++) {
+		if (!this.seats[i] || this.seats[i].state == State.Ready) {
+			continue;
+		}
+		this.seats[i].on_round_start();//设置成开始状态
+	}
+
+	//如果是黑子就是先开始
+	if (this.black_rand) {
+		this.black_rand = false;
+		this.black_seatid = Math.random() * 2;
+		this.black_seatid = Math.floor(this.black_seatid);
+	} else {
+		this.black_seatid = this.next_seat(this.black_seatid);
+	}
+
+	//广播到所有人
+	let body = {
+		0: this.think_time,
+		1: 3,
+		2: this.black_seatid
+	}
+
+	this.room_broadcast(Stype.Game5Chess, 24, body, null);
+}
+
+/**
+ * 获得黑子的机会
+ * @param {*} cur_seateid 
+ * @returns 
+ */
+five_chess_room.prototype.next_seat = function (cur_seateid) {
+	let i = cur_seateid;
+	for (i = cur_seateid + 1; i < GAME_SEAT; i++) {
+		if (this.seats[i] && this.seats[i].state == State.Playing) {
+			return i;
+		}
+	}
+
+	for (let i = 0; i < GAME_SEAT; i++) {
+		if (this.seats[i] && this.seats[i].state == State.Playing) {
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 module.exports = five_chess_room;
