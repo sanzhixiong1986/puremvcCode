@@ -11,6 +11,7 @@ export default class PlayArrivedHandler {
             uchip: oMsgBody[4],
             uexp: oMsgBody[5],
             uvip: oMsgBody[6],
+            state: oMsgBody[7],
         };
         console.log("玩家进入了", player_info);
         EventManager.getInstance().dispenseEvent({ msg_id: "updateSeatPlayInfo", data: player_info });

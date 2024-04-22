@@ -21,6 +21,7 @@ import BroadCastHandler from "./game/BroadCastHandler";
 import PlayArrivedHandler from "./game/PlayArrivedHandler";
 import PlayStandUpHandler from "./game/PlayStandUpHandler";
 import PlayPropHandler from "./game/PlayPropHandler";
+import PlayDoReadyHandle from "./game/PlayDoReadyHandle";
 /**
  * 命令的工厂类
  */
@@ -75,6 +76,8 @@ export default class CmdFactory {
                 return new PlayStandUpHandler();
             case ConstMgr.Cmd.SEND_PROP:
                 return new PlayPropHandler();
+            case ConstMgr.Cmd.SEND_DO_READY:
+                return new PlayDoReadyHandle();
         }
     }
 }

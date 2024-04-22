@@ -37,6 +37,7 @@ export default class ConstMgr {
         USER_ARRIVED: 20,//玩家更近
         BROADCAST: 21, //播放收到的消息
         SEND_PROP: 22, //发送道具
+        SEND_DO_READY: 23,//用户准备消息
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境

@@ -5,6 +5,7 @@ import MsgSender from "../../../core/netmgr/MsgSender";
 import proto_man from "../../../core/netmgr/proto_man";
 import Util from "../../../core/util/Util";
 import GameCtrl from "./GameCtrl";
+import State from "./State";
 
 export default class GameUI {
 
@@ -22,6 +23,7 @@ export default class GameUI {
      */
     public addUI(root: GameCtrl) {
         this.gameCtrl = root;
+        root.statrBtn.active = true;
         this._node = root.node;
         this._exit = root.node.getChildByName("exit").getComponent(cc.Button);
     }
@@ -36,6 +38,7 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("updateSeatPlayInfo", this);
         EventManager.getInstance().registerHandler("PlayStandUp", this);
         EventManager.getInstance().registerHandler("sendProp", this);
+        EventManager.getInstance().registerHandler("updateStateReady", this);
     }
 
     private onClick(): void {
@@ -52,6 +55,7 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("updateSeatPlayInfo", this);
         EventManager.getInstance().removeHandler("PlayStandUp", this);
         EventManager.getInstance().removeHandler("sendProp", this);
+        EventManager.getInstance().removeHandler("updateStateReady", this);
     }
 
     /**
@@ -140,6 +144,19 @@ export default class GameUI {
         this._clazz.showProp(bool)
     }
 
+    private onPlayDoReady(data) {
+        if (data[0] != 1) {
+            this.gameCtrl.statrBtn.active = true;
+            return;
+        }
+
+        if (this.gameCtrl.seatA.get_sv_seatid() == data[1]) {
+            this.gameCtrl.seatA.on_do_ready();
+        } else {
+            this.gameCtrl.seatB.on_do_ready();
+        }
+    }
+
     processEvent(event) {
 
         let msg_id: string = event.msg_id;
@@ -156,6 +173,9 @@ export default class GameUI {
                 break;
             case "sendProp"://发送礼物返回
                 this.getProp(event.data);
+                break;
+            case "updateStateReady":
+                this.onPlayDoReady(event.data);
                 break;
         }
     }

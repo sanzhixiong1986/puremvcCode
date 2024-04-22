@@ -1,4 +1,5 @@
 import Model from "../../../ components/Model";
+import State from "../../../../module/game/script/State";
 import EventManager from "../../../event/EventManager";
 
 /**
@@ -27,6 +28,7 @@ export default class PlaySitDownHandler {
             uexp: ugame.uexp,
 
             sv_seatid: sv_seatid,
+            state: State.State.InView,//观看状态
         }
 
         //用户的信息发送
