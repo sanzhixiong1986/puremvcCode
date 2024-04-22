@@ -286,15 +286,16 @@ function do_search_room(zone) {
 
 //寻找空位置
 function do_assign_room() {
-    //zones 是配置数据
-    for (let i in zones) {
-        let zone = zones[i];
-        //寻找等待列表是否有人已经在等待
-        for (let key in zone.wait_list) {
-            let p = zone.wait_list[key];//找到对应的讯在用户的信息
-            let room = do_search_room(zone);//去查找有人的等待列表
+    for (var i in zones) { // 遍历所有的区间
+        // 查询等待列表，看有么有玩家
+        var zone = zones[i];
+        for (var key in zone.wait_list) { // 遍历区间的等待列表
+            var p = zone.wait_list[key];
+
+            var room = do_search_room(zone);
             if (room) {
-                room.do_enter_room(p);//找到匹配的桌子
+                // 玩家加入到房间
+                room.do_enter_room(p);
                 zone.wait_list[key] = null;
                 delete zone.wait_list[key];
             }
@@ -318,20 +319,21 @@ function send_prop(uid, to_seatid, propid, ret_func) {
         write_err(Respones.INVALIDI_OPT, ret_func);
         return;
     }
-
+    //这个地方在退出的时候有问题，后面在退出的时候需要修改
+    if (player.zid == -1) {
+        player.zid = 1;
+    }
     //判断用户没有在房间也标识用户不存在
     if (player.zid === -1 || player.room_id === -1) {
         write_err(Respones.INVALIDI_OPT, ret_func);
         return;
     }
-
     //用户进入了对应的区间
     let zone = zones[player.zid];
     if (!zone) {
         write_err(Respones.INVALIDI_OPT, ret_func);
         return;
     }
-
     //判断用户是否已经进入房间列表中
     let room = zone.room_list[player.room_id];
     if (!room) {
@@ -345,5 +347,5 @@ module.exports = {
     enter_zone: enter_zone,//进入房间相关操作
     user_quit: user_quit,//主动离开
     user_lost_connect: user_lost_connect,//服务器断开出现
-    send_prop:send_prop,
+    send_prop: send_prop,
 }

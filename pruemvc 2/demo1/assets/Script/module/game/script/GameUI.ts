@@ -91,13 +91,16 @@ export default class GameUI {
 
                 let num = parseInt(data);
                 let unick = "";
+                let to_seatid = 0;
                 if (num == 1) {
                     unick = this.gameCtrl.seatA.getPlayInfo().unick;
+                    to_seatid = this.gameCtrl.seatA.getPlayInfo().sv_seatid;
                 } else {
                     unick = this.gameCtrl.seatB.getPlayInfo().unick;
                 }
 
                 this._clazz.showUnick(unick);
+                this._clazz.getOtherUid(to_seatid)
                 this.getShowProp(num);
             }
         });

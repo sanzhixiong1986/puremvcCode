@@ -6,17 +6,11 @@ var utils = require("../../utils/utils.js");
 var log = require("../../utils/log.js");
 var Stype = require("../Stype.js");
 var Cmd = require("../Cmd.js");
-const proto_man = require("../../netbus/proto_man.js");
-
+var proto_man = require("../../netbus/proto_man.js");
 
 var INVIEW_SEAT = 20;
 var GAME_SEAT = 2; // 
 
-/**
- * 发送错误信息的功能
- * @param {*} status 
- * @param {*} ret_func 
- */
 function write_err(status, ret_func) {
 	var ret = {};
 	ret[0] = status;
@@ -66,25 +60,32 @@ five_chess_room.prototype.do_enter_room = function (p) {
 	this.inview_players[inview_seat] = p;
 	p.room_id = this.room_id;
 	p.enter_room(this);
-	// 对坐下来的两个人进行操作
-	for (let i = 0; i < GAME_SEAT; i++) {
+
+	// 如果你觉得有必要，那么需要把玩家进入房间的消息，玩家的信息
+	// 广播给所有的人，有玩家进来旁观了
+	// 。。。。
+	// end 
+
+	// 我们要把座位上的所有的玩家，发送给进来旁观的这位同学
+	for (var i = 0; i < GAME_SEAT; i++) {
 		if (!this.seats[i]) {
 			continue;
 		}
+		var other = this.seats[i];
 
-		let other = this.seats[i];
-		let body = {
+		var body = {
 			0: other.seatid,
+
 			1: other.unick,
 			2: other.usex,
 			3: other.uface,
+
 			4: other.uchip,
 			5: other.uexp,
 			6: other.uvip,
-		}
+		};
 		p.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, body);
 	}
-
 	// end 
 
 	log.info("player:", p.uid, "enter room:", this.zid, "--", this.room_id);
@@ -118,20 +119,22 @@ five_chess_room.prototype.do_sitdown = function (p) {
 	p.seatid = sv_seat;
 	p.sitdown(this);
 
-
 	// 发送消息给客户端，这个玩家已经坐下来了
 	var body = {
 		0: Respones.OK,
 		1: sv_seat,
 	};
 	p.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.SITDOWN, body);
+	// end
 
-	// 广播给所有的玩家(旁观的玩家),玩家坐下,
+	// 广播给所有的其他玩家(旁观的玩家),玩家坐下,
 	var body = {
 		0: sv_seat,
+
 		1: p.unick,
 		2: p.usex,
 		3: p.uface,
+
 		4: p.uchip,
 		5: p.uexp,
 		6: p.uvip,
@@ -144,7 +147,7 @@ five_chess_room.prototype.do_exit_room = function (p) {
 	// ....
 	if (p.seatid != -1) {
 		var seatid = p.seatid;
-		log.error(p.uid, "standup at seat: ", p.seatid);
+		log.info(p.uid, "standup at seat: ", p.seatid);
 		p.standup(this);
 		this.seats[p.seatid] = null;
 		p.seatid = -1;
@@ -169,11 +172,13 @@ five_chess_room.prototype.do_exit_room = function (p) {
 	p.exit_room(this);
 	p.room_id = -1;
 
-	// 广播给所有的玩家(旁观的玩家), 玩家离开了房间
+	// 广播给所有的玩家(旁观的玩家), 玩家离开了房间,(如果有必要)
+	// 。。。。
 	// end 
 }
 
 five_chess_room.prototype.search_empty_seat = function () {
+	// for(var i in this.seats) { // bug
 	for (var i = 0; i < GAME_SEAT; i++) {
 		if (this.seats[i] === null) {
 			return i;
@@ -183,10 +188,6 @@ five_chess_room.prototype.search_empty_seat = function () {
 	return -1;
 }
 
-/**
- * 空位置
- * @returns 
- */
 five_chess_room.prototype.empty_seat = function () {
 	var num = 0;
 	for (var i in this.seats) {
@@ -197,13 +198,8 @@ five_chess_room.prototype.empty_seat = function () {
 	return num;
 }
 
-/**
- * 广播
- * @param {*} stype 
- * @param {*} ctype 
- * @param {*} body 
- * @param {*} not_to_uid 
- */
+// 基于旁观列表来广播
+// 我们是分了json, buf协议的
 five_chess_room.prototype.room_broadcast = function (stype, ctype, body, not_to_uid) {
 	let json_uid = [];
 	let cmd_json = null;
@@ -233,21 +229,12 @@ five_chess_room.prototype.room_broadcast = function (stype, ctype, body, not_to_
 	}
 }
 
-/**
- * 发送礼物相关的操作
- * @param {*} p 		用户的信息
- * @param {*} to_seatid 发送人物的信息相关
- * @param {*} propid 	礼物的id
- * @param {*} ret_func 		返回函数
- */
-five_chess_room.prototype = function send_prop(p, to_seatid, propid, ret_func) {
-	//用户没有进入房间
+five_chess_room.prototype.send_prop = function (p, to_seatid, propid, ret) {
 	if (p.seatid === -1) {
 		write_err(Respones.INVALIDI_OPT, ret_func);
 		return;
 	}
 
-	//判断这两个人是不是房间里面并且是坐下的状态
 	if (p != this.seats[p.seatid]) {
 		write_err(Respones.INVALIDI_OPT, ret_func);
 		return;
@@ -257,22 +244,21 @@ five_chess_room.prototype = function send_prop(p, to_seatid, propid, ret_func) {
 		write_err(Respones.INVALIDI_OPT, ret_func);
 		return;
 	}
-	//end
 
-	//礼物不是在范围内的就报错
 	if (propid <= 0 || propid > 5) {
-		write_err(Respones.INVALIDI_OPT, ret_func);
+		write_err(Respones.INVALID_PARAMS, ret_func);
 		return;
 	}
-
-	let body = {
+	// 在房间里面广播，发送道具也能收到
+	var body = {
 		0: Respones.OK,
 		1: p.seatid,
 		2: to_seatid,
 		3: propid,
-	}
-
-	this.room_broadcast(Stype.Game5Chess, Cmd.Game5Chess.SEND_PROP, body);
+	};
+	this.room_broadcast(Stype.Game5Chess, 22, body);
+	// end 
 }
 
 module.exports = five_chess_room;
+
