@@ -45,6 +45,13 @@ function send_prop(session, utag, body) {
     })
 }
 
+//用户准备的消息
+function do_player_ready(session, utag, body) {
+    five_chess_model.do_player_ready(uid, function (res) {
+        session.send_cmd(Stype.Game5Chess, 23, res, utag);
+    });
+}
+
 var service = {
     name: "five_chess_service", // 服务名称
     is_transfer: false, // 是否为转发模块,
@@ -69,6 +76,9 @@ var service = {
                 break;
             case 22://游戏发送礼物
                 send_prop(session, utag, body);
+                break;
+            case 23: //发送准备消息
+                do_player_ready(session, utag, body);
                 break;
         }
     },

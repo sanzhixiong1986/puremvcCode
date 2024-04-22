@@ -7,6 +7,7 @@ var log = require("../../utils/log.js");
 var Stype = require("../Stype.js");
 var Cmd = require("../Cmd.js");
 var proto_man = require("../../netbus/proto_man.js");
+var State = require("./State.js");
 
 var INVIEW_SEAT = 20;
 var GAME_SEAT = 2; // 
@@ -23,6 +24,7 @@ function five_chess_room(room_id, zone_conf) {
 	this.think_time = zone_conf.think_time;
 	this.min_chip = zone_conf.min_chip; // 玩家有可能一直游戏， 
 	this.bet_chip = zone_conf.one_round_chip;
+	this.state = State.Ready;
 
 	// 0, INVIEW_SEAT
 	this.inview_players = [];
@@ -83,6 +85,7 @@ five_chess_room.prototype.do_enter_room = function (p) {
 			4: other.uchip,
 			5: other.uexp,
 			6: other.uvip,
+			7: other.state,//4.22新增加的状态属性，客户端也需要添加这个属性
 		};
 		p.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, body);
 	}
@@ -138,6 +141,7 @@ five_chess_room.prototype.do_sitdown = function (p) {
 		4: p.uchip,
 		5: p.uexp,
 		6: p.uvip,
+		7: p.state,
 	};
 	this.room_broadcast(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, body, p.uid);
 	// end  
@@ -258,6 +262,35 @@ five_chess_room.prototype.send_prop = function (p, to_seatid, propid, ret) {
 	};
 	this.room_broadcast(Stype.Game5Chess, 22, body);
 	// end 
+}
+
+/**
+ * 准备好开始 2024.4.22 添加
+ * @param {*} p 
+ * @param {*} ret_func 
+ */
+five_chess_room.prototype.do_player_ready = function (p, ret_func) {
+	//玩家是否在房间内
+	if (p != this.seats[p.seatid]) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+	//end
+
+	//房间是否已经准备好
+	if (this.state != State.Ready || p.state != State.InView) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+	//end
+
+	p.do_ready();
+
+	let body = {
+		0: Respones.OK,
+		1: p.seatid
+	}
+	this.room_broadcast(Stype.Game5Chess, 23, body, null);
 }
 
 module.exports = five_chess_room;

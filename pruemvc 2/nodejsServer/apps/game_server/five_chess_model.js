@@ -319,7 +319,7 @@ function send_prop(uid, to_seatid, propid, ret_func) {
         write_err(Respones.INVALIDI_OPT, ret_func);
         return;
     }
-    //这个地方在退出的时候有问题，后面在退出的时候需要修改
+    //这个地方在退出的时候有问题，后面在退出的时候需要修改2024.4.22
     if (player.zid == -1) {
         player.zid = 1;
     }
@@ -341,6 +341,43 @@ function send_prop(uid, to_seatid, propid, ret_func) {
         return;
     }
     room.send_prop(player, to_seatid, propid, ret_func);
+}
+
+/**
+ * 用户是否准备好
+ * @param {*} uid 
+ * @param {*} ret_func 
+ */
+function do_player_ready(uid, ret_func) {
+    let player = get_player(uid);
+    if (!player) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    //这个地方在退出的时候有问题，后面在退出的时候需要修改2024.4.22
+    if (player.zid == -1) {
+        player.zid = 1;
+    }
+    //判断用户没有在房间也标识用户不存在
+    if (player.zid === -1 || player.room_id === -1) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+    //用户进入了对应的区间
+    let zone = zones[player.zid];
+    if (!zone) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+    //判断用户是否已经进入房间列表中
+    let room = zone.room_list[player.room_id];
+    if (!room) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    room.do_player_ready(player, ret_func);//群发对应的消息
 }
 
 module.exports = {

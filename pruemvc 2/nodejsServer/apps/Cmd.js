@@ -28,6 +28,7 @@ var Cmd = {
         STANDUP: 19,//玩家站起
         USER_ARRIVED: 20,//玩家抵达
         SEND_PROP: 22,//游戏道具
+        SEND_DO_READY: 23,//发送准备请求
     }
 }
 
