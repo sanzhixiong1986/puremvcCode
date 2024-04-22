@@ -39,6 +39,7 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("PlayStandUp", this);
         EventManager.getInstance().registerHandler("sendProp", this);
         EventManager.getInstance().registerHandler("updateStateReady", this);
+        EventManager.getInstance().registerHandler("updateGameStart", this);
     }
 
     private onClick(): void {
@@ -56,6 +57,7 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("PlayStandUp", this);
         EventManager.getInstance().removeHandler("sendProp", this);
         EventManager.getInstance().removeHandler("updateStateReady", this);
+        EventManager.getInstance().removeHandler("updateGameStart", this);
     }
 
     /**
@@ -157,6 +159,14 @@ export default class GameUI {
         }
     }
 
+    private onGameStart(data) {
+        //清理工作
+        //end
+
+        this.gameCtrl.seatA.onGameStart(data);
+        this.gameCtrl.seatB.onGameStart(data);
+    }
+
     processEvent(event) {
 
         let msg_id: string = event.msg_id;
@@ -176,6 +186,9 @@ export default class GameUI {
                 break;
             case "updateStateReady":
                 this.onPlayDoReady(event.data);
+                break;
+            case "updateGameStart":
+                this.onGameStart(event.data);
                 break;
         }
     }

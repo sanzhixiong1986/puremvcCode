@@ -1398,6 +1398,12 @@
     "ready_icon": {
       "__id__": 22
     },
+    "black": {
+      "__id__": 24
+    },
+    "wirte": {
+      "__id__": 26
+    },
     "_id": "68jTbVSrFOPrZSNplAyd7f"
   },
   {
@@ -2247,6 +2253,12 @@
     },
     "ready_icon": {
       "__id__": 40
+    },
+    "black": {
+      "__id__": 42
+    },
+    "wirte": {
+      "__id__": 44
     },
     "_id": "573Y3R8TVAiZTWp0bu9Gvy"
   },
