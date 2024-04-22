@@ -47,7 +47,7 @@ function send_prop(session, utag, body) {
 
 //用户准备的消息
 function do_player_ready(session, utag, body) {
-    five_chess_model.do_player_ready(uid, function (res) {
+    five_chess_model.do_player_ready(utag, function (res) {
         session.send_cmd(Stype.Game5Chess, 23, res, utag);
     });
 }

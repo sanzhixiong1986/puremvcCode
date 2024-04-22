@@ -385,4 +385,5 @@ module.exports = {
     user_quit: user_quit,//主动离开
     user_lost_connect: user_lost_connect,//服务器断开出现
     send_prop: send_prop,
+    do_player_ready: do_player_ready,//用户的准备
 }
