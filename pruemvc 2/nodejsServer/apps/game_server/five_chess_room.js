@@ -12,6 +12,17 @@ const proto_man = require("../../netbus/proto_man.js");
 var INVIEW_SEAT = 20;
 var GAME_SEAT = 2; // 
 
+/**
+ * 发送错误信息的功能
+ * @param {*} status 
+ * @param {*} ret_func 
+ */
+function write_err(status, ret_func) {
+	var ret = {};
+	ret[0] = status;
+	ret_func(ret);
+}
+
 function five_chess_room(room_id, zone_conf) {
 	this.zid = zone_conf.zid; // 玩家当前所在的区间
 	this.room_id = room_id; // 玩家当前所在的房间ID号
@@ -220,6 +231,48 @@ five_chess_room.prototype.room_broadcast = function (stype, ctype, body, not_to_
 			gw_session.send_cmd(Stype.Broadcast, Cmd.BROADCAST, body, this.inview_players[i].uid);
 		}
 	}
+}
+
+/**
+ * 发送礼物相关的操作
+ * @param {*} p 		用户的信息
+ * @param {*} to_seatid 发送人物的信息相关
+ * @param {*} propid 	礼物的id
+ * @param {*} ret_func 		返回函数
+ */
+five_chess_room.prototype = function send_prop(p, to_seatid, propid, ret_func) {
+	//用户没有进入房间
+	if (p.seatid === -1) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+
+	//判断这两个人是不是房间里面并且是坐下的状态
+	if (p != this.seats[p.seatid]) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+
+	if (!this.seats[to_seatid]) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+	//end
+
+	//礼物不是在范围内的就报错
+	if (propid <= 0 || propid > 5) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+
+	let body = {
+		0: Respones.OK,
+		1: p.seatid,
+		2: to_seatid,
+		3: propid,
+	}
+
+	this.room_broadcast(Stype.Game5Chess, Cmd.Game5Chess.SEND_PROP, body);
 }
 
 module.exports = five_chess_room;

@@ -38,6 +38,12 @@ function send_prop(session, utag, body) {
         session.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.SEND_PROP, Respones.INVALID_PARAMS, utag);
         return;
     }
+
+    let propid = body[0];       //礼物的id
+    let to_seatid = body[1];    //要发送给谁
+    five_chess_model.send_prop(utag, to_seatid, propid, function (res) {
+        session.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.SEND_PROP, res, utag);
+    })
 }
 
 var service = {
@@ -62,7 +68,7 @@ var service = {
             case Cmd.USER_DISCONNECT://主动退出
                 five_chess_model.user_lost_connect(utag);
                 break;
-            case Cmd.Game5Chess.SEND_PROP:
+            case Cmd.Game5Chess.SEND_PROP://游戏发送礼物
                 send_prop(session, utag, body);
                 break;
         }

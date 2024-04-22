@@ -304,8 +304,46 @@ function do_assign_room() {
 
 setInterval(do_assign_room, 500);//每隔一段时间看看是否有空位置
 
+/**
+ * 发送礼物的相关操作
+ * @param {*} uid           我自己的id
+ * @param {*} to_seatid     给谁发送的id
+ * @param {*} propid        礼物的id
+ * @param {*} ret_func      返回函数
+ */
+function send_prop(uid, to_seatid, propid, ret_func) {
+    let player = get_player(uid);//获得用户数据
+    //用户不存在
+    if (!player) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    //判断用户没有在房间也标识用户不存在
+    if (player.zid === -1 || player.room_id === -1) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    //用户进入了对应的区间
+    let zone = zones[player.zid];
+    if (!zone) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    //判断用户是否已经进入房间列表中
+    let room = zone.room_list[player.room_id];
+    if (!room) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+    room.send_prop(player, to_seatid, propid, ret_func);
+}
+
 module.exports = {
     enter_zone: enter_zone,//进入房间相关操作
     user_quit: user_quit,//主动离开
     user_lost_connect: user_lost_connect,//服务器断开出现
+    send_prop:send_prop,
 }
