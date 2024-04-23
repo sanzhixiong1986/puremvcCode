@@ -23,6 +23,7 @@ import PlayStandUpHandler from "./game/PlayStandUpHandler";
 import PlayPropHandler from "./game/PlayPropHandler";
 import PlayDoReadyHandle from "./game/PlayDoReadyHandle";
 import PlayRoundStarHandler from "./game/PlayRoundStarHandler";
+import PlayTurnToHandler from "./game/PlayTurnToHandler";
 /**
  * 命令的工厂类
  */
@@ -81,6 +82,8 @@ export default class CmdFactory {
                 return new PlayDoReadyHandle();
             case ConstMgr.Cmd.ROUND_START:
                 return new PlayRoundStarHandler();
+            case ConstMgr.Cmd.TURN_TO_PLAYER:
+                return new PlayTurnToHandler();
         }
     }
 }

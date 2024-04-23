@@ -167,8 +167,22 @@ export default class GameUI {
         this.gameCtrl.seatB.onGameStart(data);
     }
 
-    processEvent(event) {
+    /**
+     * 初始化谁下棋
+     * @param data 
+     */
+    private updatePlayTurnTo(data: any) {
+        let actTime = data[0];
+        let sv_seatid = data[1];
+        //判断是否是自己
+        if (sv_seatid == this.gameCtrl.seatA.get_sv_seatid()) {
+            this.gameCtrl.seatA.turn_to_player(actTime);
+        } else {
+            this.gameCtrl.seatB.turn_to_player(actTime);
+        }
+    }
 
+    processEvent(event) {
         let msg_id: string = event.msg_id;
         console.log("收到消息" + msg_id);
         switch (msg_id) {
@@ -189,6 +203,9 @@ export default class GameUI {
                 break;
             case "updateGameStart":
                 this.onGameStart(event.data);
+                break;
+            case "updatePlayTurnTo"://初始化下棋的人是谁
+                this.updatePlayTurnTo(event.data);
                 break;
         }
     }

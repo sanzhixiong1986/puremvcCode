@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
 import State from "../../module/game/script/State";
+import ActionTime from "./ActionTime";
 
 /**
  * 用户的显示相关
@@ -18,8 +19,8 @@ export default class GameSeat extends cc.Component {
     @property(cc.Label)
     unick: cc.Label = null;//用户的姓名
 
-    @property(cc.Sprite)
-    timebar: cc.Sprite = null; //时间的显示
+    @property(ActionTime)
+    timebar: ActionTime = null; //时间的显示
 
     @property(cc.Node)
     ready_icon: cc.Node = null;
@@ -95,7 +96,7 @@ export default class GameSeat extends cc.Component {
     }
 
     //游戏开始
-    onGameStart(round_data) {
+    onGameStart(round_data: any) {
         this._black_seat = round_data[2];//是黑色棋子
         this._action_time = round_data[0];//时间操作
         this.ready_icon.active = false;
@@ -109,5 +110,11 @@ export default class GameSeat extends cc.Component {
             this.black.active = false;
             this.wirte.active = true;
         }
+    }
+
+    //让时间走起来
+    turn_to_player(actionTime: number) {
+        this.timebar.node.active = true;
+        this.timebar.startActionTime(actionTime);//启动
     }
 }
