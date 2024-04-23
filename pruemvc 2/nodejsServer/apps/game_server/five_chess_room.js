@@ -340,14 +340,14 @@ five_chess_room.prototype.check_game_start = function () {
 	}
 
 	if (ready_num >= 2) {
-		this.check_game_start();//游戏准备开始
+		this.game_start();//游戏准备开始
 	}
 }
 
 /**
  * 游戏准备开始
  */
-five_chess_room.prototype.check_game_start = function () {
+five_chess_room.prototype.game_start = function () {
 	//改变状态
 	this.state = State.Playing;
 	//清理相关数据
