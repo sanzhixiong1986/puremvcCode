@@ -98,7 +98,8 @@ five_chess_room.prototype.do_enter_room = function (p) {
 	// 。。。。
 	// end 
 
-	// 我们要把座位上的所有的玩家，发送给进来旁观的这位同学
+	//我们要把座位上的所有的玩家，发送给进来旁观的这位同学
+	log.warn("===========seats.length=", this.seats.length, this.seats);
 	for (var i = 0; i < GAME_SEAT; i++) {
 		if (!this.seats[i]) {
 			continue;
@@ -159,8 +160,8 @@ five_chess_room.prototype.do_sitdown = function (p) {
 	};
 	p.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.SITDOWN, body);
 	// end
-
-	// 广播给所有的其他玩家(旁观的玩家),玩家坐下,
+	log.error("自动发送坐下消息")
+	//广播给所有的其他玩家(旁观的玩家),玩家坐下,
 	var body = {
 		0: sv_seat,
 
@@ -174,7 +175,7 @@ five_chess_room.prototype.do_sitdown = function (p) {
 		7: p.state,
 	};
 	this.room_broadcast(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, body, p.uid);
-	// end  
+	//end
 }
 
 five_chess_room.prototype.do_exit_room = function (p) {

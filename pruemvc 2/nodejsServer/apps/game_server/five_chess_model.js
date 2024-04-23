@@ -116,6 +116,7 @@ function get_uinfo_inredis(uid, player, zid, ret_func) {
  */
 function player_enter_zone(player, zid, ret_func) {
     let zone = zones[zid];
+    player.zid = zid;
     //判断合法性
     if (!zones[zid]) {
         ret_func(Respones.INVALID_ZONE);
@@ -134,7 +135,7 @@ function player_enter_zone(player, zid, ret_func) {
     //     return;
     // }
 
-    log.info("进入到等待列表中了", player.uid, zid, zone);
+    log.info("进入到等待列表中了", player.uid, zid);
     zone.wait_list[player.uid] = player;//放入到等待列表中
     ret_func(Respones.OK);
 }
@@ -175,6 +176,7 @@ function enter_zone(uid, zid, session, ret_func) {
         })
         //end
     } else {
+        log.error("进入空间的操作")
         player_enter_zone(player, zid, ret_func);
     }
 }
@@ -208,6 +210,7 @@ function user_lost_connect(uid) {
 function do_user_quit(uid, quit_reason) {
     let player = get_player(uid);
     if (!player) {
+        log.error("do_user_quit uid player 不存在", uid)
         return;
     }
 
@@ -217,6 +220,7 @@ function do_user_quit(uid, quit_reason) {
     }
 
     log.warn("player uid=", uid, "quit game_server reason:", quit_reason);
+    log.warn("player zid=", player.zid, "quit game_server reason:", player.room_id);
     if (player.zid != -1 && zones[player.zid]) { //4.18修改，我把zid变成roomid
         log.warn("进行退出的流程1")
         let zone = zones[player.zid];
@@ -296,6 +300,7 @@ function do_assign_room() {
             if (room) {
                 // 玩家加入到房间
                 room.do_enter_room(p);
+                log.error("有玩家加入房间");
                 zone.wait_list[key] = null;
                 delete zone.wait_list[key];
             }
@@ -320,9 +325,9 @@ function send_prop(uid, to_seatid, propid, ret_func) {
         return;
     }
     //这个地方在退出的时候有问题，后面在退出的时候需要修改2024.4.22
-    if (player.zid == -1) {
-        player.zid = 1;
-    }
+    // if (player.zid == -1) {
+    //     player.zid = 1;
+    // }
     //判断用户没有在房间也标识用户不存在
     if (player.zid === -1 || player.room_id === -1) {
         write_err(Respones.INVALIDI_OPT, ret_func);
@@ -356,9 +361,9 @@ function do_player_ready(uid, ret_func) {
     }
 
     //这个地方在退出的时候有问题，后面在退出的时候需要修改2024.4.22
-    if (player.zid == -1) {
-        player.zid = 1;
-    }
+    // if (player.zid == -1) {
+    //     player.zid = 1;
+    // }
     //判断用户没有在房间也标识用户不存在
     if (player.zid === -1 || player.room_id === -1) {
         write_err(Respones.INVALIDI_OPT, ret_func);
