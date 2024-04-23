@@ -76,9 +76,7 @@ export default class GameUI {
     private PlayStandUpFun(seat) {
         if (seat == this.gameCtrl.seatA.get_sv_seatid()) {
             this.gameCtrl.seatA.on_standup();
-        }
-
-        if (seat == this.gameCtrl.seatB.get_sv_seatid()) {
+        } else {
             this.gameCtrl.seatB.on_standup();
         }
     }
