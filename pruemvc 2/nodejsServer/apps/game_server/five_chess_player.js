@@ -106,5 +106,10 @@ five_chess_player.prototype.on_round_start = function () {
 	this.state = State.Playing;
 }
 //end
+//如果要做机器人，那么机器人就可以继承这个chess_player,
+// 重载这个turn_to_player, 能够在这里自己思考来下棋
+five_chess_player.prototype.turn_to_player = function (room) {
+
+}
 
 module.exports = five_chess_player;

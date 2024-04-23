@@ -11,6 +11,13 @@ var State = require("./State.js");
 
 var INVIEW_SEAT = 20;
 var GAME_SEAT = 2; // 
+var DISK_SIZE = 15;//棋盘大小
+
+var ChessType = {
+	NONE: 0,
+	BLACK: 1,
+	WHITE: 2,
+}
 
 function write_err(status, ret_func) {
 	var ret = {};
@@ -30,6 +37,8 @@ function five_chess_room(room_id, zone_conf) {
 	this.black_rand = true;//随机生成
 	this.black_seatid = -1;//黑色的作为
 	//end
+	//2024.4.23 添加一个属性是否是该玩家
+	this.cur_seatid = -1;
 
 	// 0, INVIEW_SEAT
 	this.inview_players = [];
@@ -44,6 +53,22 @@ function five_chess_room(room_id, zone_conf) {
 		this.seats.push(null);
 	}
 	// end 
+
+	//创建棋盘
+	this.chess_disk = [];
+	for (let i = 0; i < DISK_SIZE * DISK_SIZE; i++) {
+		this.chess_disk.push(ChessType.NONE);//初始化棋盘
+	}
+	//end
+}
+
+/**
+ * 重新弄棋盘
+ */
+five_chess_room.prototype.reset_chess_disk = function () {
+	for (let i = 0; i < DISK_SIZE * DISK_SIZE; i++) {
+		this.chess_disk[i] = ChessType.NONE;
+	}
 }
 
 five_chess_room.prototype.search_empty_seat_inview = function () {
@@ -324,6 +349,8 @@ five_chess_room.prototype.check_game_start = function () {
 five_chess_room.prototype.check_game_start = function () {
 	//改变状态
 	this.state = State.Playing;
+	//清理相关数据
+	this.reset_chess_disk();
 	//通知所有玩家游戏开始
 	for (let i = 0; i < GAME_SEAT; i++) {
 		if (!this.seats[i] || this.seats[i].state == State.Ready) {
@@ -349,6 +376,29 @@ five_chess_room.prototype.check_game_start = function () {
 	}
 
 	this.room_broadcast(Stype.Game5Chess, 24, body, null);
+
+	setTimeout(this.trun_to_player.bind(this), 3, this.black_seatid);
+}
+
+/**
+ * 归谁了
+ * @param {*} seatid 
+ */
+five_chess_room.prototype.trun_to_player = function (seatid) {
+	if (!this.seats[seatid] || this.seats[seatid].state != State.Playing) {
+		log.warn("turn_to_player: ", seatid, "seat is invalid!!!!");
+		return;
+	}
+
+	let p = this.seats[seatid];
+	p.turn_to_player(room);
+
+	this.cur_seatid = seatid;
+	let body = {
+		0: this.think_time,
+		1: seatid,
+	};
+	this.room_broadcast(Stype.Game5Chess, 25, body, null);
 }
 
 /**
