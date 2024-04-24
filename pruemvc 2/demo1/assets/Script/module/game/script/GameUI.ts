@@ -223,6 +223,10 @@ export default class GameUI {
         let block_y = data[2];
         let type = data[3];
         this.disk.put_chess_at(type, block_x, block_y);//显示棋子
+
+        //进度条隐藏
+        this.gameCtrl.seatA.hide_timebar();
+        this.gameCtrl.seatB.hide_timebar();
     }
 
     processEvent(event) {

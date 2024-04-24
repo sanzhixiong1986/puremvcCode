@@ -117,4 +117,9 @@ export default class GameSeat extends cc.Component {
         this.timebar.node.active = true;
         this.timebar.startActionTime(actionTime);//启动
     }
+
+    //隐藏进度条
+    hide_timebar() {
+        this.timebar.node.active = false;
+    }
 }
