@@ -112,4 +112,23 @@ five_chess_player.prototype.turn_to_player = function (room) {
 
 }
 
+/**
+ * 用户结束游戏
+ * @param {*} room 
+ */
+five_chess_player.prototype.checkout_game = function (room, ret, is_winner) {
+	//状态发生变化
+	this.state = State.CheckOut;
+	if (ret === 2) {
+		return;//平局的相关操作
+	}
+	//有输赢哟
+	let chip = room.bet_chip;
+
+	//更新对应的数据
+	mysql_game.add_ugame_uchip(this.uid, chip, is_winner);
+	redis_game.add_ugame_uchip(this.uid, chip, is_winner);
+	//end
+}
+
 module.exports = five_chess_player;
