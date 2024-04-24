@@ -18,6 +18,8 @@ export default class GameUI {
     private _itemNode: cc.Node = null; //加载成功
 
     private _clazz = null;
+
+    private disk = null;
     /**
      * 开始增加ui的位置
      */
@@ -32,6 +34,7 @@ export default class GameUI {
         this.gameCtrl = root;
         root.statrBtn.active = true;
         this._node = root.node;
+        this.disk = this.gameCtrl.node.getChildByName("chessbox").getComponent("ChessDesk");
         this._exit = root.node.getChildByName("exit").getComponent(cc.Button);
     }
 
@@ -48,6 +51,7 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("updateStateReady", this);
         EventManager.getInstance().registerHandler("updateGameStart", this);
         EventManager.getInstance().registerHandler("updatePlayTurnTo", this);
+        EventManager.getInstance().registerHandler("updatePlayPutChess", this);
 
     }
 
@@ -68,6 +72,7 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("updateStateReady", this);
         EventManager.getInstance().removeHandler("updateGameStart", this);
         EventManager.getInstance().removeHandler("updatePlayTurnTo", this);
+        EventManager.getInstance().removeHandler("updatePlayPutChess", this);
     }
 
     /**
@@ -201,11 +206,23 @@ export default class GameUI {
         //判断是否是自己
         if (sv_seatid == this.gameCtrl.seatA.get_sv_seatid()) {
             this.gameCtrl.seatA.turn_to_player(actTime);
+            this.disk.set_your_turn(true);
         } else {
             this.gameCtrl.seatB.turn_to_player(actTime);
+            this.disk.set_your_turn(false);
         }
-        //做个倒计时
+    }
 
+    //用户更新自己的下棋操作
+    private updatePlayPutChess(data: any): void {
+        if (data[0] != 1) {
+            return;
+        }
+
+        let block_x = data[1];
+        let block_y = data[2];
+        let type = data[3];
+        this.disk.put_chess_at(type, block_x, block_y);//显示棋子
     }
 
     processEvent(event) {
@@ -232,6 +249,9 @@ export default class GameUI {
                 break;
             case "updatePlayTurnTo"://初始化下棋的人是谁
                 this.updatePlayTurnTo(event.data);
+                break;
+            case "updatePlayPutChess"://用户下棋更新
+                this.updatePlayPutChess(event.data);
                 break;
         }
     }

@@ -16,6 +16,7 @@ import PlayPropHandler from "./game/PlayPropHandler";
 import PlayDoReadyHandle from "./game/PlayDoReadyHandle";
 import PlayRoundStarHandler from "./game/PlayRoundStarHandler";
 import PlayTurnToHandler from "./game/PlayTurnToHandler";
+import PlayPutChessHandler from "./game/PlayPutChessHandler";
 /**
  * 游戏消息的工厂类
  */
@@ -56,6 +57,8 @@ export default class GameFactory {
                 return new PlayRoundStarHandler();
             case ConstMgr.Cmd.TURN_TO_PLAYER:
                 return new PlayTurnToHandler();
+            case ConstMgr.Cmd.PUT_CHESS:
+                return new PlayPutChessHandler();
         }
     }
 }

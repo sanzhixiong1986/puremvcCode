@@ -40,6 +40,7 @@ export default class ConstMgr {
         SEND_DO_READY: 23,//用户准备消息
         ROUND_START: 24,//游戏准备开始
         TURN_TO_PLAYER: 25,//轮到那个玩家
+        PUT_CHESS:26,//用户下棋操作
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境
