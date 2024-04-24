@@ -52,7 +52,7 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("updateGameStart", this);
         EventManager.getInstance().registerHandler("updatePlayTurnTo", this);
         EventManager.getInstance().registerHandler("updatePlayPutChess", this);
-
+        EventManager.getInstance().registerHandler("gameEndOpenation", this);
     }
 
     private onClick(): void {
@@ -73,6 +73,7 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("updateGameStart", this);
         EventManager.getInstance().removeHandler("updatePlayTurnTo", this);
         EventManager.getInstance().removeHandler("updatePlayPutChess", this);
+        EventManager.getInstance().removeHandler("gameEndOpenation", this);
     }
 
     /**
