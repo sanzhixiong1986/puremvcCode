@@ -354,7 +354,8 @@ five_chess_room.prototype.game_start = function () {
 	this.reset_chess_disk();
 	//通知所有玩家游戏开始
 	for (let i = 0; i < GAME_SEAT; i++) {
-		if (!this.seats[i] || this.seats[i].state == State.Ready) {
+		//修改了一个bug 状态是不相同的时候进行操作 2024.4.24
+		if (!this.seats[i] || this.seats[i].state != State.Ready) {
 			continue;
 		}
 		this.seats[i].on_round_start();//设置成开始状态
@@ -378,7 +379,7 @@ five_chess_room.prototype.game_start = function () {
 
 	this.room_broadcast(Stype.Game5Chess, 24, body, null);
 
-	setTimeout(this.trun_to_player.bind(this), 3, this.black_seatid);
+	setTimeout(this.trun_to_player.bind(this), 3000, this.black_seatid);
 }
 
 /**
@@ -386,6 +387,7 @@ five_chess_room.prototype.game_start = function () {
  * @param {*} seatid 
  */
 five_chess_room.prototype.trun_to_player = function (seatid) {
+	log.warn("turn_to_player", this.seats[seatid].state)
 	if (!this.seats[seatid] || this.seats[seatid].state != State.Playing) {
 		log.warn("turn_to_player: ", seatid, "seat is invalid!!!!");
 		return;

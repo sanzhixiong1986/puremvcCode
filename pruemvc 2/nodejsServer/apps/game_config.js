@@ -5,25 +5,25 @@ var Stype = require("./Stype.js");
 
 var game_config = {
     gateway_config: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         ports: [6080, 6081],
     },
     //大的服务器
     game_system_server: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         port: 6087,
         stype: [Stype.GameSystem],
     },
 
     //游戏服务器端口
     game_five_server: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         port: 6088,
         stype: [Stype.Game5Chess]
     },
     //游戏服务器配置
     game_database: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         port: 3306,
         db_name: "bycw_game_node",
         uname: "root",
@@ -33,31 +33,31 @@ var game_config = {
     game_server: {
         0: {
             stype: Stype.TalkRoom,
-            host: "192.168.10.141",
+            host: "127.0.0.1",
             port: 6084,
         },
         1: {
             //登录服务器
             stype: Stype.Auth,
-            host: "192.168.10.141",
+            host: "127.0.0.1",
             port: 6086,
         },
         2: {
             //游戏系统服务器
             stype: Stype.GameSystem,
-            host: "192.168.10.141",
+            host: "127.0.0.1",
             port: 6087,
         },
         3: {
             //五子棋的服务器
             stype: Stype.Game5Chess,
-            host: "192.168.10.141",
+            host: "127.0.0.1",
             port: 6088
         }
     },
     //配置数据库
     center_database: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         port: 3306,
         db_name: "bycw_center",
         uname: "root",
@@ -66,17 +66,17 @@ var game_config = {
     //游戏数据库
 
     center_redis: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         port: 6379,
         db_index: 0,
     },
     game_redis: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         port: 6379,
         db_index: 1,
     },
     center_server: {
-        host: "192.168.10.141",
+        host: "127.0.0.1",
         prot: 6086,
         stypes: [Stype.Auth],
     },
