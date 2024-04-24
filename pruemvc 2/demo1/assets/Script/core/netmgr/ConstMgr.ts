@@ -47,4 +47,7 @@ export default class ConstMgr {
     public static gameScene: string = "game";
 
     public static homeScene: string = "home";
+
+    //进入的是那个对应的房间
+    public static EnterRoomId: number = -1;
 }

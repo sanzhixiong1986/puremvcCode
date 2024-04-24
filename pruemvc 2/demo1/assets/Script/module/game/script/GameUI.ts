@@ -22,6 +22,13 @@ export default class GameUI {
      * 开始增加ui的位置
      */
     public addUI(root: GameCtrl) {
+
+        //发送对应的消息
+        if (ConstMgr.EnterRoomId > 0) {
+            let buf = proto_man.encode_cmd(ConstMgr.Stype.GameFiveChess, ConstMgr.Cmd.ENTER_ZONE, ConstMgr.EnterRoomId);
+            MsgSender.getIntance().sendMsg(buf);
+        }
+
         this.gameCtrl = root;
         root.statrBtn.active = true;
         this._node = root.node;
@@ -61,7 +68,6 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("updateStateReady", this);
         EventManager.getInstance().removeHandler("updateGameStart", this);
         EventManager.getInstance().removeHandler("updatePlayTurnTo", this);
-
     }
 
     /**
@@ -172,8 +178,11 @@ export default class GameUI {
                 this.gameCtrl.startTime.getChildByName("t").getComponent(cc.Label).string = dao + "";
                 --dao;
             } else {
-                clearInterval(this.daoTime);
-                this.gameCtrl.startTime.active = false;
+                if (this.daoTime) {
+                    clearInterval(this.daoTime);
+                    this.daoTime = null;
+                    this.gameCtrl.startTime.active = false;
+                }
             }
         }, 1000);
         //end
