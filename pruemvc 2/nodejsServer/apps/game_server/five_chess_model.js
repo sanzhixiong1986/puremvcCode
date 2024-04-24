@@ -385,10 +385,46 @@ function do_player_ready(uid, ret_func) {
     room.do_player_ready(player, ret_func);//群发对应的消息
 }
 
+/**
+ * 用户下棋操作
+ * @param {*} uid       是谁在下棋
+ * @param {*} block_x   下载那个点上
+ * @param {*} block_y 
+ * @param {*} ret_func  返回函数
+ */
+function do_player_put_chess(uid, block_x, block_y, ret_func) {
+    let player = this.get_player(uid);
+    //用户不存在的情况
+    if (!player) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    if (player.zid === -1 || player.room_id === -1) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    var zone = zones[player.zid];
+    if (!zone) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    var room = zone.room_list[player.room_id];
+    if (!room) {
+        write_err(Respones.INVALIDI_OPT, ret_func);
+        return;
+    }
+
+    room.do_player_put_chess(player, block_x, block_y, ret_func);
+}
+
 module.exports = {
     enter_zone: enter_zone,//进入房间相关操作
     user_quit: user_quit,//主动离开
     user_lost_connect: user_lost_connect,//服务器断开出现
     send_prop: send_prop,
     do_player_ready: do_player_ready,//用户的准备
+    do_player_put_chess: do_player_put_chess,//用户下棋操作
 }

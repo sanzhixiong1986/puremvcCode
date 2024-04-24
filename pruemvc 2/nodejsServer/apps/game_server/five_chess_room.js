@@ -426,5 +426,59 @@ five_chess_room.prototype.next_seat = function (cur_seateid) {
 	return -1;
 }
 
+/**
+ * 下棋的操作
+ * @param {*} p 
+ * @param {*} block_x 
+ * @param {*} block_y 
+ * @param {*} ret_func 
+ */
+five_chess_room.prototype.do_player_put_chess = function (p, block_x, block_y, ret_func) {
+	//1.用户是否在房间
+	if (p != this.seats[p.seatid]) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+	//2.当前是否是这个玩家
+	if (p.seatid != this.cur_seatid) {
+		write_err(Respones.NOT_YOUR_TURN, ret_func);
+		return;
+	}
+	//3.当前玩家是不是游戏状态
+	if (this.state != State.Playing || p.state != State.Playing) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+	//end
+	//4.就是你发过来的区域是否合法.这里的算法是和飞机游戏的出界算法一样的
+	if (block_x < 0 || block_x > 14 || block_y < 0 || block_y > 14) {
+		write_err(Respones.INVALID_PARAMS, ret_func);
+		return;
+	}
+	//end
+	//判断是否已经有棋子了
+	let index = block_y * 15 + block_x;
+	if (this.chess_disk[index] != ChessType.NONE) {
+		write_err(Respones.INVALIDI_OPT, ret_func);
+		return;
+	}
+
+	//判断黑白子
+	if (p.seatid == this.black_seatid) {
+		this.chess_disk[index] = ChessType.BLACK;
+	} else {
+		this.chess_disk[index] = ChessType.WHITE;
+	}
+
+	//广播所有人
+	let body = {
+		0: Respones.OK,
+		1: block_x,
+		2: block_y,
+		3: this.chess_disk[index],//黑白子的具体数据
+	}
+	this.room_broadcast(Stype.Game5Chess, 26, body, null);
+}
+
 module.exports = five_chess_room;
 

@@ -52,6 +52,20 @@ function do_player_ready(session, utag, body) {
     });
 }
 
+//用户下棋相关操作
+function do_player_put_chess(session, utag, body) {
+    if (!body) {
+        session.send_cmd(Stype.Game5Chess, 26, Respones.INVALIDI_OPT, utag);
+        return;
+    }
+
+    let block_x = body[0];
+    let block_y = body[1];
+    five_chess_model.do_player_put_chess(utag, block_x, block_y, function (res) {
+        session.send_cmd(Stype.Game5Chess, 26, res, utag);
+    })
+}
+
 var service = {
     name: "five_chess_service", // 服务名称
     is_transfer: false, // 是否为转发模块,
@@ -79,6 +93,9 @@ var service = {
                 break;
             case 23: //发送准备消息
                 do_player_ready(session, utag, body);
+                break;
+            case 26: //用户发送下棋的指定
+                do_player_put_chess(session, utag, body);
                 break;
         }
     },
