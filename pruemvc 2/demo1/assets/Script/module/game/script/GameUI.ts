@@ -40,6 +40,8 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("sendProp", this);
         EventManager.getInstance().registerHandler("updateStateReady", this);
         EventManager.getInstance().registerHandler("updateGameStart", this);
+        EventManager.getInstance().registerHandler("updatePlayTurnTo", this);
+
     }
 
     private onClick(): void {
@@ -58,6 +60,8 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("sendProp", this);
         EventManager.getInstance().removeHandler("updateStateReady", this);
         EventManager.getInstance().removeHandler("updateGameStart", this);
+        EventManager.getInstance().removeHandler("updatePlayTurnTo", this);
+
     }
 
     /**
@@ -157,8 +161,21 @@ export default class GameUI {
         }
     }
 
+    private daoTime = null;
     private onGameStart(data) {
         //清理工作
+        this.gameCtrl.startTime.active = true;
+        this.gameCtrl.startTime.getChildByName("t").getComponent(cc.Label).string = data[1];
+        let dao = data[1];
+        this.daoTime = setInterval(() => {
+            if (dao > 0) {
+                this.gameCtrl.startTime.getChildByName("t").getComponent(cc.Label).string = dao + "";
+                --dao;
+            } else {
+                clearInterval(this.daoTime);
+                this.gameCtrl.startTime.active = false;
+            }
+        }, 1000);
         //end
 
         this.gameCtrl.seatA.onGameStart(data);
@@ -178,6 +195,8 @@ export default class GameUI {
         } else {
             this.gameCtrl.seatB.turn_to_player(actTime);
         }
+        //做个倒计时
+
     }
 
     processEvent(event) {

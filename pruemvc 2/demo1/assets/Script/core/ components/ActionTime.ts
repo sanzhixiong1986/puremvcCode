@@ -32,6 +32,7 @@ export default class ActionTime extends cc.Component {
      * @param time 
      */
     startActionTime(time: number) {
+        console.log("开始时间倒计时");
         this.total_time = time;
         this.is_running = true;
         this.now_time = 0;
@@ -49,6 +50,8 @@ export default class ActionTime extends cc.Component {
         if (per > 1) {
             per = 1;
         }
+        console.log("sprite=", this.sprite);
+        console.log("per =", per);
         this.sprite.fillRange = per;
         //当前时间大于总时间就是超时,停止运行
         if (this.now_time >= this.total_time) {
