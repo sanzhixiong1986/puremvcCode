@@ -99,7 +99,6 @@ five_chess_room.prototype.do_enter_room = function (p) {
 	// end 
 
 	//我们要把座位上的所有的玩家，发送给进来旁观的这位同学
-	log.warn("===========seats.length=", this.seats.length, this.seats);
 	for (var i = 0; i < GAME_SEAT; i++) {
 		if (!this.seats[i]) {
 			continue;
@@ -478,6 +477,12 @@ five_chess_room.prototype.do_player_put_chess = function (p, block_x, block_y, r
 		3: this.chess_disk[index],//黑白子的具体数据
 	}
 	this.room_broadcast(Stype.Game5Chess, 26, body, null);
+	//结算部分
+	let check_ret = this.check_game_over(this.chess_disk[index]);
+	if (check_ret != 0) {
+		log.error("game over!!!!", this.chess_disk[index], "result=", check_ret);
+		return;
+	}
 
 	//下一个玩家操作
 	let next_seat = this.get_next_seat();
@@ -509,6 +514,58 @@ five_chess_room.prototype.get_next_seat = function () {
 	}
 
 	return -1;
+}
+
+
+/**
+ * 检查五子棋是否连线
+ * @param {*} board 
+ * @param {*} x 
+ * @param {*} y 
+ * @param {*} dx 
+ * @param {*} dy 
+ * @param {*} chess_type 
+ * @returns 
+ */
+five_chess_room.prototype.checkFiveInLine = function (board, x, y, dx, dy, chess_type) {
+	for (let i = 0; i < 5; i++) {
+		if (board[(y + i * dy) * 15 + x + i * dx] !== chess_type) {
+			return false;
+		}
+	}
+	return true;
+}
+
+/**
+ * 游戏是否已经结束 2024.4.24
+ * @param {*} chess_type 
+ */
+five_chess_room.prototype.check_game_over = function (chess_type) {
+
+	//检查四个方向
+	const directions = [
+		{ dx: 1, dy: 0 },  // 横向
+		{ dx: 0, dy: 1 },  // 纵向
+		{ dx: 1, dy: 1 },  // 左上到右下
+		{ dx: 1, dy: -1 }  // 右上到左下
+	];
+
+	for (let y = 0; y < 15; y++) {
+		for (let x = 0; x < 15; x++) {
+			for (let direction of directions) {
+				if (x + 4 * direction.dx < 15 && y + 4 * direction.dy < 15 && y + 4 * direction.dy >= 0 && this.checkFiveInLine(this.chess_disk, x, y, direction.dx, direction.dy, chess_type)) {
+					return 1;  // 赢
+				}
+			}
+		}
+	}
+
+	// 检查棋盘是否全部满了，如果没有满，表示游戏可以继续
+	if (this.chess_disk.some(cell => cell === ChessType.NONE)) {
+		return 0;  // 游戏继续
+	}
+
+	return 2;  // 平局
 }
 
 module.exports = five_chess_room;
