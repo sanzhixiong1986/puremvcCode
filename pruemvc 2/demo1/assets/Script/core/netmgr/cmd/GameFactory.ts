@@ -17,6 +17,7 @@ import PlayDoReadyHandle from "./game/PlayDoReadyHandle";
 import PlayRoundStarHandler from "./game/PlayRoundStarHandler";
 import PlayTurnToHandler from "./game/PlayTurnToHandler";
 import PlayPutChessHandler from "./game/PlayPutChessHandler";
+import PlayCheckOutHandler from "./game/PlayCheckOutHandler";
 /**
  * 游戏消息的工厂类
  */
@@ -24,7 +25,7 @@ export default class GameFactory {
 
 
     static createCommand(command: number) {
-        switch(command){
+        switch (command) {
             case ConstMgr.Cmd.GET_GAME_INFO:
                 return new SystemGameInfoHandler();
             case ConstMgr.Cmd.LOGIN_BONUES_INFO:
@@ -59,6 +60,8 @@ export default class GameFactory {
                 return new PlayTurnToHandler();
             case ConstMgr.Cmd.PUT_CHESS:
                 return new PlayPutChessHandler();
+            case ConstMgr.Cmd.CHECKOUT:
+                return new PlayCheckOutHandler();
         }
     }
 }

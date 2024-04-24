@@ -229,6 +229,25 @@ export default class GameUI {
         this.gameCtrl.seatB.hide_timebar();
     }
 
+    /**
+     * 游戏技术结算
+     * @param data 
+     */
+    private gameEndOpenation(data: any): void {
+        //数据为null
+        if (!data) {
+            return;
+        }
+        console.log("赢得位置" + data[0]);
+        console.log("赢得钱是" + data[1]);
+        //是我自己赢了
+        if (data[0] === this.gameCtrl.seatA.get_sv_seatid()) {
+            console.log("我自己赢了");
+        } else {
+            console.log("别人赢了");
+        }
+    }
+
     processEvent(event) {
         let msg_id: string = event.msg_id;
         console.log("收到消息" + msg_id);
@@ -256,6 +275,9 @@ export default class GameUI {
                 break;
             case "updatePlayPutChess"://用户下棋更新
                 this.updatePlayPutChess(event.data);
+                break;
+            case "gameEndOpenation"://游戏更新
+                this.gameEndOpenation(event.data);
                 break;
         }
     }
