@@ -79,6 +79,27 @@ async function get_ugame_info_inredis(uid, callback) {
 }
 
 /**
+ * 缓存添加对应的数据
+ * @param {*} uid 
+ * @param {*} uchip 
+ * @param {*} is_add 
+ */
+function add_ugame_uchip(uid, uchip, is_add) {
+    get_ugame_info_inredis(uid, function (status, ugame_info) {
+        if (status != Respones.OK) {
+            return;
+        }
+
+        if (!is_add) {
+            uchip = -uchip;
+        }
+
+        ugame_info.uchip += uchip;
+        set_ugame_info_inredis(uid, ugame_info);//插入到数据库中操作
+    })
+}
+
+/**
  * 更新游戏的排名
  * @param {*} rank_name 
  * @param {*} uid 
@@ -129,4 +150,5 @@ module.exports = {
     get_ugame_info_inredis: get_ugame_info_inredis,
     update_game_world_rank: update_game_world_rank,
     get_world_rank_info: get_world_rank_info,
+    add_ugame_uchip: add_ugame_uchip
 };
