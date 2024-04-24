@@ -379,7 +379,7 @@ five_chess_room.prototype.game_start = function () {
 
 	this.room_broadcast(Stype.Game5Chess, 24, body, null);
 
-	setTimeout(this.trun_to_player.bind(this), 3000, this.black_seatid);
+	setTimeout(this.trun_to_player.bind(this), 4500, this.black_seatid);
 }
 
 /**
