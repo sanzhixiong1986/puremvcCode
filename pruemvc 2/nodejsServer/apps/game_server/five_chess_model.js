@@ -393,7 +393,7 @@ function do_player_ready(uid, ret_func) {
  * @param {*} ret_func  返回函数
  */
 function do_player_put_chess(uid, block_x, block_y, ret_func) {
-    let player = this.get_player(uid);
+    let player = get_player(uid);
     //用户不存在的情况
     if (!player) {
         write_err(Respones.INVALIDI_OPT, ret_func);

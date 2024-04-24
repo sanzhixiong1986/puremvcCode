@@ -258,7 +258,7 @@ five_chess_room.prototype.room_broadcast = function (stype, ctype, body, not_to_
 				users: json_uid,
 			};
 			//群发数据操作
-			log.warn("群发数据");
+			log.warn("群发数据", stype, ctype);
 			gw_session.send_cmd(Stype.Broadcast, Cmd.BROADCAST, body, this.inview_players[i].uid);
 		}
 	}
