@@ -12,6 +12,7 @@ var Respones = {
 	INVALID_ZONE: -109, // 非法的游戏空间
 	CHIP_IS_NOT_ENOUGH: -110, // 金币不足 
 	VIP_IS_NOT_ENOUGH: -111, // vip等级不足
+	NOT_YOUR_TURN: -112, // 没有轮到你
 };
 
 module.exports = Respones;
