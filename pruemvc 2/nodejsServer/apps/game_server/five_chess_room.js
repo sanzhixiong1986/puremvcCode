@@ -481,6 +481,7 @@ five_chess_room.prototype.do_player_put_chess = function (p, block_x, block_y, r
 	let check_ret = this.check_game_over(this.chess_disk[index]);
 	if (check_ret != 0) {
 		log.error("game over!!!!", this.chess_disk[index], "result=", check_ret);
+		this.checkout_game(check_ret, p);//检查是否有赢的状态
 		return;
 	}
 
@@ -566,6 +567,39 @@ five_chess_room.prototype.check_game_over = function (chess_type) {
 	}
 
 	return 2;  // 平局
+}
+
+/**
+ * 判断是否游戏结束，并且有用户过来
+ * @param {*} ret 
+ * @param {*} winner 
+ */
+five_chess_room.prototype.checkout_game = function (ret, winner) {
+	//是把房间的状态修改过来
+	this.state = State.CheckOut;//检查状态
+	//便利游戏进行结算
+	for (let i = 0; i < GAME_SEAT; i++) {
+		//判断是否不是游戏状态，因为现在已经都修改到了检查状态
+		if (this.seats[i] === null || this.seats[i].state != State.Playing) {
+			continue;
+		}
+		this.seats[i].checkout_game(this, ret, this.seats[i] === winner);//
+	}
+
+	let winner_soure = this.bet_chip;//赢得分数
+	let winner_seat = winner.seatid;//赢得人得位置，使用这个判断是否是自己或者别人
+	//平局得情况就没有赢家
+	if (ret === 2) {
+		winner_seat = -1;//没有赢家
+	}
+
+	let body = {
+		0: winner_seat,
+		1: winner_soure
+	}
+
+	//广播
+	this.room_broadcast(Stype.Game5Chess, 27, body, null);
 }
 
 module.exports = five_chess_room;
