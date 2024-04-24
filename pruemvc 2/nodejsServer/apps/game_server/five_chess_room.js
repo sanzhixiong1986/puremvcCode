@@ -478,6 +478,37 @@ five_chess_room.prototype.do_player_put_chess = function (p, block_x, block_y, r
 		3: this.chess_disk[index],//黑白子的具体数据
 	}
 	this.room_broadcast(Stype.Game5Chess, 26, body, null);
+
+	//下一个玩家操作
+	let next_seat = this.get_next_seat();
+	if (next_seat === -1) {
+		og.error("cannot find next_seat !!!!");
+		return;
+	}
+
+	this.trun_to_player(next_seat);
+}
+
+/**
+ * 获得下一个相关的操作
+ */
+five_chess_room.prototype.get_next_seat = function () {
+	//从当前的seatid往后操作
+	for (let i = this.cur_seatid + 1; i < GAME_SEAT; i++) {
+		if (!this.seats[i] || this.seats[i].state != State.Playing) {
+			continue;
+		}
+		return i;
+	}
+
+	for (let i = 0; i < this.cur_seatid; i++) {
+		if (!this.seats[i] || this.seats[i].state != State.Playing) {
+			continue;
+		}
+		return i;
+	}
+
+	return -1;
 }
 
 module.exports = five_chess_room;
