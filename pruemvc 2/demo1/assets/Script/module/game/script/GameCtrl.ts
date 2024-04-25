@@ -31,6 +31,10 @@ export default class GameCtrl extends cc.Component {
 
     @property(cc.Node)
     startTime: cc.Node = null;
+
+    @property(cc.Node)
+    checkOut: cc.Node = null;
+
     private _ui: GameUI = null;
     onLoad() {
         this._ui = new GameUI();

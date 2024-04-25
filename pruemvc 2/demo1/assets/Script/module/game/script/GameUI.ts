@@ -4,6 +4,7 @@ import ConstMgr from "../../../core/netmgr/ConstMgr";
 import MsgSender from "../../../core/netmgr/MsgSender";
 import proto_man from "../../../core/netmgr/proto_man";
 import Util from "../../../core/util/Util";
+import CheckOut from "./CheckOut";
 import GameCtrl from "./GameCtrl";
 import State from "./State";
 
@@ -29,6 +30,8 @@ export default class GameUI {
     private disk = null; //用户的桌子对象
 
     private handlers: HandlerMethods;//容器对象
+
+    private _checkOutClazz: CheckOut;
     /**
      * 开始增加ui的位置
      */
@@ -57,6 +60,8 @@ export default class GameUI {
         this._node = root.node;
         this.disk = this.gameCtrl.node.getChildByName("chessbox").getComponent("ChessDesk");
         this._exit = root.node.getChildByName("exit").getComponent(cc.Button);
+        this._checkOutClazz = this.gameCtrl.checkOut.getComponent("CheckOut");
+        this._checkOutClazz.onClose();
     }
 
     /**
@@ -266,8 +271,16 @@ export default class GameUI {
         //是我自己赢了
         if (data[0] === this.gameCtrl.seatA.get_sv_seatid()) {
             console.log("我自己赢了");
+            this._checkOutClazz.onShow({ win: "赢", money: data[1] })
         } else {
             console.log("别人赢了");
+            this._checkOutClazz.onShow({ win: "输", money: -data[1] });
+        }
+
+        if (data[0] === this.gameCtrl.seatB.get_sv_seatid()) {
+            this._checkOutClazz.onShow({ win: "输", money: -data[1] });
+        } else {
+            this._checkOutClazz.onShow({ win: "赢", money: data[1] })
         }
     }
 
