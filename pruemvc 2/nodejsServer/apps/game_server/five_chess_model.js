@@ -6,6 +6,7 @@ module.exports = {
     do_player_ready: do_player_ready,
     do_player_put_chess: do_player_put_chess,
     kick_player_chip_not_enough: kick_player_chip_not_enough,
+    kick_offline_player: kick_offline_player,
 };
 
 const Respones = require("../Respones.js");
@@ -17,6 +18,7 @@ const log = require("../../utils/log.js");
 const game_config = require("../game_config.js");
 const five_chess_player = require("./five_chess_player.js");
 const five_chess_room = require("./five_chess_room.js");
+var QuitReason = require("./QuitReason.js");
 
 const zones = {};
 var player_set = {}; // uid --> player对应表
@@ -192,7 +194,17 @@ function enter_zone(uid, zid, session, ret_func) {
         //end
     } else {
         log.error("进入空间的操作")
-        player_enter_zone(player, zid, ret_func);
+        if (player.zid != -1 && player.room_id != -1) {
+            let zone = zones[player.zid];
+            let room = zone.room_list[player.room_id];
+            //吧玩家的session重置复制
+            player.init_session(session);
+            //当前房间的游戏数据传给客户端
+            room.do_reconnect(player);
+        }
+        else {
+            player_enter_zone(player, zid, ret_func);
+        }
     }
 }
 
@@ -245,7 +257,11 @@ function do_user_quit(uid, quit_reason) {
             log.warn("进行退出的流程2")
             let room = zone.room_list[player.room_id];
             if (room) {
-                room.do_exit_room(player);
+                //room.do_exit_room(player);
+                //如果玩家正在房间游戏，就不允许退出2024.4.25
+                if (!room.do_exit_room(player, quit_reason)) {
+                    return;
+                }
             } else {
                 player.room_id = -1;
             }
@@ -322,6 +338,10 @@ function do_assign_room() {
             }
         }
     }
+}
+
+function kick_offline_player() {
+    do_user_quit(uid, QuitReason.SystemKick);
 }
 
 setInterval(do_assign_room, 500);//每隔一段时间看看是否有空位置
