@@ -9,6 +9,8 @@ var Cmd = require("../Cmd.js");
 var proto_man = require("../../netbus/proto_man.js");
 var State = require("./State.js");
 
+var five_chess_model = require("./five_chess_model.js");
+
 var INVIEW_SEAT = 20;
 var GAME_SEAT = 2; // 
 var DISK_SIZE = 15;//棋盘大小
@@ -600,6 +602,39 @@ five_chess_room.prototype.checkout_game = function (ret, winner) {
 
 	//广播
 	this.room_broadcast(Stype.Game5Chess, 27, body, null);
+
+	//4秒以后结算
+	let check_time = 4000;
+	setTimeout(this.on_checkout_over.bind(this), check_time);
+}
+
+/**
+ * 游戏结束
+ */
+five_chess_room.prototype.on_checkout_over = function () {
+	//首先改变状态
+	this.state = State.Ready;
+	//清理数据
+	for (let i = 0; i < GAME_SEAT; i++) {
+		if (!this.seats[i] || this.seats[i].state != State.CheckOut) {
+			continue;
+		}
+		//通知玩家游戏结算完成
+		this.seats[i].on_checkout_over(this);
+	}
+	//广播给所有人
+	this.room_broadcast(Stype.Game5Chess, 28, {}, null);
+	//剔除不能玩下一把的玩家
+	for (let i = 0; i < GAME_SEAT; i++) {
+		if (!this.seats[i]) {
+			continue;
+		}
+		//判断当前的玩家的金币是不是不够了
+		if (this.seats[i].uchip < this.min_chip) {
+			five_chess_model.kick_player_chip_not_enough(this.seats[i]);
+			continue;
+		}
+	}
 }
 
 module.exports = five_chess_room;

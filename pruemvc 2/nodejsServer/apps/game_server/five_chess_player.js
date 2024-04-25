@@ -129,6 +129,21 @@ five_chess_player.prototype.checkout_game = function (room, ret, is_winner) {
 	mysql_game.add_ugame_uchip(this.uid, chip, is_winner);
 	redis_game.add_ugame_uchip(this.uid, chip, is_winner);
 	//end
+
+	//判断是多是少
+	if (is_winner) {
+		this.uchip += chip;
+	} else {
+		this.uchip -= chip;
+	}
+}
+
+/**
+ * 用户的游戏结束状态
+ * @param {*} room 
+ */
+five_chess_player.prototype.on_checkout_over = function (room) {
+	this.state = State.InView;
 }
 
 module.exports = five_chess_player;

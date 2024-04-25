@@ -1,3 +1,13 @@
+module.exports = {
+    enter_zone: enter_zone,
+    user_quit: user_quit,
+    user_lost_connect: user_lost_connect,
+    send_prop: send_prop,
+    do_player_ready: do_player_ready,
+    do_player_put_chess: do_player_put_chess,
+    kick_player_chip_not_enough: kick_player_chip_not_enough,
+};
+
 const Respones = require("../Respones.js");
 const redis_center = require("../../database/redis_center.js");
 const redis_game = require("../../database/redis_game.js");
@@ -47,6 +57,11 @@ function alloc_player(uid, session) {
     let p = new five_chess_player(uid); //创建人物对象
     p.init_session(session);//初始化session
     return p;
+}
+
+//金币不够踢人
+function kick_player_chip_not_enough(uid) {
+    do_user_quit(uid, QuitReason.CHIP_IS_NOT_ENOUGH);
 }
 
 /**
@@ -186,6 +201,7 @@ var QuitReason = {
     UserLostConn: 1, // 用户掉线
     VipKick: 2, // VIP踢人
     SystemKick: 3, // 系统踢人
+    CHIP_IS_NOT_ENOUGH: 4,//金币不足踢人
 };
 
 /**
@@ -418,13 +434,4 @@ function do_player_put_chess(uid, block_x, block_y, ret_func) {
     }
 
     room.do_player_put_chess(player, block_x, block_y, ret_func);
-}
-
-module.exports = {
-    enter_zone: enter_zone,//进入房间相关操作
-    user_quit: user_quit,//主动离开
-    user_lost_connect: user_lost_connect,//服务器断开出现
-    send_prop: send_prop,
-    do_player_ready: do_player_ready,//用户的准备
-    do_player_put_chess: do_player_put_chess,//用户下棋操作
 }
