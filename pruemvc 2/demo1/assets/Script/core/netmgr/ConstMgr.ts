@@ -43,6 +43,7 @@ export default class ConstMgr {
         PUT_CHESS: 26,//用户下棋操作
         CHECKOUT: 27,
         CHECK_OVER: 28,//游戏结束相关操作
+        RECONNECT: 29, //游戏短线重连
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境

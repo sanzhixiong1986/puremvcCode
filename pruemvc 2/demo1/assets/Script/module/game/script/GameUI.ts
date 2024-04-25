@@ -54,6 +54,7 @@ export default class GameUI {
             "updatePlayPutChess": this.updatePlayPutChess.bind(this),
             "gameEndOpenation": this.gameEndOpenation.bind(this),
             "CheckGameOver": this.CheckGameOver.bind(this),
+            "playReconnectHandler": this.playReconnectHandler.bind(this),
         }
 
         this.gameCtrl = root;
@@ -81,6 +82,7 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("updatePlayPutChess", this);
         EventManager.getInstance().registerHandler("gameEndOpenation", this);
         EventManager.getInstance().registerHandler("CheckGameOver", this);
+        EventManager.getInstance().registerHandler("playReconnectHandler", this);
     }
 
     private onClick(): void {
@@ -103,6 +105,7 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("updatePlayPutChess", this);
         EventManager.getInstance().removeHandler("gameEndOpenation", this);
         EventManager.getInstance().removeHandler("CheckGameOver", this);
+        EventManager.getInstance().removeHandler("playReconnectHandler", this);
     }
 
     /**
@@ -304,6 +307,47 @@ export default class GameUI {
         this.gameCtrl.seatA.on_checkout_over();
         this.gameCtrl.seatB.on_checkout_over();
         //清理完毕
+    }
+
+    //锻炼重连
+    private playReconnectHandler(data) {
+        let sv_seatid = data[0];//自己的作为信息
+        let seat_b_data = data[1][0];
+        let round_start_info = data[2];
+        let chess_data = data[3];
+        let game_ctrl = data[4];
+
+        this.gameCtrl.statrBtn.active = false;
+        //自己坐下
+        this.updateGamePlayInfoA({ 0: 1, 1: sv_seatid });
+        //玩家抵达
+        this.updateGamePlayInfoB(seat_b_data);
+        //开局信息
+        this.onGameStart(round_start_info);
+        //棋盘信息
+        for (let i = 0; i < 15; i++) {
+            for (let j = 0; j < 15; j++) {
+                if (chess_data[i * 15 + j] !== 0) {
+                    this.disk.put_chess_at(chess_data[i * 15 + j], j, i);
+                }
+            }
+        }
+        // 游戏进度
+        var cur_seatid = game_ctrl[0];
+        var left_time = game_ctrl[1];
+        if (cur_seatid === -1) {
+            return;
+        }
+
+        if (cur_seatid == this.gameCtrl.seatA.get_sv_seatid()) {
+            this.gameCtrl.seatA.turn_to_player(left_time);
+            this.disk.set_your_turn(true);
+        }
+        else {
+            this.gameCtrl.seatB.turn_to_player(left_time);
+            this.disk.set_your_turn(false);
+        }
+        // end 
     }
 
     processEvent(event) {
