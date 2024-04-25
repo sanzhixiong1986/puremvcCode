@@ -62,6 +62,9 @@ function five_chess_room(room_id, zone_conf) {
 		this.chess_disk.push(ChessType.NONE);//初始化棋盘
 	}
 	//end
+
+	//4.25号增加一个定时器对象
+	this.action_timer = null;
 }
 
 /**
@@ -180,8 +183,18 @@ five_chess_room.prototype.do_sitdown = function (p) {
 }
 
 five_chess_room.prototype.do_exit_room = function (p) {
-	// ....
+	//离开房间的操作
+	let winnner = null;
 	if (p.seatid != -1) {
+		//4.25添加用户的离开房间
+		if (p.state == State.Playing) {
+			let winner_seatid = GAME_SEAT - p.seatid - 1;//换一个人赢
+			winnner = this.seats[winner_seatid];
+			if (winnner) {
+				this.checkout_game(1, winnner);
+			}
+		}
+		//end
 		var seatid = p.seatid;
 		log.info(p.uid, "standup at seat: ", p.seatid);
 		p.standup(this);
@@ -384,15 +397,36 @@ five_chess_room.prototype.game_start = function () {
 }
 
 /**
+ * 用户时间到了没有下棋就判输了
+ * @param {*} seatid 
+ */
+five_chess_room.prototype.do_player_action_timeout = function (seatid) {
+	this.action_timer = null;
+	//结算
+	let winner_seat = GAME_SEAT - seatid - 1;
+	let winner = this.seats[winner_seat];
+	this.checkout_game(1, winner);
+	//end
+}
+
+/**
  * 归谁了
  * @param {*} seatid 
  */
 five_chess_room.prototype.trun_to_player = function (seatid) {
-	log.warn("turn_to_player", this.seats[seatid].state)
+	log.warn("turn_to_player", this.seats[seatid].state);
+	if (this.action_timer != null) {
+		clearTimeout(this.action_timer);
+		this.action_timer = null;
+	}
+
 	if (!this.seats[seatid] || this.seats[seatid].state != State.Playing) {
 		log.warn("turn_to_player: ", seatid, "seat is invalid!!!!");
 		return;
 	}
+
+	//启动定时器
+	this.action_timer = setTimeout(this.do_player_action_timeout.bind(this), this.think_time * 1000, seatid);
 
 	let p = this.seats[seatid];
 	p.turn_to_player(room);
@@ -479,6 +513,11 @@ five_chess_room.prototype.do_player_put_chess = function (p, block_x, block_y, r
 		3: this.chess_disk[index],//黑白子的具体数据
 	}
 	this.room_broadcast(Stype.Game5Chess, 26, body, null);
+	//停止计时器
+	if (this.action_timer != null) {
+		clearTimeout(this.action_timer);
+		this.action_timer = null;
+	}
 	//结算部分
 	let check_ret = this.check_game_over(this.chess_disk[index]);
 	if (check_ret != 0) {
@@ -577,6 +616,11 @@ five_chess_room.prototype.check_game_over = function (chess_type) {
  * @param {*} winner 
  */
 five_chess_room.prototype.checkout_game = function (ret, winner) {
+	//停掉计时器
+	if (this.action_timer != null) {
+		clearTimeout(this.action_timer);
+		this.action_timer = null;
+	}
 	//是把房间的状态修改过来
 	this.state = State.CheckOut;//检查状态
 	//便利游戏进行结算
