@@ -42,6 +42,7 @@ export default class ConstMgr {
         TURN_TO_PLAYER: 25,//轮到那个玩家
         PUT_CHESS: 26,//用户下棋操作
         CHECKOUT: 27,
+        CHECK_OVER: 28,//游戏结束相关操作
     }
 
     public static BonuesArray = ["100", "200", "300", "400", "500"]; //金币的测试环境

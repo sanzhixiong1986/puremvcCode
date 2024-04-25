@@ -52,7 +52,8 @@ export default class GameUI {
             "updateGameStart": this.onGameStart.bind(this),
             "updatePlayTurnTo": this.updatePlayTurnTo.bind(this),
             "updatePlayPutChess": this.updatePlayPutChess.bind(this),
-            "gameEndOpenation": this.gameEndOpenation.bind(this)
+            "gameEndOpenation": this.gameEndOpenation.bind(this),
+            "CheckGameOver": this.CheckGameOver.bind(this),
         }
 
         this.gameCtrl = root;
@@ -70,7 +71,6 @@ export default class GameUI {
     public addEvent() {
         this._exit.node.on("click", this.onClick, this);
 
-
         EventManager.getInstance().registerHandler("updateGamePlayInfoA", this);
         EventManager.getInstance().registerHandler("updateSeatPlayInfo", this);
         EventManager.getInstance().registerHandler("PlayStandUp", this);
@@ -80,6 +80,7 @@ export default class GameUI {
         EventManager.getInstance().registerHandler("updatePlayTurnTo", this);
         EventManager.getInstance().registerHandler("updatePlayPutChess", this);
         EventManager.getInstance().registerHandler("gameEndOpenation", this);
+        EventManager.getInstance().registerHandler("CheckGameOver", this);
     }
 
     private onClick(): void {
@@ -101,6 +102,7 @@ export default class GameUI {
         EventManager.getInstance().removeHandler("updatePlayTurnTo", this);
         EventManager.getInstance().removeHandler("updatePlayPutChess", this);
         EventManager.getInstance().removeHandler("gameEndOpenation", this);
+        EventManager.getInstance().removeHandler("CheckGameOver", this);
     }
 
     /**
@@ -282,6 +284,23 @@ export default class GameUI {
         } else {
             this._checkOutClazz.onShow({ win: "赢", money: data[1] })
         }
+    }
+
+    /**
+     * 游戏结束
+     * @param data 
+     */
+    private CheckGameOver(data) {
+        //关闭弹窗
+        this._checkOutClazz.onClose();
+        //桌子清空所有棋子对象
+        this.disk.clean_table();
+        //显示按钮
+        this.gameCtrl.statrBtn.active = true;
+        //清理头像
+        this.gameCtrl.seatA.on_checkout_over();
+        this.gameCtrl.seatB.on_checkout_over();
+        //清理完毕
     }
 
     processEvent(event) {

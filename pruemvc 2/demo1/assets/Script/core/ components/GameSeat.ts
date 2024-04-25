@@ -122,4 +122,11 @@ export default class GameSeat extends cc.Component {
     hide_timebar() {
         this.timebar.node.active = false;
     }
+
+    //游戏结束
+    on_checkout_over() {
+        this.timebar.node.active = false;
+        this.black.active = false;
+        this.wirte.active = false;
+    }
 }

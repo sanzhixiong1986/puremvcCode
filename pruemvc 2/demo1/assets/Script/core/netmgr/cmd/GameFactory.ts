@@ -18,6 +18,7 @@ import PlayRoundStarHandler from "./game/PlayRoundStarHandler";
 import PlayTurnToHandler from "./game/PlayTurnToHandler";
 import PlayPutChessHandler from "./game/PlayPutChessHandler";
 import PlayCheckOutHandler from "./game/PlayCheckOutHandler";
+import PlayCheckOverHandler from "./game/PlayCheckOverHandler";
 /**
  * 游戏消息的工厂类
  */
@@ -62,6 +63,8 @@ export default class GameFactory {
                 return new PlayPutChessHandler();
             case ConstMgr.Cmd.CHECKOUT:
                 return new PlayCheckOutHandler();
+            case ConstMgr.Cmd.CHECK_OVER:
+                return new PlayCheckOverHandler();
         }
     }
 }

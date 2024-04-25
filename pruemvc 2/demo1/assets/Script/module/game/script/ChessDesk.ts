@@ -67,4 +67,8 @@ export default class ChessDesk extends cc.Component {
         let ypos = block_y * 41 - 41 * 7;
         chess.setPosition(cc.v2(xpos, ypos));
     }
+
+    clean_table() {
+        this.node.removeAllChildren();
+    }
 }
