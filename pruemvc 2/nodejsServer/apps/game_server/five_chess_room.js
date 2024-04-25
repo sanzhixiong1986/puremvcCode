@@ -198,8 +198,8 @@ five_chess_room.prototype.do_sitdown = function (p) {
 	// 	6: p.uvip,
 	// 	7: p.state,
 	// };
-	let body = this.get_user_arrived(p);
-	this.room_broadcast(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, body, p.uid);
+	let bodys = this.get_user_arrived(p);
+	this.room_broadcast(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, bodys, p.uid);
 	//end
 }
 

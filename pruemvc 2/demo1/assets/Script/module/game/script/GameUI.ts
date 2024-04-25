@@ -210,7 +210,7 @@ export default class GameUI {
         //清理工作
         this.gameCtrl.startTime.active = true;
         this.gameCtrl.startTime.getChildByName("t").getComponent(cc.Label).string = data[1];
-        let dao = data[1];
+        let dao = data[1] / 1000;
         if (this.daoTime) {
             clearInterval(this.daoTime);
         }
