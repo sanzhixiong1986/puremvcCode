@@ -7,19 +7,28 @@ import Util from "../../../core/util/Util";
 import GameCtrl from "./GameCtrl";
 import State from "./State";
 
+//可以对象写成子类进行操作
+interface HandlerMethods {
+    [methodName: string]: (data: any) => void;
+}
+
+type EventHandler = (data: any) => void;
+
 export default class GameUI {
 
     private _exit: cc.Button; //推出按钮
 
-    private _node: cc.Node = null;
+    private _node: cc.Node = null; //父对象的
 
-    private gameCtrl = null;
+    private gameCtrl = null; //UI的父对象
 
     private _itemNode: cc.Node = null; //加载成功
 
-    private _clazz = null;
+    private _clazz = null; //弹窗的对象类
 
-    private disk = null;
+    private disk = null; //用户的桌子对象
+
+    private handlers: HandlerMethods;//容器对象
     /**
      * 开始增加ui的位置
      */
@@ -29,6 +38,18 @@ export default class GameUI {
         if (ConstMgr.EnterRoomId > 0) {
             let buf = proto_man.encode_cmd(ConstMgr.Stype.GameFiveChess, ConstMgr.Cmd.ENTER_ZONE, ConstMgr.EnterRoomId);
             MsgSender.getIntance().sendMsg(buf);
+        }
+
+        this.handlers = {
+            "updateGamePlayInfoA": this.updateGamePlayInfoA.bind(this),
+            "updateSeatPlayInfo": this.updateGamePlayInfoB.bind(this),
+            "PlayStandUp": this.PlayStandUpFun.bind(this),
+            "sendProp": this.getProp.bind(this),
+            "updateStateReady": this.onPlayDoReady.bind(this),
+            "updateGameStart": this.onGameStart.bind(this),
+            "updatePlayTurnTo": this.updatePlayTurnTo.bind(this),
+            "updatePlayPutChess": this.updatePlayPutChess.bind(this),
+            "gameEndOpenation": this.gameEndOpenation.bind(this)
         }
 
         this.gameCtrl = root;
@@ -43,6 +64,7 @@ export default class GameUI {
      */
     public addEvent() {
         this._exit.node.on("click", this.onClick, this);
+
 
         EventManager.getInstance().registerHandler("updateGamePlayInfoA", this);
         EventManager.getInstance().registerHandler("updateSeatPlayInfo", this);
@@ -252,34 +274,12 @@ export default class GameUI {
     processEvent(event) {
         let msg_id: string = event.msg_id;
         console.log("收到消息" + msg_id);
-        switch (msg_id) {
-            case "updateGamePlayInfoA":
-                this.updateGamePlayInfoA(event.data);
-                break;
-            case "updateSeatPlayInfo":
-                this.updateGamePlayInfoB(event.data);
-                break;
-            case "PlayStandUp"://更新用户站起来的信息
-                this.PlayStandUpFun(event.data);
-                break;
-            case "sendProp"://发送礼物返回
-                this.getProp(event.data);
-                break;
-            case "updateStateReady":
-                this.onPlayDoReady(event.data);
-                break;
-            case "updateGameStart":
-                this.onGameStart(event.data);
-                break;
-            case "updatePlayTurnTo"://初始化下棋的人是谁
-                this.updatePlayTurnTo(event.data);
-                break;
-            case "updatePlayPutChess"://用户下棋更新
-                this.updatePlayPutChess(event.data);
-                break;
-            case "gameEndOpenation"://游戏更新
-                this.gameEndOpenation(event.data);
-                break;
+        const methodName = msg_id;
+        const handler = this.handlers[methodName as keyof HandlerMethods];
+        if (handler) {
+            handler(event.data);
+        } else {
+            console.log(`Method not found: ${methodName}`);
         }
     }
 }
