@@ -208,6 +208,9 @@ export default class GameUI {
         this.gameCtrl.startTime.active = true;
         this.gameCtrl.startTime.getChildByName("t").getComponent(cc.Label).string = data[1];
         let dao = data[1];
+        if (this.daoTime) {
+            clearInterval(this.daoTime);
+        }
         this.daoTime = setInterval(() => {
             if (dao > 0) {
                 this.gameCtrl.startTime.getChildByName("t").getComponent(cc.Label).string = dao + "";
