@@ -10,6 +10,7 @@ var proto_man = require("../../netbus/proto_man.js");
 var State = require("./State.js");
 
 var five_chess_model = require("./five_chess_model.js");
+let QuitReason = require("./QuitReason.js");
 
 var INVIEW_SEAT = 20;
 var GAME_SEAT = 2; // 
@@ -65,6 +66,8 @@ function five_chess_room(room_id, zone_conf) {
 
 	//4.25号增加一个定时器对象
 	this.action_timer = null;
+	this.action_timeout_timestamp = 0;//玩家这个超时的时间戳
+	//end
 }
 
 /**
@@ -84,6 +87,22 @@ five_chess_room.prototype.search_empty_seat_inview = function () {
 	}
 
 	return -1;
+}
+
+five_chess_room.prototype.get_user_arrived = function (other) {
+	var body = {
+		0: other.seatid,
+
+		1: other.unick,
+		2: other.usex,
+		3: other.uface,
+
+		4: other.uchip,
+		5: other.uexp,
+		6: other.uvip,
+		7: other.state, // 玩家当前游戏状态
+	};
+	return body;
 }
 
 // 玩家进入到我们的游戏房间
@@ -110,18 +129,19 @@ five_chess_room.prototype.do_enter_room = function (p) {
 		}
 		var other = this.seats[i];
 
-		var body = {
-			0: other.seatid,
+		// var body = {
+		// 	0: other.seatid,
 
-			1: other.unick,
-			2: other.usex,
-			3: other.uface,
+		// 	1: other.unick,
+		// 	2: other.usex,
+		// 	3: other.uface,
 
-			4: other.uchip,
-			5: other.uexp,
-			6: other.uvip,
-			7: other.state,//4.22新增加的状态属性，客户端也需要添加这个属性
-		};
+		// 	4: other.uchip,
+		// 	5: other.uexp,
+		// 	6: other.uvip,
+		// 	7: other.state,//4.22新增加的状态属性，客户端也需要添加这个属性
+		// };
+		let body = this.get_user_arrived(other);
 		p.send_cmd(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, body);
 	}
 	// end 
@@ -166,23 +186,30 @@ five_chess_room.prototype.do_sitdown = function (p) {
 	// end
 	log.error("自动发送坐下消息")
 	//广播给所有的其他玩家(旁观的玩家),玩家坐下,
-	var body = {
-		0: sv_seat,
+	// var body = {
+	// 	0: sv_seat,
 
-		1: p.unick,
-		2: p.usex,
-		3: p.uface,
+	// 	1: p.unick,
+	// 	2: p.usex,
+	// 	3: p.uface,
 
-		4: p.uchip,
-		5: p.uexp,
-		6: p.uvip,
-		7: p.state,
-	};
+	// 	4: p.uchip,
+	// 	5: p.uexp,
+	// 	6: p.uvip,
+	// 	7: p.state,
+	// };
+	let body = this.get_user_arrived(p);
 	this.room_broadcast(Stype.Game5Chess, Cmd.Game5Chess.USER_ARRIVED, body, p.uid);
 	//end
 }
 
-five_chess_room.prototype.do_exit_room = function (p) {
+five_chess_room.prototype.do_exit_room = function (p, quit_reason) {
+	//短线重连流程
+	if (quit_reason = QuitReason.UserLostConn
+		&& this.state == State.Playing && p.state == State.Playing) {
+		return false;
+	}
+
 	//离开房间的操作
 	let winnner = null;
 	if (p.seatid != -1) {
@@ -224,6 +251,7 @@ five_chess_room.prototype.do_exit_room = function (p) {
 	// 广播给所有的玩家(旁观的玩家), 玩家离开了房间,(如果有必要)
 	// 。。。。
 	// end 
+	return true;
 }
 
 five_chess_room.prototype.search_empty_seat = function () {
@@ -385,14 +413,14 @@ five_chess_room.prototype.game_start = function () {
 	}
 
 	//广播到所有人
-	let body = {
-		0: this.think_time,
-		1: 3,
-		2: this.black_seatid
-	}
-
+	// let body = {
+	// 	0: this.think_time,
+	// 	1: 3,
+	// 	2: this.black_seatid
+	// }
+	let body = this.get_round_start_info();
 	this.room_broadcast(Stype.Game5Chess, 24, body, null);
-
+	this.cur_seatid = -1;//在这个游戏已经开始了，但是要等这个时间段
 	setTimeout(this.trun_to_player.bind(this), 4500, this.black_seatid);
 }
 
@@ -403,10 +431,11 @@ five_chess_room.prototype.game_start = function () {
 five_chess_room.prototype.do_player_action_timeout = function (seatid) {
 	this.action_timer = null;
 	//结算
-	let winner_seat = GAME_SEAT - seatid - 1;
-	let winner = this.seats[winner_seat];
-	this.checkout_game(1, winner);
+	// let winner_seat = GAME_SEAT - seatid - 1;
+	// let winner = this.seats[winner_seat];
+	// this.checkout_game(1, winner);
 	//end
+	this.turn_to_next();
 }
 
 /**
@@ -427,6 +456,8 @@ five_chess_room.prototype.trun_to_player = function (seatid) {
 
 	//启动定时器
 	this.action_timer = setTimeout(this.do_player_action_timeout.bind(this), this.think_time * 1000, seatid);
+	this.action_timeout_timestamp = utils.timestamp() + this.think_time;
+	//end
 
 	let p = this.seats[seatid];
 	p.turn_to_player(room);
@@ -459,6 +490,16 @@ five_chess_room.prototype.next_seat = function (cur_seateid) {
 	}
 
 	return -1;
+}
+
+five_chess_room.prototype.get_round_start_info = function () {
+	let wait_client_time = 3000;
+	let body = {
+		0: this.think_time,
+		1: wait_client_time,
+		2: this.black_seatid
+	}
+	return body;
 }
 
 /**
@@ -526,14 +567,56 @@ five_chess_room.prototype.do_player_put_chess = function (p, block_x, block_y, r
 		return;
 	}
 
+
+	this.turn_to_next();
+	// this.trun_to_player(next_seat);
+}
+
+five_chess_room.prototype.turn_to_next = function () {
 	//下一个玩家操作
 	let next_seat = this.get_next_seat();
 	if (next_seat === -1) {
-		og.error("cannot find next_seat !!!!");
+		log.error("cannot find next_seat !!!!");
 		return;
 	}
 
 	this.trun_to_player(next_seat);
+}
+
+/**
+ * 短线重连
+ * @param {*} p 
+ */
+five_chess_room.prototype.do_reconnect = function (p) {
+	if (room.state != State.Playing && p.state != State.Playing) {
+		return;
+	}
+
+	//其他的玩家数据
+	let seats_data = [];
+	for (let i = 0; i < GAME_SEAT; i++) {
+		if (!this.seats[i] || this.seats[i] == p || this.seats[i].state != State.Playing) {
+			continue;
+		}
+		let arrived_data = this.get_user_arrived(this.seats[i]);
+		seats_data.push(arrived_data);
+	}
+
+	//获得开局信息
+	let round_start_info = this.get_round_start_info();
+	let game_ctrl = [
+		this.cur_seatid,
+		this.action_timeout_timestamp - utils.timestamp(),
+	];
+	//传玩家自己的数据
+	let body = {
+		0: p.seatid,
+		1: seats_data,
+		2: round_start_info,
+		3: this.chess_disk,
+		4: game_ctrl
+	}
+	p.send_cmd(Stype.Game5Chess, 29, body);
 }
 
 /**
@@ -646,6 +729,24 @@ five_chess_room.prototype.checkout_game = function (ret, winner) {
 
 	//广播
 	this.room_broadcast(Stype.Game5Chess, 27, body, null);
+	//踢掉不满足要求的玩家
+	for (let i = 0; i < GAME_SEAT; i++) {
+		if (!this.seats[i]) {
+			continue;
+		}
+
+		//判断金钱够不够
+		if (this.seats[i].uchip < this.min_chip) {
+			five_chess_model.kick_player_chip_not_enough(this.seats[i]);
+			continue;
+		}
+		//end
+
+		if (this.seats[i].session === null) {
+			five_chess_model.kick_player_chip_not_enough(this.seats[i]);
+			continue;
+		}
+	}
 
 	//4秒以后结算
 	let check_time = 4000;
@@ -668,17 +769,17 @@ five_chess_room.prototype.on_checkout_over = function () {
 	}
 	//广播给所有人
 	this.room_broadcast(Stype.Game5Chess, 28, {}, null);
-	//剔除不能玩下一把的玩家
-	for (let i = 0; i < GAME_SEAT; i++) {
-		if (!this.seats[i]) {
-			continue;
-		}
-		//判断当前的玩家的金币是不是不够了
-		if (this.seats[i].uchip < this.min_chip) {
-			five_chess_model.kick_player_chip_not_enough(this.seats[i]);
-			continue;
-		}
-	}
+	// //剔除不能玩下一把的玩家
+	// for (let i = 0; i < GAME_SEAT; i++) {
+	// 	if (!this.seats[i]) {
+	// 		continue;
+	// 	}
+	// 	//判断当前的玩家的金币是不是不够了
+	// 	if (this.seats[i].uchip < this.min_chip) {
+	// 		five_chess_model.kick_player_chip_not_enough(this.seats[i]);
+	// 		continue;
+	// 	}
+	// }
 }
 
 module.exports = five_chess_room;
