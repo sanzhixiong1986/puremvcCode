@@ -75,10 +75,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 5
+        "__id__": 6
       },
       {
-        "__id__": 6
+        "__id__": 7
       }
     ],
     "_prefab": null,
@@ -141,6 +141,9 @@
     "_components": [
       {
         "__id__": 4
+      },
+      {
+        "__id__": 5
       }
     ],
     "_prefab": null,
@@ -226,6 +229,16 @@
     "_renderStages": 1,
     "_alignWithScreen": true,
     "_id": "93JD1IxE1DVbSRXW+uELB+"
+  },
+  {
+    "__type__": "fa0817mnspO6qodPdIxTW+Y",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "_id": "ccYcc+IuxPwJnjOeK6D0Iw"
   },
   {
     "__type__": "cc.Canvas",
