@@ -339,8 +339,23 @@ export default class GameUI {
             this.updateGamePlayInfoA(play_info);
         }
 
+
         //玩家抵达
-        this.updateGamePlayInfoB(seat_b_data);
+        if (seat_b_data) {
+            let other = {
+                unick: seat_b_data[1],
+                usex: seat_b_data[2],
+                uface: seat_b_data[3],
+
+                uvip: seat_b_data[6],
+                uchip: seat_b_data[4],
+                uexp: seat_b_data[5],
+                sv_seatid: seat_b_data[0],
+                state: seat_b_data[7],
+            }
+            this.updateGamePlayInfoB(other);
+        }
+
         //开局信息
         this.onGameStart(round_start_info);
         //棋盘信息
@@ -357,7 +372,9 @@ export default class GameUI {
         if (cur_seatid === -1) {
             return;
         }
-
+        //停止有所得时间走动然后在根据实际情况走动
+        this.gameCtrl.seatA.on_checkout_over();
+        this.gameCtrl.seatB.on_checkout_over();
         if (cur_seatid == this.gameCtrl.seatA.get_sv_seatid()) {
             this.gameCtrl.seatA.turn_to_player(left_time);
             this.disk.set_your_turn(true);
