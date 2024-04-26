@@ -318,8 +318,27 @@ export default class GameUI {
         let game_ctrl = data[4];
 
         this.gameCtrl.statrBtn.active = false;
-        //自己坐下
-        this.updateGamePlayInfoA({ 0: 1, 1: sv_seatid });
+        //自己坐下获得的数据
+        let uid = localStorage.getItem("uid");
+
+        let ugame = localStorage.getItem(uid);//Model.getIntance().getUserBase();
+        let ugames = JSON.parse(ugame);
+        if (ugames) {
+            let play_info = {
+                unick: ugames.unick,
+                usex: ugames.usex,
+                uface: ugames.uface,
+
+                uvip: ugames.uvip,
+                uchip: ugames.uchip,
+                uexp: ugames.uexp,
+
+                sv_seatid: sv_seatid,
+                state: State.State.InView,//观看状态
+            }
+            this.updateGamePlayInfoA(play_info);
+        }
+
         //玩家抵达
         this.updateGamePlayInfoB(seat_b_data);
         //开局信息
