@@ -34,10 +34,6 @@ export default class MsgSender {
             'reconnection': false,
             'force new connection': false,
             'transports': ['websocket', 'polling'],
-            // reconnectionAttempts: Infinity, // 重连尝试次数，无限次
-            // reconnectionDelay: 1000,      // 初始重连延迟（毫秒）
-            // reconnectionDelayMax: 5000,   // 最大重连延迟（毫秒）
-            // randomizationFactor: 0.5      // 重连延迟随机化因子
         }
 
         this._oWebSocket = globalThis["io"].connect(strURL, opts);
