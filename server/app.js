@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const socketIo = require('socket.io');
+const { log } = require('console');
 var msgpack = require('msgpack5')();
 
 
@@ -32,6 +33,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("message", (data) => {
+        console.log("返回数据", data);
         console.log(msgpack.decode(data));
         io.emit("message", data);
     })

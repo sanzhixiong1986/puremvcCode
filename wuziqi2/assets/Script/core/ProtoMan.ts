@@ -24,11 +24,7 @@ export default class ProtoMan {
      * @returns 
      */
     public static decode(cmd) {
-        if (!cmd[0] || !cmd[1]) {
-            console.log("解析数据有问题", cmd[0], cmd[1]);
-            return;
-        }
-        const cmds = msgpack.decode(cmd);
+        const cmds = msgpack.decode(new Uint8Array(cmd));
         console.log("解析的数据为", cmds);
         return cmds
     }
