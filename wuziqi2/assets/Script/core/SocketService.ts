@@ -6,6 +6,7 @@ export default class SocketService {
         this.socket = io(url);
         this.socket.on('connect', () => {
             console.log('Connected to the socket server');
+            this.sendMessage("hellworld");
         });
 
         this.socket.on('welcome', (data: any) => {
