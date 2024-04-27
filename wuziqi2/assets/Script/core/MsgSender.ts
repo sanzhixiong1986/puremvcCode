@@ -50,45 +50,10 @@ export default class MsgSender {
             }
         })
 
-        // //当客户端从服务器断开连接时触发
-        // this._oWebSocket.on('disconnect', (reason) => {
-        //     console.log('Disconnected from the server:', reason);
-        // });
-
-        // //在连接过程中发生错误时触发
-        // this._oWebSocket.on('connect_error', (error) => {
-        //     console.log('Connection failed:', error);
-        // });
-
-        // //连接超时时触发
-        // this._oWebSocket.on('connect_timeout', (timeout) => {
-        //     console.log('Connection timed out after', timeout);
-        // });
-
-        // //在监听过程中发生错误时触发
-        // this._oWebSocket.on('error', (error) => {
-        //     console.log('Error:', error);
-        // });
-
-        // //在自动重连成功时触发
-        // this._oWebSocket.on('reconnect', (attemptNumber) => {
-        //     console.log('Reconnected to the server after', attemptNumber, 'attempts');
-        // });
-
-        // //在开始重连尝试时触发
-        // this._oWebSocket.on('reconnect_attempt', (attemptNumber) => {
-        //     console.log('Attempting to reconnect, attempt number:', attemptNumber);
-        // });
-
         //重连尝试失败时触发。
         this._oWebSocket.on('reconnect_error', (error) => {
             console.log('Reconnect failed:', error);
         });
-
-        // //当所有重连尝试都失败后触发。
-        // this._oWebSocket.on('reconnect_failed', () => {
-        //     console.log('Failed to reconnect');
-        // });
 
         //接收到来自服务器的消息时触发。
         this._oWebSocket.on('message', (oEvent: MessageEvent) => {
