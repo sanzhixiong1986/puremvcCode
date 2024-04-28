@@ -42,7 +42,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Administrator\Desktop\111\class_libuv\3rd\libuv;$(IncludePath)</IncludePath>
+    <IncludePath>D:\work\c\puremvcCode\cServer\class_libuv\3rd\libuv;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -55,7 +55,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\Desktop\111\class_libuv\3rd\libuv\src;C:\Users\Administrator\Desktop\111\class_libuv\3rd\libuv\src\win;C:\Users\Administrator\Desktop\111\class_libuv\3rd\libuv\include;C:\Users\Administrator\Desktop\111\class_libuv\3rd\libuv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\work\c\puremvcCode\cServer\class_libuv\3rd\libuv\src;D:\work\c\puremvcCode\cServer\class_libuv\3rd\libuv\src\win;D:\work\c\puremvcCode\cServer\class_libuv\3rd\libuv\include;D:\work\c\puremvcCode\cServer\class_libuv\3rd\libuv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
