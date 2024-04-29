@@ -74,7 +74,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv;$(IncludePath)</IncludePath>
+    <IncludePath>C:\work\pruemvc\puremvcCode\cServer\class_libuvg\bin;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -104,8 +104,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\include;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\src;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\include;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\src;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\bin;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -180,7 +180,10 @@
     <ClCompile Include="..\3rd\libuv\src\win\winapi.c" />
     <ClCompile Include="..\3rd\libuv\src\win\winsock.c" />
     <ClCompile Include="..\src\main.c" />
+    <ClCompile Include="..\src\main_time.c" />
+    <ClCompile Include="..\src\main_udp.c" />
     <ClCompile Include="..\src\main_tcp.c" />
+    <ClCompile Include="..\src\time_list.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rd\libuv\include\pthread-barrier.h" />
@@ -204,6 +207,10 @@
     <ClInclude Include="..\3rd\libuv\src\win\stream-inl.h" />
     <ClInclude Include="..\3rd\libuv\src\win\winapi.h" />
     <ClInclude Include="..\3rd\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\src\time_list.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\c\class_libuv\bin\test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
