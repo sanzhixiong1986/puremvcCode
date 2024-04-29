@@ -1,94 +1,111 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <fcntl.h>
 
-#include "uv.h"
-
-/*
-uv_fs_open:
-loop: 事件循环,
-uv_fs_t req请求对象;
-path: 文件路径
-flags: 标志0
-mode: 可读，可写... O_RDONLY O_RDWR...
-*/
-static uv_loop_t* event_loop = NULL;
-static uv_fs_t req;
-static uv_fs_t w_req;
-static uv_file fs_handle;
-static char mem_buffer[1024];
-/*
-uv_file
-文件句柄对象: 打开文件以后的文件handle
-uv_fs_t
-result,每次请求的结果都是这个值来返回;
-打开文件: result返回打开文件句柄对象uv_file;
-读文件: result读到的数据长度;
-写文件: result为写入的数据长度;
-*/
+//#include "./../3rd/mjson/json.h"
+#include "myjson/json.h"
 
 /*
-释放掉这个请求req所占的资源
-uv_req_cleanup(req);
+{
+"uid" : 123,
+"uname" : "hello!",
+"is_new": true,
+"vip": null,
 
-*/
-
-/*
-stdin: 标注的输入文件, scanf, cin>>
-stdout: 标准的输出文件 printf;
-fprintf(stdout, "xxxxxxx");
-
-每个进程在运行的时候:
-stdin文件句柄与stdout这个文件句柄始终是打开的;
-stdin:标准的输入文件,
-stdout: 标准的输出;
-*/
-
-static void
-after_read(uv_fs_t* req) {
-	printf("read %d byte\n", req->result);
-	mem_buffer[req->result] = 0; // 字符串结尾;
-	printf("%s\n", mem_buffer);
-
-	uv_fs_req_cleanup(req);
-
-	uv_fs_close(event_loop, req, fs_handle, NULL);
-	uv_fs_req_cleanup(req);
+"man_prop": [1, "hello", "2"],
+"weap_prop": {
+"default": "putongzidan",
+},
 }
+*/
 
-static void
-on_open_fs_cb(uv_fs_t* req) {
-	// 打开文件
-	fs_handle = req->result;
-	uv_fs_req_cleanup(req);
-	printf("open success end\n");
+/*
+json的简单的规则
+(1)key-value模式;
+(2)key, 数字，字符串;
+(3)value, 数字, 逻辑变量, 数组, 对象;
+(4)数字, true/false, null, [], {}
+(5)最高的层次上面object, {};
+(6)JSON优点:
+(1)通用的传输方案; -->json文本-->解码回来, Lua, js, python...;
+(2)XML, json XML优点,省空间;
+(3)JSON对比 buf, 可读性很强;
+(7)在可读性很强的情况下，占用空间较小,通用的编码解码传输方案;
 
+*/
 
-
-	uv_buf_t buf = uv_buf_init(mem_buffer, 1024);
-	uv_fs_read(event_loop, req,
-		fs_handle, &buf, 1, 0,
-		after_read);
-}
-
+static char json_str[4096];
 int main(int argc, char** argv) {
-	event_loop = uv_default_loop();
+	// step1: 建立一个json_t对象; --> JS object C的数据结构;
+	// json_t 以root为这个根节点的一颗树, json_t数据结构;
+	json_t* root = json_new_object(); // {}
+	json_t* number = json_new_number("123"); // 
+	json_insert_pair_into_object(root, "uid", number); // {uid: 123,}
 
-	// step1:打开文件:
-	uv_fs_open(event_loop, &req,
-		"test.txt", 0,
-		O_RDONLY, on_open_fs_cb);
+	json_t* str = json_new_string("hello!");
+	json_insert_pair_into_object(root, "uname", str);
 
+	json_t* b_true = json_new_true();
+	json_insert_pair_into_object(root, "is_new", b_true);
 
+	json_t* j_null = json_new_null();
+	json_insert_pair_into_object(root, "vip", j_null);
 
+	// []
+	json_t* j_array = json_new_array();
+	json_insert_pair_into_object(root, "man_prop", j_array);
+	number = json_new_number("1");
+	json_insert_child(j_array, number);
 
-	uv_buf_t w_buf = uv_buf_init("Good! BYCW!!!!", 12);
-	uv_fs_write(event_loop, &w_req, (uv_file)1, &w_buf, 1, 0, NULL);
-	uv_fs_req_cleanup(&w_req);
+	str = json_new_string("hello");
+	json_insert_child(j_array, str);
 
-	uv_run(event_loop, UV_RUN_DEFAULT);
+	str = json_new_string("2");
+	json_insert_child(j_array, str);
+	// array end 
+
+	// {}
+	json_t* j_object = json_new_object();
+	json_insert_pair_into_object(root, "weap_prop", j_object);
+
+	str = json_new_string("putongzidan");
+	json_insert_pair_into_object(j_object, "default", str);
+	// {} end
+	// step2: 建立好的json_t对象树以及相关的依赖--> json文本;
+	char* json_text;
+	json_tree_to_string(root, &json_text); // 这个函数，来malloc json所需要的字符串的内存;
+	printf("%s\n", json_text);
+	strcpy(json_str, json_text);
+	free(json_text);
+	// 销毁json树,他会连同他的孩子对象一起销毁
+	json_free_value(&root);
+	root = NULL;
+	// step3,将这个json_t文本专成我们对应的json对象;
+	json_parse_document(&root, json_str); // 根据json文本产生一颗新的json对象树,
+	// step4: 我们从json_t对象树里面获取里面的值;
+
+	json_t* key = json_find_first_label(root, "uname");
+	if (key) {
+		json_t* value = key->child;
+		switch (value->type) {
+		case JSON_STRING:
+			printf("key: %s value: %s\n", key->text, value->text);
+			break;
+		}
+	}
+
+	key = json_find_first_label(root, "uid");
+	if (key) {
+		json_t* value = key->child;
+		switch (value->type) {
+		case JSON_NUMBER:
+			printf("key: %s value: %f\n", key->text, atof(value->text));
+			break;
+		}
+	}
+
+	json_free_value(&root);
+
 	system("pause");
 	return 0;
 }
-

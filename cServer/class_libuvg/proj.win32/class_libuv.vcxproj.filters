@@ -35,6 +35,9 @@
     <Filter Include="bin">
       <UniqueIdentifier>{e2a54149-77ba-4bff-a35f-66c4b4a93919}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd\mjson">
+      <UniqueIdentifier>{ff0e4857-2076-4795-a531-9c9c880f0013}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rd\libuv\src\fs-poll.c">
@@ -142,6 +145,12 @@
     <ClCompile Include="..\src\main_time.c">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.c">
+      <Filter>3rd\mjson</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_file.c">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\main.c">
       <Filter>src</Filter>
     </ClCompile>
@@ -212,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\src\time_list.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.h">
+      <Filter>3rd\mjson</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
