@@ -47,6 +47,8 @@ export default class SceneXLoader {
 
                     // onProgress
                     (nCompletedCount, nTotalCount/*, oItem*/) => {
+                        cc.find("Canvas/loading").getComponent("Loading").showLoading();
+                        cc.find("Canvas/loading").getComponent("Loading").showLoadingPer(nCompletedCount / nTotalCount)
                         console.log("nCompletedCount / nTotalCount=" + nCompletedCount / nTotalCount);
                     },
 
@@ -84,6 +86,7 @@ export default class SceneXLoader {
                             cc.error(oError);
                             return;
                         }
+                        cc.find("Canvas/loading").getComponent("Loading").clean();
                         cc.director.loadScene(strSceneName);
                     });
                 });

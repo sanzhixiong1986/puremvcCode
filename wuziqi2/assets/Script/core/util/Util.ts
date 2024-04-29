@@ -1,11 +1,4 @@
 export default class Util {
-    /**
-    * 获得IFacade
-    * @param name 
-    */
-    public static getPureFacade(name: string): puremvc.IFacade {
-        return puremvc.Facade.getInstance(name);
-    }
 
     /**
      * 新增加的操作
@@ -135,6 +128,57 @@ export default class Util {
                 }
 
                 funCbFinally(oNewNode);
+            });
+        });
+    }
+
+    /**
+     * 图片
+     * @param strBundleName bundle 名字
+     * @param strPrefabPath Prefab的名字
+     * @param funCallback   返回函数
+     */
+    public static BundleLoadImage(strBundleName: string, strPrefabPath: string, funCallback: (oNewDialog: cc.SpriteFrame) => void) {
+        let oThatBundle = cc.assetManager.getBundle(strBundleName);
+        // 确保回调函数不为空
+        const funCbFinally = funCallback || function () {
+        };
+        cc.assetManager.loadBundle(strBundleName, (oError: Error, oLoadedBundle: cc.AssetManager.Bundle) => {
+            if (null != oError) {
+                cc.error(oError);
+                return;
+            }
+
+            if (null == oLoadedBundle) {
+                cc.error(`Bundle is null, bundleName = ${strBundleName}`);
+                funCbFinally(null);
+                return;
+            }
+
+            oThatBundle = oLoadedBundle;
+            //获取缓存预制体
+            let oCachedPrefab = oThatBundle.get(strPrefabPath, cc.SpriteFrame) as cc.SpriteFrame;
+            if (null != oCachedPrefab) {
+                // 创建新节点
+                // let oNewNode = cc.instantiate(oCachedPrefab);
+                funCbFinally(oCachedPrefab);
+                return;
+            }
+
+            oThatBundle.load(strPrefabPath, cc.SpriteFrame, (oError: Error, oLoadedPrefab: cc.SpriteFrame) => {
+                if (null != oError) {
+                    cc.log(oError);
+                    funCbFinally(null);
+                    return;
+                }
+
+                if (null == oLoadedPrefab) {
+                    cc.log(`图片, prefabPath = ${strPrefabPath}`);
+                    funCbFinally(null);
+                    return;
+                }
+
+                funCbFinally(oLoadedPrefab);
             });
         });
     }

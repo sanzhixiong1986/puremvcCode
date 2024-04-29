@@ -9,6 +9,7 @@ import AllHandlerz from "./core/AllHandlerz";
 import MsgSender from "./core/MsgSender";
 import ProtoMan from "./core/ProtoMan";
 import SocketService from "./core/SocketService";
+import SceneXLoader from "./core/components/SceneXLoader";
 import socketio = require("./core/socket.io");
 const { ccclass, property } = cc._decorator;
 
@@ -24,28 +25,13 @@ export default class Test extends cc.Component {
         // let obj1 = ProtoMan.decode(obj)
         // console.log(">>>>>>", obj1);
 
-        MsgSender.getIntance().connect(() => {
-            let oAllHandlerz = new AllHandlerz();
-            MsgSender.getIntance().onMsgReceived = (nMsgCode, oMsgBody) => {
-                oAllHandlerz.handle(nMsgCode, oMsgBody);
-            },
-            MsgSender.getIntance().sendMsg(ProtoMan.encode(1, 1, { data: "helloworld" }));
-        })
-
-        // let opts = {
-        //     'reconnection': true,
-        //     'force new connection': true,
-        //     'transports': ['websocket', 'polling'],
-        //     reconnectionAttempts: Infinity, // 重连尝试次数，无限次
-        //     reconnectionDelay: 1000,      // 初始重连延迟（毫秒）
-        //     reconnectionDelayMax: 5000,   // 最大重连延迟（毫秒）
-        //     randomizationFactor: 0.5      // 重连延迟随机化因子
-        // }
-        // this._socket = globalThis["io"].connect('http://localhost:3000', opts);
-        
-        // this._socket.on("message", (data) => {
-        //     console.log("111111", data);
-        // });
-
+        // MsgSender.getIntance().connect(() => {
+        //     let oAllHandlerz = new AllHandlerz();
+        //     MsgSender.getIntance().onMsgReceived = (nMsgCode, oMsgBody) => {
+        //         oAllHandlerz.handle(nMsgCode, oMsgBody);
+        //     },
+        //     MsgSender.getIntance().sendMsg(ProtoMan.encode(1, 1, { data: "helloworld" }));
+        // })
+        SceneXLoader.startLoad("assets/Script/module/hall", "hall");
     }
 }
