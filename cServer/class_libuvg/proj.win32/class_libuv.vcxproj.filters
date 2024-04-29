@@ -38,6 +38,12 @@
     <Filter Include="3rd\mjson">
       <UniqueIdentifier>{ff0e4857-2076-4795-a531-9c9c880f0013}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd\crypto">
+      <UniqueIdentifier>{d08da06e-e350-431f-98e2-e854ce9576f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\http_parser">
+      <UniqueIdentifier>{fcb0cef9-0ed4-457e-bf1c-c3ad92c81aec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rd\libuv\src\fs-poll.c">
@@ -151,6 +157,30 @@
     <ClCompile Include="..\src\main_file.c">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\main_json.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_base64.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.c">
+      <Filter>3rd\http_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_http.c">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\main.c">
       <Filter>src</Filter>
     </ClCompile>
@@ -224,6 +254,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.h">
       <Filter>3rd\mjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.h">
+      <Filter>3rd\http_parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
