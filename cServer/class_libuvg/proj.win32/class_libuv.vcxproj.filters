@@ -20,11 +20,20 @@
     <Filter Include="3rd\libuv\src\win32">
       <UniqueIdentifier>{050e9751-49fc-473d-b933-242907b1ca55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd\apps">
+      <UniqueIdentifier>{359df785-9902-49b8-ae71-16e727a134c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\database">
+      <UniqueIdentifier>{13bba9fc-3dcf-48c3-9c56-b7e9cc0282ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\netbus">
+      <UniqueIdentifier>{830eb757-be14-49b4-bcce-711b5d0986fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\utils">
+      <UniqueIdentifier>{9a950e00-cd93-4ad5-a067-5f6317c568d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\main.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\3rd\libuv\src\fs-poll.c">
       <Filter>3rd\libuv\src</Filter>
     </ClCompile>
@@ -117,6 +126,12 @@
     </ClCompile>
     <ClCompile Include="..\3rd\libuv\src\win\winsock.c">
       <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_tcp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.c">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
