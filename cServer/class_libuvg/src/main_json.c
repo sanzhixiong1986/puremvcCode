@@ -35,7 +35,7 @@ json的简单的规则
 */
 
 static char json_str[4096];
-int main(int argc, char** argv) {
+int main_json(int argc, char** argv) {
 	// step1: 建立一个json_t对象; --> JS object C的数据结构;
 	// json_t 以root为这个根节点的一颗树, json_t数据结构;
 	json_t* root = json_new_object(); // {}

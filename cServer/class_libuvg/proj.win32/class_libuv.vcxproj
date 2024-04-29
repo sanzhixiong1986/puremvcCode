@@ -180,7 +180,7 @@
     <ClCompile Include="..\3rd\libuv\src\win\util.c" />
     <ClCompile Include="..\3rd\libuv\src\win\winapi.c" />
     <ClCompile Include="..\3rd\libuv\src\win\winsock.c" />
-    <ClCompile Include="..\src\main.c" />
+    <ClCompile Include="..\src\main_json.c" />
     <ClCompile Include="..\src\main_file.c" />
     <ClCompile Include="..\src\main_time.c" />
     <ClCompile Include="..\src\main_udp.c" />
