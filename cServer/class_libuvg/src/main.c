@@ -90,6 +90,7 @@ uv_connection(uv_stream_t* server, int status){
 
 int main(int argc, char** argv) {
 	int ret;
+	//创建一个默认的事件循环
 	loop = uv_default_loop();
 	//监听tcp
 	uv_tcp_init(loop, &l_server);
