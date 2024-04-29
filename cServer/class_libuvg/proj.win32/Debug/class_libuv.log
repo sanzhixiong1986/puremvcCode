@@ -1,1 +1,132 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Cpp.Platform.targets(57,5): error MSB8020: The build tools for v120 (Platform Toolset = 'v120') cannot be found. To build using the v120 build tools, please install v120 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Retarget solution".
+﻿生成启动时间为 2024/4/29 13:45:15。
+     1>项目“C:\work\pruemvc\puremvcCode\cServer\class_libuvg\proj.win32\class_libuv.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\src /IC:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\src\win /IC:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\include /IC:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D WIN32_LEAN_AND_MEAN /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt "..\3rd\libuv\src\fs-poll.c" ..\3rd\libuv\src\inet.c ..\3rd\libuv\src\threadpool.c "..\3rd\libuv\src\uv-common.c" ..\3rd\libuv\src\version.c ..\3rd\libuv\src\win\async.c ..\3rd\libuv\src\win\core.c ..\3rd\libuv\src\win\dl.c ..\3rd\libuv\src\win\error.c "..\3rd\libuv\src\win\fs-event.c" ..\3rd\libuv\src\win\fs.c ..\3rd\libuv\src\win\getaddrinfo.c ..\3rd\libuv\src\win\getnameinfo.c ..\3rd\libuv\src\win\handle.c "..\3rd\libuv\src\win\loop-watcher.c" ..\3rd\libuv\src\win\pipe.c ..\3rd\libuv\src\win\poll.c "..\3rd\libuv\src\win\process-stdio.c" ..\3rd\libuv\src\win\process.c ..\3rd\libuv\src\win\req.c ..\3rd\libuv\src\win\signal.c ..\3rd\libuv\src\win\snprintf.c ..\3rd\libuv\src\win\stream.c ..\3rd\libuv\src\win\tcp.c ..\3rd\libuv\src\win\thread.c ..\3rd\libuv\src\win\timer.c ..\3rd\libuv\src\win\tty.c ..\3rd\libuv\src\win\udp.c ..\3rd\libuv\src\win\util.c ..\3rd\libuv\src\win\winapi.c ..\3rd\libuv\src\win\winsock.c ..\src\main.c
+         main.c
+         winsock.c
+         winapi.c
+         util.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\util.c(432): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(195) : 参见“strncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\util.c(637): warning C4996: '_snwprintf': This function or variable may be unsafe. Consider using _snwprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(477) : 参见“_snwprintf”的声明
+         udp.c
+         tty.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\tty.c(2100): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\io.h(326) : 参见“close”的声明
+         timer.c
+         thread.c
+         tcp.c
+         stream.c
+         snprintf.c
+         signal.c
+         req.c
+         process.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(204): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1073) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(214): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1073) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(224): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1073) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(235): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1073) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(463): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1073) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(474): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1073) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(515): warning C4996: 'wcsrev': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _wcsrev. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1158) : 参见“wcsrev”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(589): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1042) : 参见“wcscpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\process.c(791): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\wchar.h(1042) : 参见“wcscpy”的声明
+         process-stdio.c
+         poll.c
+         pipe.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\pipe.c(188): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\io.h(326) : 参见“close”的声明
+         loop-watcher.c
+         handle.c
+         getnameinfo.c
+         正在生成代码...
+         正在编译...
+         getaddrinfo.c
+         fs.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs.c(118): warning C4996: '_fmode': This function or variable may be unsafe. Consider using _get_fmode instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(346) : 参见“_fmode”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs.c(401): warning C4996: 'umask': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _umask. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\io.h(341) : 参见“umask”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs.c(402): warning C4996: 'umask': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _umask. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\io.h(341) : 参见“umask”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs.c(808): warning C4996: 'wcstombs': This function or variable may be unsafe. Consider using wcstombs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(575) : 参见“wcstombs”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs.c(1551): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(323) : 参见“wcsncpy”的声明
+         fs-event.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs-event.c(78): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(323) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs-event.c(102): warning C4996: 'wcsdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _wcsdup. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(403) : 参见“wcsdup”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs-event.c(109): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(323) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs-event.c(117): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(323) : 参见“wcsncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\win\fs-event.c(411): warning C4996: '_snwprintf': This function or variable may be unsafe. Consider using _snwprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(477) : 参见“_snwprintf”的声明
+         error.c
+         dl.c
+         core.c
+         async.c
+         version.c
+         uv-common.c
+         threadpool.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\threadpool.c(147): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(462) : 参见“getenv”的声明
+         inet.c
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\inet.c(62): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(195) : 参见“strncpy”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\inet.c(139): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : 参见“sprintf”的声明
+     1>c:\work\pruemvc\puremvccode\cserver\class_libuvg\3rd\libuv\src\inet.c(152): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(112) : 参见“strcpy”的声明
+         fs-poll.c
+         正在生成代码...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\work\pruemvc\puremvcCode\cServer\class_libuvg\proj.win32\Debug\class_libuv.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\work\pruemvc\puremvcCode\cServer\class_libuvg\proj.win32\Debug\class_libuv.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\work\pruemvc\puremvcCode\cServer\class_libuvg\proj.win32\Debug\class_libuv.lib" /MACHINE:X86 ws2_32.lib Iphlpapi.lib Psapi.lib Userenv.lib "Debug\fs-poll.obj"
+         Debug\inet.obj
+         Debug\threadpool.obj
+         "Debug\uv-common.obj"
+         Debug\version.obj
+         Debug\async.obj
+         Debug\core.obj
+         Debug\dl.obj
+         Debug\error.obj
+         "Debug\fs-event.obj"
+         Debug\fs.obj
+         Debug\getaddrinfo.obj
+         Debug\getnameinfo.obj
+         Debug\handle.obj
+         "Debug\loop-watcher.obj"
+         Debug\pipe.obj
+         Debug\poll.obj
+         "Debug\process-stdio.obj"
+         Debug\process.obj
+         Debug\req.obj
+         Debug\signal.obj
+         Debug\snprintf.obj
+         Debug\stream.obj
+         Debug\tcp.obj
+         Debug\thread.obj
+         Debug\timer.obj
+         Debug\tty.obj
+         Debug\udp.obj
+         Debug\util.obj
+         Debug\winapi.obj
+         Debug\winsock.obj
+         Debug\main.obj
+         class_libuv.vcxproj -> C:\work\pruemvc\puremvcCode\cServer\class_libuvg\proj.win32\Debug\class_libuv.exe
+     1>已完成生成项目“C:\work\pruemvc\puremvcCode\cServer\class_libuvg\proj.win32\class_libuv.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:04.08

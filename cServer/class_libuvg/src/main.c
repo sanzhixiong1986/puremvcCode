@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include "uv.h"
 
-#pragma comment(lib,"Name.lib")
-
 static uv_loop_t* loop = NULL;//∂‘œÛ
 static uv_tcp_t l_server;
 
