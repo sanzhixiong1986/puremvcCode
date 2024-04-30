@@ -12,12 +12,18 @@ using namespace std;
 
 #include "../utils/cache_alloc.h"
 #include "ws_protocol.h"
+#include "tp_protocol.h"
+
 
 #define SESSION_CACHE_CAPACITY 6000
 #define WQ_CACHE_CAPCITY 4096
 
+#define WBUF_CACHE_CAPCITY 1024
+#define CMD_CACHE_SIZE 1024
+
 struct cache_allocer* session_allocer = NULL;
 static cache_allocer* wr_allocer = NULL;
+cache_allocer* wbuf_allocer = NULL;
 
 void init_session_allocer() {
 	if (session_allocer == NULL) {
@@ -26,6 +32,10 @@ void init_session_allocer() {
 
 	if (wr_allocer == NULL) {
 		wr_allocer = create_cache_allocer(WQ_CACHE_CAPCITY, sizeof(uv_write_t));
+	}
+
+	if (wbuf_allocer == NULL) {
+		wbuf_allocer = create_cache_allocer(WBUF_CACHE_CAPCITY, CMD_CACHE_SIZE);
 	}
 }
 
@@ -106,16 +116,25 @@ uv_session::send_data(unsigned char* body, int len) {
 	uv_write_t* w_req = (uv_write_t*)cache_alloc(wr_allocer, sizeof(uv_write_t));
 	uv_buf_t w_buf;
 	
-	if (this->socket_type == WS_SOCKET && this->is_ws_shake) {
-		int ws_pkg_len;
-		unsigned char* ws_pkg = ws_protocol::package_ws_send_data(body, len, &ws_pkg_len);
-		w_buf = uv_buf_init((char*)ws_pkg, ws_pkg_len);
-		uv_write(w_req, (uv_stream_t*)&this->tcp_handler, &w_buf, 1, after_write);
-		ws_protocol::free_ws_send_pkg(ws_pkg);
+	if (this->socket_type == WS_SOCKET) {
+		if (this->is_ws_shake) {
+			int ws_pkg_len;
+			unsigned char* ws_pkg = ws_protocol::package_ws_send_data(body, len, &ws_pkg_len);
+			w_buf = uv_buf_init((char*)ws_pkg, ws_pkg_len);
+			uv_write(w_req, (uv_stream_t*)&this->tcp_handler, &w_buf, 1, after_write);
+			ws_protocol::free_ws_send_pkg(ws_pkg);
+		}
+		else {
+			w_buf = uv_buf_init((char*)body, len);
+			uv_write(w_req, (uv_stream_t*)&this->tcp_handler, &w_buf, 1, after_write);
+		}
 	}
-	else {
-		w_buf = uv_buf_init((char*)body, len);
+	else { // tcp, 
+		int tp_pkg_len;
+		unsigned char* tp_pkg = tp_protocol::package(body, len, &tp_pkg_len);
+		w_buf = uv_buf_init((char*)tp_pkg, tp_pkg_len);
 		uv_write(w_req, (uv_stream_t*)&this->tcp_handler, &w_buf, 1, after_write);
+		tp_protocol::release_package(tp_pkg);
 	}
 	
 }

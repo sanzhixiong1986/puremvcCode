@@ -14,6 +14,8 @@ using namespace std;
 #include "session.h"
 #include "ws_protocol.h"
 
+#include "../utils/cache_alloc.h"
+extern cache_allocer* wbuf_allocer;
 // 
 static char* wb_migic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 // base64(sha1(key + wb_migic))
@@ -97,7 +99,7 @@ bool ws_protocol::ws_shake_hand(session* s, char* body, int len) {
 	return false;
 }
 
-bool
+bool 
 ws_protocol::read_ws_header(unsigned char* recv_data, int recv_len, int* pkg_size, int* out_header_size) {
 	if (recv_data[0] != 0x81 && recv_data[0] != 0x82) {
 		return false;
@@ -109,13 +111,13 @@ ws_protocol::read_ws_header(unsigned char* recv_data, int recv_len, int* pkg_siz
 
 	unsigned int data_len = recv_data[1] & 0x0000007f;
 	int head_size = 2;
-	if (data_len == 126) {
+	if (data_len == 126) { 
 		head_size += 2;
 		if (recv_len < head_size) {
 			return false;
 		}
 		data_len = recv_data[3] | (recv_data[2] << 8);
-
+		
 	}
 	else if (data_len == 127){
 		head_size += 8;
@@ -135,14 +137,14 @@ ws_protocol::read_ws_header(unsigned char* recv_data, int recv_len, int* pkg_siz
 	return true;
 }
 
-void
+void 
 ws_protocol::parser_ws_recv_data(unsigned char* raw_data, unsigned char* mask, int raw_len) {
-	for (int i = 0; i < raw_len; i++) {
+	for (int i = 0; i < raw_len; i ++) {
 		raw_data[i] = raw_data[i] ^ mask[i % 4];
 	}
 }
 
-unsigned char*
+unsigned char* 
 ws_protocol::package_ws_send_data(const unsigned char* raw_data, int len, int* ws_data_len) {
 	int head_size = 2;
 	if (len > 125 && len < 65536) {
@@ -153,7 +155,8 @@ ws_protocol::package_ws_send_data(const unsigned char* raw_data, int len, int* w
 		return NULL;
 	}
 	// cache malloc
-	unsigned char* data_buf = (unsigned char*)malloc(head_size + len);
+	// unsigned char* data_buf = (unsigned char*)malloc(head_size + len);
+	unsigned char* data_buf = (unsigned char*)cache_alloc(wbuf_allocer, head_size + len);
 	data_buf[0] = 0x81;
 	if (len <= 125) {
 		data_buf[1] = len;
@@ -163,15 +166,16 @@ ws_protocol::package_ws_send_data(const unsigned char* raw_data, int len, int* w
 		data_buf[2] = (len & 0x0000ff00) >> 8;
 		data_buf[3] = (len & 0x000000ff);
 	}
-
+	
 	memcpy(data_buf + head_size, raw_data, len);
 	*ws_data_len = (head_size + len);
 
 	return data_buf;
 }
 
-void
+void 
 ws_protocol::free_ws_send_pkg(unsigned char* ws_pkg) {
 	// cache free
-	free(ws_pkg);
+	// free(ws_pkg);
+	cache_free(wbuf_allocer, ws_pkg);
 }
