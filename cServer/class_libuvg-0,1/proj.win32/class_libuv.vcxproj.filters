@@ -23,9 +23,6 @@
     <Filter Include="3rd\apps">
       <UniqueIdentifier>{359df785-9902-49b8-ae71-16e727a134c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd\database">
-      <UniqueIdentifier>{13bba9fc-3dcf-48c3-9c56-b7e9cc0282ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3rd\netbus">
       <UniqueIdentifier>{830eb757-be14-49b4-bcce-711b5d0986fc}</UniqueIdentifier>
     </Filter>
@@ -35,14 +32,8 @@
     <Filter Include="bin">
       <UniqueIdentifier>{e2a54149-77ba-4bff-a35f-66c4b4a93919}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd\mjson">
-      <UniqueIdentifier>{ff0e4857-2076-4795-a531-9c9c880f0013}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3rd\crypto">
-      <UniqueIdentifier>{d08da06e-e350-431f-98e2-e854ce9576f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3rd\http_parser">
-      <UniqueIdentifier>{fcb0cef9-0ed4-457e-bf1c-c3ad92c81aec}</UniqueIdentifier>
+    <Filter Include="3rd\build">
+      <UniqueIdentifier>{a1f82d6f-82ce-434f-98ba-0af6eabc20b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,53 +130,17 @@
     <ClCompile Include="..\3rd\libuv\src\win\winsock.c">
       <Filter>3rd\libuv\src\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\main_tcp.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\main_udp.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\time_list.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\main_time.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.c">
-      <Filter>3rd\mjson</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\main_file.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\main_json.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.c">
-      <Filter>3rd\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.c">
-      <Filter>3rd\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.c">
-      <Filter>3rd\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.c">
-      <Filter>3rd\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\main_base64.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.c">
-      <Filter>3rd\http_parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\main_http.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\main_ws.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\main.c">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\netbus\netbus.cc">
+      <Filter>3rd\netbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\netbus\session_uv.cc">
+      <Filter>3rd\netbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\apps\test\main.cc">
+      <Filter>3rd\apps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -252,26 +207,14 @@
     <ClInclude Include="..\3rd\libuv\src\win\winsock.h">
       <Filter>3rd\libuv\src\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\time_list.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\3rd\netbus\netbus.h">
+      <Filter>3rd\netbus</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.h">
-      <Filter>3rd\mjson</Filter>
+    <ClInclude Include="..\3rd\netbus\session.h">
+      <Filter>3rd\netbus</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.h">
-      <Filter>3rd\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.h">
-      <Filter>3rd\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.h">
-      <Filter>3rd\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.h">
-      <Filter>3rd\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.h">
-      <Filter>3rd\http_parser</Filter>
+    <ClInclude Include="..\3rd\netbus\session_uv.h">
+      <Filter>3rd\netbus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

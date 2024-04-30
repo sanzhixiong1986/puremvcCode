@@ -105,7 +105,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\include;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv\src;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd\libuv;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\bin;C:\work\pruemvc\puremvcCode\cServer\class_libuvg\3rd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\netbus;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\libuv\src;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\libuv\include;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,12 +148,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.c" />
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.c" />
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.c" />
-    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.c" />
-    <ClCompile Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.c" />
-    <ClCompile Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.c" />
     <ClCompile Include="..\3rd\libuv\src\fs-poll.c" />
     <ClCompile Include="..\3rd\libuv\src\inet.c" />
     <ClCompile Include="..\3rd\libuv\src\threadpool.c" />
@@ -185,24 +179,12 @@
     <ClCompile Include="..\3rd\libuv\src\win\util.c" />
     <ClCompile Include="..\3rd\libuv\src\win\winapi.c" />
     <ClCompile Include="..\3rd\libuv\src\win\winsock.c" />
+    <ClCompile Include="..\3rd\netbus\netbus.cc" />
+    <ClCompile Include="..\3rd\netbus\session_uv.cc" />
+    <ClCompile Include="..\apps\test\main.cc" />
     <ClCompile Include="..\src\main.c" />
-    <ClCompile Include="..\src\main_ws.c" />
-    <ClCompile Include="..\src\main_http.c" />
-    <ClCompile Include="..\src\main_base64.c" />
-    <ClCompile Include="..\src\main_json.c" />
-    <ClCompile Include="..\src\main_file.c" />
-    <ClCompile Include="..\src\main_time.c" />
-    <ClCompile Include="..\src\main_udp.c" />
-    <ClCompile Include="..\src\main_tcp.c" />
-    <ClCompile Include="..\src\time_list.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.h" />
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.h" />
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.h" />
-    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.h" />
-    <ClInclude Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.h" />
-    <ClInclude Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.h" />
     <ClInclude Include="..\3rd\libuv\include\pthread-barrier.h" />
     <ClInclude Include="..\3rd\libuv\include\stdint-msvc2008.h" />
     <ClInclude Include="..\3rd\libuv\include\tree.h" />
@@ -224,7 +206,9 @@
     <ClInclude Include="..\3rd\libuv\src\win\stream-inl.h" />
     <ClInclude Include="..\3rd\libuv\src\win\winapi.h" />
     <ClInclude Include="..\3rd\libuv\src\win\winsock.h" />
-    <ClInclude Include="..\src\time_list.h" />
+    <ClInclude Include="..\3rd\netbus\netbus.h" />
+    <ClInclude Include="..\3rd\netbus\session.h" />
+    <ClInclude Include="..\3rd\netbus\session_uv.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\..\c\class_libuv\bin\test.txt" />
