@@ -21,6 +21,12 @@ public:
 	int recved;
 	int socket_type;
 
+	char* long_pkg;
+	int long_pkg_size;
+
+public: 
+	int is_ws_shake;
+
 private:
 	void init();
 	void exit();
@@ -38,3 +44,4 @@ public:
 
 void init_session_allocer();
 #endif
+

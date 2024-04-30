@@ -148,6 +148,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\3rd\crypto\base64_decoder.c" />
+    <ClCompile Include="..\3rd\crypto\base64_encoder.c" />
+    <ClCompile Include="..\3rd\crypto\md5.c" />
+    <ClCompile Include="..\3rd\crypto\sha1.c" />
+    <ClCompile Include="..\3rd\http_parser\http_parser.c" />
     <ClCompile Include="..\3rd\libuv\src\fs-poll.c" />
     <ClCompile Include="..\3rd\libuv\src\inet.c" />
     <ClCompile Include="..\3rd\libuv\src\threadpool.c" />
@@ -181,11 +186,17 @@
     <ClCompile Include="..\3rd\libuv\src\win\winsock.c" />
     <ClCompile Include="..\3rd\netbus\netbus.cc" />
     <ClCompile Include="..\3rd\netbus\session_uv.cc" />
+    <ClCompile Include="..\3rd\netbus\ws_protocol.cc" />
     <ClCompile Include="..\3rd\utils\cache_alloc.cc" />
     <ClCompile Include="..\apps\test\main.cc" />
     <ClCompile Include="..\src\main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\3rd\crypto\base64_decoder.h" />
+    <ClInclude Include="..\3rd\crypto\base64_encoder.h" />
+    <ClInclude Include="..\3rd\crypto\md5.h" />
+    <ClInclude Include="..\3rd\crypto\sha1.h" />
+    <ClInclude Include="..\3rd\http_parser\http_parser.h" />
     <ClInclude Include="..\3rd\libuv\include\pthread-barrier.h" />
     <ClInclude Include="..\3rd\libuv\include\stdint-msvc2008.h" />
     <ClInclude Include="..\3rd\libuv\include\tree.h" />
@@ -210,6 +221,7 @@
     <ClInclude Include="..\3rd\netbus\netbus.h" />
     <ClInclude Include="..\3rd\netbus\session.h" />
     <ClInclude Include="..\3rd\netbus\session_uv.h" />
+    <ClInclude Include="..\3rd\netbus\ws_protocol.h" />
     <ClInclude Include="..\3rd\utils\cache_alloc.h" />
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@ using namespace std;
 #include "session_uv.h"
 
 #include "../utils/cache_alloc.h"
+#include "ws_protocol.h"
 
 #define SESSION_CACHE_CAPACITY 6000
 #define WQ_CACHE_CAPCITY 4096
@@ -30,7 +31,7 @@ void init_session_allocer() {
 
 extern "C" {
 	static void
-		after_write(uv_write_t* req, int status) {
+	after_write(uv_write_t* req, int status) {
 		if (status == 0) {
 			printf("write success\n");
 		}
@@ -39,13 +40,13 @@ extern "C" {
 	}
 
 	static void
-		on_close(uv_handle_t* handle) {
+	on_close(uv_handle_t* handle) {
 		uv_session* s = (uv_session*)handle->data;
 		uv_session::destroy(s);
 	}
 
 	static void
-		on_shutdown(uv_shutdown_t* req, int status) {
+	on_shutdown(uv_shutdown_t* req, int status) {
 		uv_close((uv_handle_t*)req->handle, on_close);
 	}
 }
@@ -71,20 +72,23 @@ uv_session::destroy(uv_session* s) {
 	cache_free(session_allocer, s);
 }
 
-void
+void 
 uv_session::init() {
 	memset(this->c_address, 0, sizeof(this->c_address));
 	this->c_port = 0;
 	this->recved = 0;
 	this->is_shutdown = false;
+	this->is_ws_shake = 0;
+	this->long_pkg = NULL;
+	this->long_pkg_size = 0;
 }
 
-void
+void 
 uv_session::exit() {
 }
 
 
-void
+void 
 uv_session::close() {
 	if (this->is_shutdown) {
 		return;
@@ -101,9 +105,19 @@ uv_session::send_data(unsigned char* body, int len) {
 	// uv_write_t* w_req = (uv_write_t*)malloc(sizeof(uv_write_t));
 	uv_write_t* w_req = (uv_write_t*)cache_alloc(wr_allocer, sizeof(uv_write_t));
 	uv_buf_t w_buf;
-
-	w_buf = uv_buf_init((char*)body, len);
-	uv_write(w_req, (uv_stream_t*)&this->tcp_handler, &w_buf, 1, after_write);
+	
+	if (this->socket_type == WS_SOCKET && this->is_ws_shake) {
+		int ws_pkg_len;
+		unsigned char* ws_pkg = ws_protocol::package_ws_send_data(body, len, &ws_pkg_len);
+		w_buf = uv_buf_init((char*)ws_pkg, ws_pkg_len);
+		uv_write(w_req, (uv_stream_t*)&this->tcp_handler, &w_buf, 1, after_write);
+		ws_protocol::free_ws_send_pkg(ws_pkg);
+	}
+	else {
+		w_buf = uv_buf_init((char*)body, len);
+		uv_write(w_req, (uv_stream_t*)&this->tcp_handler, &w_buf, 1, after_write);
+	}
+	
 }
 
 const char*
@@ -111,3 +125,4 @@ uv_session::get_address(int* port) {
 	*port = this->c_port;
 	return this->c_address;
 }
+
