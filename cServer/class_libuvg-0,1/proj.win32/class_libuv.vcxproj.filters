@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{d385fb98-954a-4eab-81cd-dde37c16772b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv">
+      <UniqueIdentifier>{c4dedeaf-282d-4c7d-a4e3-a42b57b69e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv\include">
+      <UniqueIdentifier>{646e1076-03fa-4d8d-b115-b941e3741fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv\src">
+      <UniqueIdentifier>{8baa4ea2-d04b-4098-9f79-7e45c625a5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv\src\win32">
+      <UniqueIdentifier>{050e9751-49fc-473d-b933-242907b1ca55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\apps">
+      <UniqueIdentifier>{359df785-9902-49b8-ae71-16e727a134c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\database">
+      <UniqueIdentifier>{13bba9fc-3dcf-48c3-9c56-b7e9cc0282ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\netbus">
+      <UniqueIdentifier>{830eb757-be14-49b4-bcce-711b5d0986fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\utils">
+      <UniqueIdentifier>{9a950e00-cd93-4ad5-a067-5f6317c568d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bin">
+      <UniqueIdentifier>{e2a54149-77ba-4bff-a35f-66c4b4a93919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\mjson">
+      <UniqueIdentifier>{ff0e4857-2076-4795-a531-9c9c880f0013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\crypto">
+      <UniqueIdentifier>{d08da06e-e350-431f-98e2-e854ce9576f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\http_parser">
+      <UniqueIdentifier>{fcb0cef9-0ed4-457e-bf1c-c3ad92c81aec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\3rd\libuv\src\fs-poll.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\inet.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\threadpool.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\uv-common.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\version.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\async.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\core.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\dl.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\error.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\fs.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\fs-event.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\getaddrinfo.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\getnameinfo.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\handle.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\loop-watcher.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\pipe.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\poll.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\process.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\process-stdio.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\req.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\signal.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\snprintf.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\stream.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\tcp.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\thread.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\timer.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\tty.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\udp.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\util.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\winapi.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\libuv\src\win\winsock.c">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_tcp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_udp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\time_list.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_time.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.c">
+      <Filter>3rd\mjson</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_file.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_json.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_base64.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.c">
+      <Filter>3rd\http_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_http.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main_ws.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\3rd\libuv\include\pthread-barrier.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\stdint-msvc2008.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\tree.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv-aix.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv-darwin.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv-errno.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv-sunos.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv-threadpool.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv-version.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\include\uv-win.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\heap-inl.h">
+      <Filter>3rd\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\queue.h">
+      <Filter>3rd\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\uv-common.h">
+      <Filter>3rd\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\win\atomicops-inl.h">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\win\handle-inl.h">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\win\internal.h">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\win\req-inl.h">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\win\stream-inl.h">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\win\winapi.h">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\libuv\src\win\winsock.h">
+      <Filter>3rd\libuv\src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\time_list.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_mjson\3rd\mjson\json.h">
+      <Filter>3rd\mjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_decoder.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\base64_encoder.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\md5.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_base64_md5_sha1\3rd\crypto\sha1.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\c\class_http_parser\3rd\http_parser\http_parser.h">
+      <Filter>3rd\http_parser</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\c\class_libuv\bin\test.txt">
+      <Filter>bin</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
