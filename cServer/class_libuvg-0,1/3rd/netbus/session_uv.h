@@ -3,8 +3,7 @@
 
 #define RECV_LEN 4096
 
-enum MyEnum
-{
+enum {
 	TCP_SOCKET,
 	WS_SOCKET,
 };
@@ -16,9 +15,7 @@ public:
 	int c_port;
 
 	uv_shutdown_t shutdown;
-	uv_write_t w_req;
-	uv_buf_t w_buf;
-
+	bool is_shutdown;
 public:
 	char recv_buf[RECV_LEN];
 	int recved;
@@ -39,4 +36,5 @@ public:
 };
 
 
-#endif // !__SESSION_UV_H__
+void init_session_allocer();
+#endif

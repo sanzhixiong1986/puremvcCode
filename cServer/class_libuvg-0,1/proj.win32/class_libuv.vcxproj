@@ -105,7 +105,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\netbus;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\libuv\src;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\libuv\include;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\netbus;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\libuv\src;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\libuv\include;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd\utils;C:\work\pruemvc\puremvcCode\cServer\class_libuvg-0,1\3rd;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -181,6 +181,7 @@
     <ClCompile Include="..\3rd\libuv\src\win\winsock.c" />
     <ClCompile Include="..\3rd\netbus\netbus.cc" />
     <ClCompile Include="..\3rd\netbus\session_uv.cc" />
+    <ClCompile Include="..\3rd\utils\cache_alloc.cc" />
     <ClCompile Include="..\apps\test\main.cc" />
     <ClCompile Include="..\src\main.c" />
   </ItemGroup>
@@ -209,6 +210,7 @@
     <ClInclude Include="..\3rd\netbus\netbus.h" />
     <ClInclude Include="..\3rd\netbus\session.h" />
     <ClInclude Include="..\3rd\netbus\session_uv.h" />
+    <ClInclude Include="..\3rd\utils\cache_alloc.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\..\c\class_libuv\bin\test.txt" />

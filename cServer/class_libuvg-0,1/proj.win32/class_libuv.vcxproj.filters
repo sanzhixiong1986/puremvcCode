@@ -142,6 +142,9 @@
     <ClCompile Include="..\apps\test\main.cc">
       <Filter>3rd\apps</Filter>
     </ClCompile>
+    <ClCompile Include="..\3rd\utils\cache_alloc.cc">
+      <Filter>3rd\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rd\libuv\include\pthread-barrier.h">
@@ -215,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="..\3rd\netbus\session_uv.h">
       <Filter>3rd\netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\utils\cache_alloc.h">
+      <Filter>3rd\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
